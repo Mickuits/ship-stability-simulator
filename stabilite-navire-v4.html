@@ -1,0 +1,2591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stabilité Navire — Certificat Matelot Pont</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#06101e;--bg2:#0a1628;
+  --G:#ffffff;--B0:#69f0ae;--Mt:#ffd740;--GZ:#00e5ff;--fP:#ffffff;--fPi:#b9f6ca;
+  --pbg:rgba(6,14,30,.94);--pbr:rgba(80,140,240,.18);--t:#e3eaf5;--t2:#b0c4de;--t3:rgba(170,190,215,.65);--ac:#00e5ff;
+  --hull-top1:#37474f;--hull-top2:#1a2530;--hull-bot1:#c62828;--hull-bot2:#7f0000;--deck:#90a4ae;--ss:#3e5060;
+  --sky1:#060e1a;--sky2:#0a1a35;
+  --slider-bg:rgba(80,140,240,.08);--ok:#69f0ae;--warn:#ffa726;--crit:#ff5252;
+  --card-bg:rgba(10,22,40,.85);--card-br:rgba(80,140,240,.15);--card-hover:rgba(80,140,240,.08);
+  --cat1:#4fc3f7;--cat2:#ffd740;--cat3:#69f0ae;--cat4:#ff8a65
+}
+
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Outfit',sans-serif;color:var(--t)}
+canvas#sc{position:fixed;inset:0;z-index:1}
+
+/* TOP BAR */
+.top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;padding:8px 16px;pointer-events:none}
+.top>*{pointer-events:auto}
+.top h1{font-size:1rem;font-weight:700;margin-left:44px}.top h1 b{color:var(--ac)}
+
+/* STATUS BANNER */
+.status-banner{position:fixed;top:40px;left:50%;transform:translateX(-50%);z-index:28;text-align:center;pointer-events:none;transition:left .3s}
+.status-banner.shifted-l{left:calc(50% + 150px)}
+.status-banner.shifted-r{left:calc(50% - 150px)}
+.sb-state,.sb-env{font-family:'IBM Plex Mono',monospace;font-size:1.1rem;font-weight:700;letter-spacing:.02em;padding:6px 20px;border-radius:12px;background:var(--pbg);border:1px solid var(--pbr);backdrop-filter:blur(14px);display:inline-flex;align-items:center;gap:10px}
+.sb-env{font-size:.95rem;margin-top:4px;border-color:rgba(255,82,82,.3)}
+.sb-dot{width:10px;height:10px;border-radius:50%;animation:p 2s infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+.sb-dot.ok{background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.sb-dot.w{background:var(--warn);box-shadow:0 0 8px var(--warn)}
+.sb-dot.c{background:var(--crit);box-shadow:0 0 8px var(--crit)}
+.sb-couple{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--t2);margin-top:4px}
+
+/* ZOOM */
+.zi{position:fixed;bottom:12px;right:12px;z-index:30;font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--t2);background:var(--pbg);border:1px solid var(--pbr);border-radius:8px;padding:5px 12px;backdrop-filter:blur(10px);display:flex;align-items:center;gap:8px}
+.zi button{background:none;border:1px solid var(--pbr);color:var(--t2);border-radius:4px;width:24px;height:24px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+.zi button:hover{border-color:var(--ac);color:var(--ac)}
+.center-btn{position:fixed;bottom:48px;right:12px;z-index:30;font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--t);background:var(--pbg);border:1px solid var(--pbr);border-radius:8px;padding:5px 12px;backdrop-filter:blur(10px);cursor:pointer;display:flex;align-items:center;gap:5px}
+.center-btn:hover{border-color:var(--ac);color:var(--ac);background:rgba(0,229,255,.08)}
+
+/* LEFT SIDEBAR — Controls */
+.side{position:fixed;left:0;top:0;bottom:0;width:300px;z-index:25;background:var(--pbg);border-right:1px solid var(--pbr);backdrop-filter:blur(20px);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding:48px 16px 16px}
+.side.h{transform:translateX(-300px)}
+.side::-webkit-scrollbar{width:3px}.side::-webkit-scrollbar-thumb{background:rgba(80,140,240,.12);border-radius:2px}
+.stog{position:fixed;top:8px;z-index:35;width:34px;height:34px;border-radius:8px;border:1px solid var(--pbr);background:var(--pbg);color:var(--t);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px)}
+.stog:hover{border-color:var(--ac)}
+.stog-l{left:8px}
+.stog-r{right:8px}
+.sl{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ac);margin:16px 0 8px;display:flex;align-items:center;gap:6px}
+.sl::after{content:'';flex:1;height:1px;background:var(--pbr)}
+.ct{margin-bottom:14px}
+.cth{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.cth label{font-size:.85rem;color:var(--t);font-weight:400}
+.cv{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--ac);font-weight:600}
+.ct .hint{font-size:.7rem;color:var(--t3);margin-top:3px}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;background:var(--slider-bg);border-radius:3px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--ac);border:2px solid var(--bg);box-shadow:0 0 6px rgba(0,150,200,.3);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ac);border:2px solid var(--bg);cursor:pointer}
+.pre{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.pb{font-family:'IBM Plex Mono',monospace;font-size:.7rem;padding:5px 10px;border-radius:5px;border:1px solid var(--pbr);background:transparent;color:var(--t2);cursor:pointer;transition:.15s}
+.pb:hover,.pb.on{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+.ship-btn{padding:4px 8px;font-size:.6rem}
+
+/* RIGHT SIDEBAR — Cours / Pédagogie */
+.cours{position:fixed;right:0;top:0;bottom:0;width:340px;z-index:25;background:var(--pbg);border-left:1px solid var(--pbr);backdrop-filter:blur(20px);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding:44px 12px 14px}
+.cours.h{transform:translateX(340px)}
+.cours::-webkit-scrollbar{width:3px}.cours::-webkit-scrollbar-thumb{background:rgba(80,140,240,.12);border-radius:2px}
+.cours-title{font-size:.8rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.cours-title .ico{font-size:1rem}
+.cours-sub{font-size:.65rem;color:var(--t2);margin-bottom:12px;font-style:italic}
+
+/* Concept cards */
+.cat-label{font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.04em;padding:6px 12px;border-radius:6px;margin:14px 0 8px;display:inline-block}
+.cat-label.c1{color:var(--cat1);border:1px solid rgba(79,195,247,.2);background:rgba(79,195,247,.05)}
+.cat-label.c2{color:var(--cat2);border:1px solid rgba(255,215,64,.2);background:rgba(255,215,64,.05)}
+.cat-label.c3{color:var(--cat3);border:1px solid rgba(105,240,174,.2);background:rgba(105,240,174,.05)}
+.cat-label.c4{color:var(--cat4);border:1px solid rgba(255,138,101,.2);background:rgba(255,138,101,.05)}
+.card{background:var(--card-bg);border:1px solid var(--card-br);border-radius:8px;margin-bottom:6px;overflow:hidden;transition:border-color .2s}
+.card:hover{border-color:rgba(80,140,240,.3)}
+.card.active{border-color:var(--ac)}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;cursor:pointer;gap:8px}
+.card-head:hover{background:var(--card-hover)}
+.card-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.card-name{font-size:.85rem;font-weight:600;flex:1;color:var(--t)}
+.card-formula{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--t2)}
+.card-arrow{font-size:.6rem;color:var(--t3);transition:transform .2s}
+.card.open .card-arrow{transform:rotate(90deg)}
+.card-body{display:none;padding:0 12px 12px;font-size:.8rem;line-height:1.7;color:var(--t)}
+.card.open .card-body{display:block}
+.card-body p{margin-bottom:6px}
+.card-body .key{color:var(--ac);font-weight:600}
+.card-body .warn-txt{color:var(--warn);font-weight:600}
+.card-body .crit-txt{color:var(--crit);font-weight:600}
+.card-body .ok-txt{color:var(--ok);font-weight:600}
+.card-body .formula-block{font-family:'IBM Plex Mono',monospace;font-size:.78rem;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.12);border-radius:5px;padding:8px 10px;margin:8px 0;color:var(--ac)}
+.card-body .example{font-size:.75rem;color:var(--t2);font-style:italic;margin-top:6px;padding-left:10px;border-left:2px solid var(--pbr)}
+.card-body ul{padding-left:16px;margin:6px 0}.card-body li{margin-bottom:4px}
+
+/* BOTTOM BAR */
+.bot{position:fixed;bottom:0;z-index:20;padding:10px 16px;pointer-events:none;transition:left .3s,right .3s;left:310px;right:350px}
+.bot.no-l{left:16px}
+.bot.no-r{right:16px}
+.bot>*{pointer-events:auto}
+.dstrip{display:flex;gap:16px;flex-wrap:wrap;background:var(--pbg);border:1px solid var(--pbr);border-radius:10px;padding:10px 16px;backdrop-filter:blur(14px)}
+.dm{text-align:center;min-width:55px}
+.dlb{font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--t);margin-bottom:3px}
+.dvl{font-family:'IBM Plex Mono',monospace;font-size:1.1rem;font-weight:700;color:#fff}
+
+/* LEGEND */
+.leg{position:fixed;right:352px;top:185px;z-index:20;background:var(--pbg);border:1px solid var(--pbr);border-radius:8px;padding:10px 12px;backdrop-filter:blur(10px);display:flex;flex-direction:column;gap:4px;transition:right .3s}
+.leg.no-r{right:12px}
+.li{display:flex;align-items:center;gap:7px;font-size:.72rem;color:var(--t);letter-spacing:.01em}.li[title]{cursor:help}.li[title]:hover{color:var(--ac)}.ld{width:9px;height:9px;border-radius:50%;flex-shrink:0}.ll{width:16px;height:3px;border-radius:1px;flex-shrink:0}
+
+/* GZ miniature */
+.gzbox{position:fixed;right:352px;top:44px;z-index:20;width:200px;height:130px;background:var(--pbg);border:1px solid var(--pbr);border-radius:8px;backdrop-filter:blur(10px);overflow:hidden;cursor:pointer;transition:.2s,right .3s}
+.gzbox.no-r{right:12px}
+.gzbox:hover{border-color:var(--ac)}.gzbox canvas{width:100%;height:100%}
+.gzt{position:absolute;top:4px;left:7px;font-family:'IBM Plex Mono',monospace;font-size:.45rem;color:var(--t2);text-transform:uppercase;letter-spacing:.08em}
+.gze{position:absolute;bottom:3px;right:5px;font-size:.45rem;color:var(--ac);opacity:.5}
+
+/* GZ fullscreen */
+.gzf{position:fixed;inset:0;z-index:100;background:rgba(3,8,18,.96);backdrop-filter:blur(16px);display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px}
+.gzf.show{display:flex}
+.gzf canvas{width:calc(100% - 40px);height:calc(100% - 120px);border:1px solid var(--pbr);border-radius:10px;background:rgba(8,16,32,.5)}
+.gzf .cls{position:absolute;top:12px;right:16px;font-size:1.3rem;color:var(--t2);cursor:pointer;background:none;border:none}.gzf .cls:hover{color:var(--ac)}
+.gzf h2{font-size:1.1rem;margin-bottom:8px;font-weight:600}.gzf h2 b{color:var(--ac)}
+.gzf .slrow{display:flex;align-items:center;gap:12px;margin-bottom:8px;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--t2)}
+.gzf .slrow input{flex:1;max-width:600px}.gzf .slrow b{color:var(--ac);min-width:50px}
+.gzi{margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--t2);text-align:center;line-height:1.5}
+
+/* TOOLTIP */
+.tooltip{position:fixed;z-index:50;background:rgba(10,22,40,.95);border:1px solid rgba(80,140,240,.25);border-radius:8px;padding:12px 16px;backdrop-filter:blur(16px);max-width:320px;pointer-events:none;opacity:0;transition:opacity .2s;font-size:.78rem;line-height:1.7;color:#c8d8ee;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.tooltip b{color:#fff;font-weight:600}.tooltip .ttcol{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.tooltip.show{opacity:1}
+</style>
+</head>
+<body>
+<canvas id="sc"></canvas>
+
+<!-- TOP BAR -->
+<div class="top">
+  <h1>Stabilité <b id="shipTypeName">Petrolier MR2</b></h1>
+</div>
+
+<!-- STATUS BANNER -->
+<div class="status-banner" id="sbanner">
+  <div class="sb-state"><div class="sb-dot ok" id="sdot"></div><span id="stxt">Stabilité normale</span></div>
+  <div class="sb-env" id="senv" style="display:none"><div class="sb-dot c" id="sdot2"></div><span id="senvtxt">ENVAHISSEMENT sur le pont !</span></div>
+  <div class="sb-couple" id="scouple">Couple de redressement nul — navire droit</div>
+</div>
+
+<!-- ZOOM -->
+<div class="zi"><button onclick="zm(-1)">-</button><span id="zmv">100%</span><button onclick="zm(1)">+</button></div>
+<button class="center-btn" onclick="resetCam();zoom=currentProfile.defaultZoom||3;document.getElementById('zmv').textContent=Math.round(zoom/3*100)+'%'" title="Recentrer la vue">⌂ Centrer</button>
+
+<!-- LEFT TOGGLE -->
+<button class="stog stog-l" id="tbtn-l" onclick="tglL()">☰</button>
+
+<!-- LEFT SIDEBAR — Controls -->
+<div class="side" id="pan">
+  <div class="sl">Type de navire</div>
+  <div class="pre" style="margin-bottom:12px">
+    <button class="pb ship-btn on" data-ship="tanker" onclick="loadProfile('tanker')">Petrolier</button>
+    <button class="pb ship-btn" data-ship="sailboat" onclick="loadProfile('sailboat')">Voilier</button>
+  </div>
+
+  <div id="teSection">
+  <div class="sl">Tirant d'eau</div>
+  <div class="ct">
+    <div class="cth"><label>TE (tirant d'eau)</label><span class="cv" id="vTE">12.8 m</span></div>
+    <input type="range" id="sTE" min="6" max="16" step=".05" value="12.8">
+    <div class="hint">Profondeur immergée : surface → quille</div>
+  </div>
+  </div>
+
+  <div class="sl">Chargement</div>
+  <div class="ct">
+    <div class="cth"><label>Centre de gravité KG</label><span class="cv" id="vKG">11.5 m</span></div>
+    <input type="range" id="sKG" min="4" max="16" step=".1" value="11.5">
+    <div class="hint">Plus bas = plus stable</div>
+  </div>
+  <div class="ct" id="fsContainer">
+    <div class="cth"><label>Carène liquide</label><span class="cv" id="vFS">0 %</span></div>
+    <input type="range" id="sFS" min="0" max="100" step="5" value="0">
+  </div>
+  <div class="ct">
+    <div class="cth"><label>Givrage</label><span class="cv" id="vIc">0 t</span></div>
+    <input type="range" id="sIc" min="0" max="200" step="1" value="0">
+    <div class="hint" id="hintIc">Masse de glace sur superstructures</div>
+  </div>
+
+  <div class="sl">Angle de gîte</div>
+  <div class="ct">
+    <div class="cth"><label>θ (inclinaison)</label><input type="number" id="nH" min="-180" max="180" step="0.5" value="0" style="width:80px;background:var(--slider-bg);border:1px solid var(--pbr);border-radius:5px;color:var(--ac);font-family:'IBM Plex Mono',monospace;font-size:.85rem;font-weight:600;text-align:center;padding:2px 4px;outline:none" onchange="if(this.value!==''&&this.value!=='-'&&!isNaN(+this.value)){sl.H.value=this.value;upd()}" oninput="if(this.value!==''&&this.value!=='-'&&!isNaN(+this.value)){sl.H.value=this.value;upd()}">°</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <input type="range" id="sH" min="-180" max="180" step=".5" value="0" style="flex:1">
+      <button class="pb" onclick="sl.H.value=0;document.getElementById('nH').value=0;upd()" title="Remettre a 0°" style="padding:5px 10px">0°</button>
+    </div>
+    <div class="hint">Glisser le navire ou utiliser le slider</div>
+  </div>
+
+  <div class="sl">Milieu</div>
+  <div class="pre" id="milieu-btns"><button class="pb milieu-btn" onclick="sR(1,this)">Eau douce 1.000</button><button class="pb milieu-btn on" onclick="sR(1.025,this)">Mer 1.025</button><button class="pb milieu-btn" onclick="sR(1.032,this)">Tropicale 1.032</button></div>
+  <input type="hidden" id="sRh" value="1.025">
+</div>
+
+<!-- RIGHT TOGGLE -->
+<button class="stog stog-r" id="tbtn-r" onclick="tglR()">📖</button>
+
+<!-- RIGHT SIDEBAR — Cours pedagogique -->
+<div class="cours" id="cours">
+  <div class="cours-title"><span class="ico">📖</span> Cours — Stabilité du navire</div>
+  <div class="cours-sub">Certificat Matelot Pont — Concepts fondamentaux</div>
+
+  <div class="cat-label c1">① Principes fondamentaux</div>
+
+  <div class="card" data-concept="archimede">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:var(--cat1)"></div>
+      <span class="card-name">Principe d'Archimède</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p><span class="key">Pourquoi un navire flotte ?</span> Imaginez poser un objet dans une baignoire : l'eau "pousse" l'objet vers le haut. Cette poussée est exactement égale au poids de l'eau déplacee.</p>
+      <p>Le navire flotte quand la poussée de l'eau <span class="key">π</span> (vers le haut) équilibre exactement son poids <span class="key">P</span> (vers le bas).</p>
+      <p>Si on charge le navire → il s'enfonce plus → il déplace plus d'eau → la poussée augmente jusqu'a retrouver l'équilibre.</p>
+      <div class="example">💡 Essayez : changez le "Milieu" a gauche. En eau douce (moins dense), le navire s'enfonce davantage pour déplacer le meme poids d'eau.</div>
+      <details style="margin-top:8px"><summary style="font-size:.72rem;color:var(--t2);cursor:pointer">📐 Formules (approfondissement)</summary>
+      <div class="formula-block">π = ρ × g × V = P<br>ρ = densité de l'eau (1.025 t/m³ en mer)<br>V = volume immergé (m³)<br>Δ = déplacement = masse totale du navire (tonnes)</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="card" data-concept="équilibre">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:var(--cat1)"></div>
+      <span class="card-name">Conditions d'équilibre</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p>Un navire est en équilibre quand <span class="key">deux conditions</span> sont réunies :</p>
+      <ul>
+        <li><span class="key">π = P</span> — la poussée égale le poids (équilibre vertical)</li>
+        <li><span class="key">B' et G sur la meme verticale</span> — pas de couple de rotation</li>
+      </ul>
+      <p>Quand le navire gîte, B' se déplace mais G reste fixe. Si B' et G ne sont plus alignés verticalement → un <span class="key">couple</span> (force de rotation) apparait.</p>
+      <p>Ce couple est soit <span class="ok-txt">redressant</span> (ramene le navire droit), soit <span class="crit-txt">chavirant</span> (aggrave la gîte).</p>
+    </div>
+  </div>
+
+  <div class="cat-label c2">② Points remarquables</div>
+
+  <div class="card" data-concept="K">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:var(--cat2)"></div>
+      <span class="card-name">K — Quille (référence)</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p>Point le plus bas de la coque. C'est le <span class="key">point de référence</span> pour toutes les mesures verticales.</p>
+      <p>Toutes les hauteurs sont mesurées "au-dessus de K" : KB, KG, KMt.</p>
+    </div>
+  </div>
+
+  <div class="card" data-concept="B">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:#69f0ae"></div>
+      <span class="card-name">B' — Centre de carène</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p><span class="key">Centre géométrique du volume immergé.</span> C'est le point d'application de la poussée d'Archimède π.</p>
+      <p>Propriété fondamentale : <span class="key">quand le navire gîte, B' se déplace vers le cote immergé</span>. C'est ce déplacement qui cree le bras de levier GZ.</p>
+      <div class="example">Inclinez le navire avec le slider θ et observez comment le point vert B' se déplace. La courbe verte montre sa trajectoire pour tous les angles.</div>
+    </div>
+  </div>
+
+  <div class="card" data-concept="G">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:#ffffff;border:1px solid #666"></div>
+      <span class="card-name">G — Centre de gravité</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p><span class="key">Point d'application du poids total P du navire.</span> Depend de la répartition de TOUTES les masses a bord.</p>
+      <p>Regle d'or : <span class="ok-txt">plus G est bas, plus le navire est stable.</span></p>
+      <ul>
+        <li>Charger en cale (bas) → G descend → stabilité ↑</li>
+        <li>Charger sur le pont (haut) → G monte → stabilité ↓</li>
+        <li>G ne bouge PAS quand le navire gîte (solidaire de la coque)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" data-concept="Mt">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:#ffd740"></div>
+      <span class="card-name">Mt — Métacentre transversal</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p><span class="key">Point autour duquel le navire oscille pour de petites inclinaisons.</span></p>
+      <ul>
+        <li><span class="ok-txt">Mt AU-DESSUS de G → couple redressant ✓</span></li>
+        <li><span class="crit-txt">Mt EN-DESSOUS de G → couple chavirant ✗</span></li>
+      </ul>
+      <p>Analogie : comme un pendule. Pivot (Mt) au-dessus du poids (G) → revient au centre.</p>
+      <div class="formula-block">KMt = KB + BM<br>KB = hauteur de B' au-dessus de K<br>BM = rayon métacentrique</div>
+    </div>
+  </div>
+
+  <div class="cat-label c3">③ Indicateurs de stabilité</div>
+
+  <div class="card" data-concept="BM">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:var(--cat3)"></div>
+      <span class="card-name">BM — Rayon métacentrique</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p><span class="key">Stabilité de forme</span> — c'est la contribution de la forme de la coque a la stabilité. Un navire large est plus stable qu'un navire étroit.</p>
+      <ul>
+        <li><span class="key">Plus le navire est large → BM augmente</span> (effet tres fort, au carre !)</li>
+        <li><span class="key">Plus il est enfonce → BM diminue</span></li>
+      </ul>
+      <div class="example">💡 C'est pour ca qu'un radeau (tres large, peu profond) est tres stable, tandis qu'un canoe (etroit) chavire facilement.</div>
+      <details style="margin-top:8px"><summary style="font-size:.72rem;color:var(--t2);cursor:pointer">📐 Formule</summary>
+      <div class="formula-block">BM = B² / (12 × TE × Cb)<br>B = largeur (m), TE = tirant d'eau (m)<br>Cb = coefficient de bloc (forme de coque)</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="card" data-concept="GMt">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:var(--GZ)"></div>
+      <span class="card-name">GMt — Hauteur métacentrique</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p><span class="key">C'est LE chiffre a retenir.</span> Il mesure la distance entre le métacentre (Mt) et le centre de gravité (G). Plus GMt est grand, plus le navire resiste a la gîte.</p>
+      <ul>
+        <li><span class="ok-txt">GMt > 0.50 m → Le navire se redresse facilement</span></li>
+        <li><span class="warn-txt">GMt entre 0 et 0.15 m → Attention, stabilité limite !</span></li>
+        <li><span class="crit-txt">GMt < 0 → DANGER — le navire va chavirer</span></li>
+      </ul>
+      <div class="example">💡 En pratique : montez le slider KG (chargement en hauteur) et observez GMt diminuer dans le bandeau du bas. Quand il passe en negatif, le bandeau devient rouge.</div>
+      <details style="margin-top:8px"><summary style="font-size:.72rem;color:var(--t2);cursor:pointer">📐 Formule</summary>
+      <div class="formula-block">GMt = KMt − KG = (KB + BM) − KG</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="card" data-concept="GZ">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:var(--GZ)"></div>
+      <span class="card-name">GZ — Bras de levier</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p><span class="key">Distance horizontale entre la ligne d'action du poids et celle de la poussée.</span></p>
+      <ul>
+        <li><span class="ok-txt">GZ > 0 (meme signe que θ)</span> → couple redressant</li>
+        <li><span class="crit-txt">GZ < 0 (signe oppose)</span> → couple chavirant</li>
+      </ul>
+      <p>Pour de petits angles : <span class="key">GZ ≈ GMt × sin(θ)</span>.</p>
+    </div>
+  </div>
+
+  <div class="card" data-concept="courbeGZ">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:var(--GZ)"></div>
+      <span class="card-name">Courbe de stabilité (GZ)</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p><span class="key">Graphique fondamental</span> — on y lit :</p>
+      <ul>
+        <li><span class="key">GZ max</span> et son angle</li>
+        <li><span class="key">Angle de chavirement (θv)</span> — GZ = 0</li>
+        <li><span class="ok-txt">Zone verte</span> = redressante</li>
+        <li><span class="crit-txt">Zone rouge</span> = chavirante</li>
+        <li><span class="key">Aire sous la courbe</span> = energie de stabilité dynamique</li>
+      </ul>
+      <div class="example">Cliquez sur la courbe GZ en haut a droite pour le plein ecran.</div>
+    </div>
+  </div>
+
+  <div class="cat-label c4">④ Facteurs déstabilisants</div>
+
+  <div class="card" data-concept="carène">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:var(--cat4)"></div>
+      <span class="card-name">Carènes liquides (free surface)</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p><span class="crit-txt">Un des pieges les plus dangereux en mer.</span></p>
+      <p>Imaginez un plateau avec un verre d'eau a moitie plein : quand vous l'inclinez, l'eau glisse d'un cote. Sur un navire, c'est pareil — le liquide dans un ballast partiellement rempli se déplace vers le côté bas.</p>
+      <p>Resultat : <span class="warn-txt">le centre de gravité "monte" virtuellement</span> → le navire devient moins stable.</p>
+      <ul>
+        <li><span class="ok-txt">Solution 1 :</span> remplir les citernes complètement (pas de surface libre)</li>
+        <li><span class="ok-txt">Solution 2 :</span> vider complètement</li>
+        <li><span class="crit-txt">A eviter :</span> citerne a moitie pleine = danger maximum</li>
+      </ul>
+      <div class="example">💡 Augmentez le slider "Carène liquide" et observez G monter sur le navire, et GMt diminuer.</div>
+      <details style="margin-top:8px"><summary style="font-size:.72rem;color:var(--t2);cursor:pointer">📐 Formule</summary>
+      <div class="formula-block">GG' = (ρ_liquide × i) / Δ<br>i = moment d'inertie de la surface libre<br>L'effet depend de la largeur au cube !</div>
+      </details>
+    </div>
+  </div>
+
+  <div class="card" data-concept="givrage">
+    <div class="card-head" onclick="tCard(this)">
+      <div class="card-dot" style="background:var(--cat4)"></div>
+      <span class="card-name">Givrage (icing)</span>
+      <span class="card-arrow">▸</span>
+    </div>
+    <div class="card-body">
+      <p>Embruns gelent sur les superstructures → masse <span class="warn-txt">en hauteur</span> → G monte → GMt diminue.</p>
+      <ul>
+        <li>Accumulation de <span class="crit-txt">plusieurs tonnes par heure</span></li>
+        <li>Contre-mesure : <span class="ok-txt">degivrage manuel</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="leg" id="legend">
+  <div style="font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px">Points</div>
+  <div class="li" data-tip="<b>B' — Centre de carène</b><br>Centre géométrique du volume immergé. C'est là où s'applique la poussée d'Archimède (π). Se déplace vers le côté immergé quand le navire gîte."><div class="ld" style="background:var(--B0)"></div>B' Centre carène</div>
+  <div class="li" data-tip="<b>G — Centre de gravité</b><br>Point d'application du poids total P. Dépend de la répartition des masses à bord. Plus G est bas, plus le navire est stable."><div class="ld" style="background:#fff;border:1px solid #666"></div>G Centre gravité</div>
+  <div class="li" data-tip="<b>Mt — Métacentre transversal</b><br>Point clé : tant que Mt est AU-DESSUS de G → le navire se redresse. Si Mt passe EN-DESSOUS de G → chavirement."><div class="ld" style="background:var(--Mt)"></div>Mt Métacentre</div>
+  <div style="height:1px;background:var(--pbr);margin:4px 0"></div>
+  <div style="font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px">Forces</div>
+  <div class="li" data-tip="<b>P — Poids</b><br>Force verticale vers le bas, appliquée au centre de gravité G. Égale au déplacement du navire × g."><div class="ll" style="background:#fff"></div>P Poids ↓</div>
+  <div class="li" data-tip="<b>π — Poussée d'Archimède</b><br>Force verticale vers le haut, appliquée au centre de carène B'. Égale au poids du volume d'eau déplacé."><div class="ll" style="background:var(--fPi)"></div>π Poussée ↑</div>
+  <div class="li" data-tip="<b>GZ — Bras de levier</b><br>Distance horizontale entre les lignes d'action de P et π. GZ > 0 = couple redressant. GZ < 0 = couple chavirant."><div class="ll" style="background:var(--GZ)"></div>GZ Bras levier</div>
+  <div style="height:1px;background:var(--pbr);margin:4px 0"></div>
+  <div style="font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px">Distances</div>
+  <div class="li" data-tip="<b>GMt — Hauteur métacentrique</b><br>GMt = KMt − KG. L'indicateur clé de stabilité. Doit être > 0 pour que le navire soit stable. Plus GMt est grand, plus il résiste à la gîte."><div class="ll" style="background:var(--GZ)"></div>GMt Hauteur métac.</div>
+  <div class="li" data-tip="<b>KMt — Hauteur du métacentre</b><br>KMt = KB + BM. Distance de la quille au métacentre."><div class="ll" style="background:var(--Mt)"></div>KMt</div>
+  <div class="li" data-tip="<b>BM — Rayon métacentrique</b><br>Stabilité de forme. Un navire large a un grand BM. Dépend du carré de la largeur B."><div class="ll" style="background:var(--Mt);opacity:.5"></div>BM Rayon métac.</div>
+  <div class="li" data-tip="<b>D — Creux</b><br>Hauteur totale de la coque, de la quille au pont. Détermine le franc-bord."><div class="ll" style="background:#90a4ae"></div>D Creux</div>
+  <div class="li" data-tip="<b>FB — Franc-bord</b><br>FB = D − TE. Réserve de flottabilité. Distance entre la surface de l'eau et le pont. Si FB = 0, l'eau envahit le pont."><div class="ll" style="background:#78909c"></div>FB Franc-bord</div>
+  <div class="li" data-tip="<b>TE — Tirant d'eau</b><br>Distance entre la surface de l'eau et la quille (point le plus bas). Augmente quand on charge le navire."><div class="ll" style="background:#42a5f5"></div>TE Tirant d'eau</div>
+  <div style="height:1px;background:var(--pbr);margin:4px 0"></div>
+  <div class="li" data-tip="<b>Trace de B'</b><br>Trajectoire du centre de carène lorsque l'angle de gîte varie. Montre comment B' se déplace avec l'inclinaison."><div class="ll" style="background:#69f0ae;opacity:.5"></div>Trace B'</div>
+</div>
+
+<!-- GZ miniature -->
+<div class="gzbox" id="gzbox" onclick="oGZ()"><span class="gzt">Courbe GZ</span><span class="gze">◉ Plein ecran</span><canvas id="gzC"></canvas></div>
+
+<!-- GZ fullscreen -->
+<div class="gzf" id="gzf">
+  <button class="cls" onclick="cGZ()">✕</button>
+  <h2>Courbe de <b>GZ</b> — Bras de levier de redressement</h2>
+  <div class="slrow"><span>θ :</span><input type="range" id="sHgz" min="-180" max="180" step=".5" value="0"><b id="vHgz">0.0°</b></div>
+  <canvas id="gzB"></canvas>
+  <div class="gzi" id="gzi"></div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bot" id="bot">
+  <div class="dstrip">
+    <div class="dm"><div class="dlb">GMt</div><div class="dvl" id="dGM">—</div></div>
+    <div class="dm"><div class="dlb">BM</div><div class="dvl" id="dBM">—</div></div>
+    <div class="dm"><div class="dlb">KMt</div><div class="dvl" id="dKM">—</div></div>
+    <div class="dm"><div class="dlb">GZ</div><div class="dvl" id="dGZ" style="color:var(--GZ)">—</div></div>
+    <div class="dm"><div class="dlb">Moment</div><div class="dvl" id="dMo" style="color:var(--GZ)">—</div></div>
+    <div class="dm"><div class="dlb">Depl.</div><div class="dvl" id="dDi">—</div></div>
+    <div class="dm"><div class="dlb">Franc-bord</div><div class="dvl" id="dFB">—</div></div>
+    <div class="dm"><div class="dlb">GZ max</div><div class="dvl" id="dGZmax" style="color:var(--ok)">—</div></div>
+    <div class="dm"><div class="dlb">θ chavir.</div><div class="dvl" id="dVan" style="color:var(--crit)">—</div></div>
+    <div class="dm"><div class="dlb">θ envahis.</div><div class="dvl" id="dEnv" style="color:var(--warn)">—</div></div>
+  </div>
+</div>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tt"></div>
+
+<script>
+// ──── LOGO CLIENT — changer selon l'ecole / client ────
+const LOGO_CONFIG = {
+  src: 'logo_IME.png',   // chemin vers le logo (meme dossier)
+  opacity: 0.35,          // opacite (bien visible sans gener)
+  maxWidth: 80,           // taille reduite — coin haut-gauche
+};
+// Precharger le logo
+const _logoImg = new Image();
+_logoImg.src = LOGO_CONFIG.src;
+let _logoReady = false;
+_logoImg.onload = () => { _logoReady = true; };
+
+const C=document.getElementById('sc'),X=C.getContext('2d');
+const gzC=document.getElementById('gzC'),gzX=gzC.getContext('2d');
+const gzB=document.getElementById('gzB'),gzBX=gzB.getContext('2d');
+const tt=document.getElementById('tt');
+let W,H,dpr=devicePixelRatio||1,zoom=3;
+let bTrace=[]; // trace B' [{x, y, op}] — declare ici car resize() y accede
+
+const _tcCache={};
+function tc(name){if(_tcCache[name])return _tcCache[name];return _tcCache[name]=getComputedStyle(document.documentElement).getPropertyValue(name).trim()}
+
+function resize(){
+  W=innerWidth;H=innerHeight;
+  C.width=W*dpr;C.height=H*dpr;X.setTransform(dpr,0,0,dpr,0,0);
+  const r=gzC.parentElement.getBoundingClientRect();gzC.width=r.width*2;gzC.height=r.height*2;gzX.setTransform(2,0,0,2,0,0);
+  rBig();bTrace=[];
+}
+function rBig(){const r=gzB.getBoundingClientRect();gzB.width=r.width*2;gzB.height=r.height*2;gzBX.setTransform(2,0,0,2,0,0)}
+addEventListener('resize',resize);resize();
+
+function zm(d){zoom=Math.max(1,Math.min(8,zoom+d*.3));document.getElementById('zmv').textContent=Math.round(zoom/3*100)+'%';bTrace=[]}
+C.addEventListener('wheel',e=>{e.preventDefault();zm(e.deltaY<0?1:-1)},{passive:false});
+
+// ──── SHIP PROFILES ────
+const PROFILES = {
+  tanker: {
+    name: 'Petrolier MR2',
+    L: 174, Cb: 0.85,
+    B: {min:20, max:45, step:0.5, def:32.2},
+    D: {min:12, max:24, step:0.5, def:19},
+    TE: {min:6, max:16, step:0.05, def:12.8},
+    KG: {min:4, max:20, step:0.1, def:11.5},
+    // Forme coque (ratios)
+    bilgeW: 0.55,   // largeur fond = ratio × halfB
+    bilgeY: 0.6,    // debut bouchain = ratio × draftPx
+    // Superstructure
+    bridgePos: 0,    // 0 = centre, -1 = poupe, +1 = proue (ratio halfB)
+    bridgeW: 0.5,    // largeur passerelle = ratio × halfB
+    bridgeH: 0.15,   // hauteur = ratio × depthPx (cap 40px)
+    // Citernes
+    hasTanks: true,
+    tankLayout: 'double', // 2 laterales
+    // Details
+    hasPipes: true,
+    hasChimney: true,
+    hublots: 8,
+    icingHeight: 3,   // hauteur glace au-dessus de D (m)
+    defaultZoom: 3    // 100%
+  },
+  sailboat: {
+    name: 'Voilier (12m)',
+    L: 12, Cb: 0.48,
+    B: {min:2.5, max:5, step:0.1, def:3.6},
+    D: {min:2.0, max:3.5, step:0.1, def:2.6},
+    TE: {min:1.2, max:2.5, step:0.02, def:1.8},
+    KG: {min:0.3, max:2.5, step:0.05, def:0.9},
+    bilgeW: 0.15,    // fond tres étroit (forme en V prononce)
+    bilgeY: 0.25,    // bouchain commence tres haut — coque arrondie
+    bridgePos: -0.1,
+    bridgeW: 0.55,
+    bridgeH: 0.10,
+    hasTanks: false,
+    tankLayout: 'none',
+    hasPipes: false,
+    hasChimney: false,
+    hublots: 2,
+    icingHeight: 1,
+    // Specifique voilier
+    hasKeel: true,
+    keelStart: 0.45,  // quille commence a 45% du TE (sous la coque)
+    keelW: 0.015,     // largeur aileron quille = ratio × halfB (tres fin)
+    keelBulb: 0.12,   // largeur bulbe = ratio × halfB (plus gros)
+    hasMast: true,
+    defaultZoom: 1.8  // 60%
+  }
+};
+let currentProfile = PROFILES.tanker;
+
+// ──── STATE ────
+const S={B:32.2,D:19,TE:12.8,TEeff:12.8,KG:11.5,heel:0,fs:0,ic:0,rho:1.025,KB:0,BM:0,KMt:0,eKG:0,GMt:0,GZ:0,mom:0,disp:0,envAngle:0};
+
+function loadProfile(key) {
+  const p = PROFILES[key];
+  if (!p) return;
+  currentProfile = p;
+  // Mettre a jour S avec les valeurs par defaut
+  S.B = p.B.def; S.D = p.D.def; S.TE = p.TE.def; S.KG = p.KG.def;
+  S.heel = 0; S.fs = 0; S.ic = 0; S.rho = 1.025;
+  // Mettre a jour les sliders
+  const setSlider = (el, cfg) => { el.min = cfg.min; el.max = cfg.max; el.step = cfg.step; el.value = cfg.def; };
+  setSlider(sl.TE, p.TE);
+  setSlider(sl.KG, p.KG);
+  sl.H.value = 0; sl.FS.value = 0; sl.Ic.value = 0;
+  // Max givrage proportionnel au navire
+  sl.Ic.max = p.L < 50 ? 10 : 200;
+  // UI
+  document.getElementById('nH').value = '0';
+  // Reset milieu sur Mer (sans toucher les boutons navire)
+  document.querySelectorAll('.milieu-btn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.milieu-btn')[1].classList.add('on'); // Mer 1.025
+  document.getElementById('sRh').value = 1.025;
+  // Cacher citernes/carène si pas de citernes
+  const fsCt = document.getElementById('fsContainer');
+  if (fsCt) fsCt.style.display = p.hasTanks ? '' : 'none';
+  // Cacher TE pour le voilier (TE fixe = quille non modifiable)
+  const teSec = document.getElementById('teSection');
+  if (teSec) teSec.style.display = p.hasKeel ? 'none' : '';
+  // Zoom par defaut selon le profil
+  zoom = p.defaultZoom || 3; // tanker=3 (100%), voilier=1.8 (60%)
+  document.getElementById('zmv').textContent = Math.round(zoom/3*100)+'%';
+  // Reset camera et trace
+  camPanX = 0; camPanY = 0;
+  bTrace = [];
+  // Hint givrage adapte au profil
+  const hintIc = document.getElementById('hintIc');
+  if (hintIc) hintIc.textContent = p.hasKeel ? 'Masse de glace sur le gréement et la coque' : 'Masse de glace sur superstructures';
+  // Titre
+  document.getElementById('shipTypeName').textContent = p.name;
+  // Boutons actifs
+  document.querySelectorAll('.ship-btn').forEach(b => b.classList.remove('on'));
+  const btn = document.querySelector(`.ship-btn[data-ship="${key}"]`);
+  if (btn) btn.classList.add('on');
+  // Mettre à jour les couleurs de la légende selon le profil
+  const isK = !!p.hasKeel;
+  const legDots = document.querySelectorAll('.leg .li .ld');
+  const legLines = document.querySelectorAll('.leg .li .ll');
+  if (legDots[0]) legDots[0].style.background = isK ? '#00cc66' : ''; // B'
+  if (legDots[1]) legDots[1].style.background = isK ? '#ff4444' : ''; // G
+  if (legDots[2]) legDots[2].style.background = isK ? '#ffaa00' : ''; // Mt
+  upd();
+}
+let aH=0;
+let prevAH=0; // angle precedent pour interpolation trace B'
+let gmtLive=0; // GMt dynamique calcule dans draw() — utilise pour le bandeau
+let activeConcept=null;
+
+// B' trace: fading trail of recent positions
+// bTrace declare plus haut (avant resize)
+
+const sl={TE:document.getElementById('sTE'),
+  KG:document.getElementById('sKG'),H:document.getElementById('sH'),
+  FS:document.getElementById('sFS'),Ic:document.getElementById('sIc'),Rh:document.getElementById('sRh')};
+Object.values(sl).forEach(s=>s.addEventListener('input',upd));
+
+// ──── PHYSICS ────
+// Analytical B' for rectangular cross-section at heel angle θ
+// Ship frame: origin at waterline center, x+ = starboard, y+ = down (keel)
+// Hull: x in [-B/2, B/2], y in [-(D-TE), TE]
+//
+// Waterline condition (world y > 0): x·sin(θ) + y·cos(θ) > 0
+// For |θ| < 90°, cos(θ) > 0: y > -x·tan(θ)
+//
+// For each vertical strip at x, underwater column: y from max(y_deck, -x·tan(θ)) to y_keel
+// Integrate analytically over x.
+
+// Cache GZ — declare ici car phys() y accede
+let _gzCache = null;
+let _stars = null;
+function _gzKey() { return S.B+'|'+S.D+'|'+S.TEeff+'|'+S.eKG+'|'+S.envAngle; }
+
+function computeB0(theta, B, TE, D) {
+  if (!isFinite(theta) || !isFinite(B) || !isFinite(TE) || !isFinite(D) || B <= 0 || TE <= 0 || D <= 0)
+    return {bx:0, by:0.05, wx:0, wy:0.05};
+  const rad = theta * Math.PI / 180;
+  const cosT = Math.cos(rad), sinT = Math.sin(rad);
+  const hb = B / 2;
+  const fb = D - TE;
+  const yDeck = -fb;  // deck in ship frame (above waterline)
+  const yKeel = TE;   // keel in ship frame (below waterline)
+
+  // Condition immergée : x·sin(θ) + y·cos(θ) > 0
+  // Si cos(θ) > 0 : y > -x·tan(θ)  → immergé de wl à yKeel (vers le bas)
+  // Si cos(θ) < 0 : y < -x·tan(θ)  → immergé de yDeck à wl (vers le haut)
+  // Si cos(θ) ≈ 0 : immergé si x·sin(θ) > 0
+
+  const N = 500;
+  const dx = B / N;
+  let area = 0, sx = 0, sy = 0;
+
+  for (let i = 0; i < N; i++) {
+    const x = -hb + (i + 0.5) * dx;
+    let ytop, ybot;
+
+    if (Math.abs(cosT) < 0.001) {
+      // ~90° : immergé si x·sinT > 0
+      if (x * sinT > 0) { ytop = yDeck; ybot = yKeel; }
+      else continue;
+    } else if (cosT > 0) {
+      // y > wl : immergé du waterline vers le bas (keel)
+      const wl = -x * sinT / cosT;
+      ytop = Math.max(yDeck, Math.min(yKeel, wl));
+      ybot = yKeel;
+    } else {
+      // cosT < 0 : y < wl = immergé du haut (deck) vers le waterline
+      const wl = -x * sinT / cosT;
+      if (wl < yDeck) continue; // strip entierement hors de l'eau
+      ytop = yDeck;
+      ybot = Math.min(yKeel, wl);
+    }
+
+    const h = ybot - ytop;
+    if (h <= 0) continue;
+    const ymid = (ytop + ybot) / 2;
+    const dA = h * dx;
+    area += dA;
+    sx += x * dA;
+    sy += ymid * dA;
+  }
+
+  if (area < 0.001) return {bx: 0, by: TE/2, wx: 0, wy: TE/2};
+
+  const bx = sx / area; // B' in ship frame
+  const by = sy / area;
+
+  // Transform to world frame
+  const wx = bx * cosT - by * sinT;
+  const wy = bx * sinT + by * cosT;
+
+  return {bx, by, wx, wy};
+}
+
+function phys(){
+  const {B, D, KG, heel, fs, ic, rho} = S;
+  const L = currentProfile.L, Cb = currentProfile.Cb;
+  const rhoRef = 1.025; // reference eau de mer
+  const rhoLiq = 1.0;   // densité liquide dans les ballasts (eau douce)
+
+  // --- Masse de base du navire (sans givrage) ---
+  // V_base = volume immergé de reference (en eau de mer, TE slider)
+  const V_base = L * B * S.TE * Cb;
+  const massBase = V_base * rhoRef; // masse en tonnes (constante)
+
+  // --- Givrage : masse ajoutee en hauteur ---
+  // ic = tonnes de glace sur superstructures (hauteur ~ D+3m au-dessus quille)
+  const massTotale = massBase + ic; // masse totale navire + glace
+
+  // --- TE effectif : ajuste pour (masse totale + densité eau) ---
+  // Pa = rho·g·V = W  →  V = massTotale / rho  →  TE = V / (L·B·Cb)
+  const V_needed = massTotale / rho;
+  const TE = Math.min(V_needed / (L * B * Cb), D - 0.1); // clamp franc-bord minimum
+  S.TEeff = TE;
+
+  const V = L * B * TE * Cb; // volume immergé reel
+  S.disp = massTotale;       // déplacement = masse totale (tonnes)
+
+  // --- KB, BM, KMt ---
+  S.KB = TE * 0.5;
+  S.BM = (TE > 0.01 && Cb > 0) ? (B * B) / (12 * TE * Cb) : 0;
+  S.KMt = S.KB + S.BM;
+
+  // --- KG effectif ---
+  // Moyenne ponderee : G_eff = (massBase·KG + ic·(D+3)) / massTotale
+  if (ic > 0) {
+    const kgGlace = D + currentProfile.icingHeight; // hauteur du centre de masse de la glace
+    S.eKG = (massBase * KG + ic * kgGlace) / massTotale;
+  } else {
+    S.eKG = KG;
+  }
+
+  // --- Carène liquide : perte de GM = rhoLiq · i / (rhoEau · V) ---
+  // Tanker : 2 citernes cote a cote, chacune de largeur B/2
+  // i_total = 2 × L × (B/2)³ / 12
+  if (fs > 0) {
+    const i_total = 2 * L * Math.pow(B / 2, 3) / 12;
+    const fsPart = fs / 100;
+    const correction = rhoLiq * i_total * fsPart / (rho * V);
+    S.eKG += correction;
+  }
+
+  S.GMt = S.KMt - S.eKG;
+  gmtLive = S.GMt;
+
+  // --- Angle d'envahissement (livet du pont touche l'eau) ---
+  // Le pont est a hauteur D au-dessus de K, soit (D - TE) au-dessus de la flottaison.
+  // Le bord du pont (livet) est a x = B/2 du centre.
+  // Angle ou le livet touche l'eau : tan(θ_env) = franc-bord / (B/2)
+  const fb = D - TE;
+  S.envAngle = Math.atan(fb / (B / 2)) * 180 / Math.PI;
+
+  // --- B' et GZ ---
+  const b0 = computeB0(heel, B, TE, D);
+  S.B0x = b0.bx; S.B0y = b0.by;
+  S.B0wx = b0.wx; S.B0wy = b0.wy;
+
+  const rad = heel * Math.PI / 180;
+  const gwx = (S.eKG - TE) * Math.sin(rad);
+  S.GZ = b0.wx - gwx;
+
+  // --- Couple de redressement : Cr = Δ·g·GZ ---
+  // Δ en tonnes, g = 9.81 m/s², GZ en metres → Cr en kN·m
+  S.mom = S.disp * 9.81 * S.GZ; // kN·m (pas besoin de ×1000, Δ deja en tonnes = kN/g)
+
+  // Invalider le cache GZ seulement si les parametres derives ont change
+  const newKey = _gzKey();
+  if (_gzCache && _gzCache.key !== newKey) _gzCache = null;
+}
+
+function gzAt(a){
+  const b0 = computeB0(a, S.B, S.TEeff, S.D);
+  const rad = a * Math.PI / 180;
+  return b0.wx - (S.eKG - S.TEeff) * Math.sin(rad);
+}
+
+// Angle d'envahissement : le livet du pont entre dans l'eau
+// Au-dela de cet angle, le GZ s'effondre (eau sur le pont)
+function envAngle(){ return S.envAngle || 0; }
+
+
+
+// ──── GZ curve analysis (cached) ────
+// _gzCache et _gzKey declares avant computeB0/phys
+
+function gzPoints() {
+  const k = _gzKey();
+  if (_gzCache && _gzCache.key === k && _gzCache.pts) return _gzCache.pts;
+  const pts = [];
+  for (let a = -180; a <= 180; a++) pts.push({a, g: gzAt(a)});
+  if (!_gzCache) _gzCache = {key:k, result:null, pts};
+  else { _gzCache.key = k; _gzCache.pts = pts; }
+  return pts;
+}
+
+function gzAnalysis(){
+  const k = _gzKey();
+  if (_gzCache && _gzCache.key === k && _gzCache.result) return _gzCache.result;
+  const gz = [];
+  for (let a = 0; a <= 180; a++) gz[a] = gzAt(a);
+
+  // Verifier si le navire est stable des le depart :
+  // GZ doit etre POSITIF et CROISSANT pour les petits angles (1-5°)
+  // Si GZ est negatif des 1°, le navire est instable — peu importe ce qui se passe apres
+  const stableAtStart = gz[1] > 0 && gz[2] > 0 && gz[3] > 0;
+
+  let gzMax = 0, gzMaxAngle = 0, vanAngle = 0;
+
+  if (stableAtStart) {
+    // Cas STABLE : GZ positif au depart
+    // GZ max = le plus grand GZ positif
+    for (let a = 0; a <= 180; a++) {
+      if (gz[a] > gzMax) { gzMax = gz[a]; gzMaxAngle = a; }
+    }
+    // Angle de chavirement = premier passage GZ+ → GZ- apres le debut
+    // Interpolation lineaire pour precision au dixieme
+    for (let a = 1; a <= 180; a++) {
+      if (gz[a-1] > 0 && gz[a] <= 0) {
+        // Interpoler : gz[a-1] > 0, gz[a] <= 0, zero entre a-1 et a
+        const frac = gz[a-1] / (gz[a-1] - gz[a]); // 0→1
+        vanAngle = (a - 1) + frac;
+        break;
+      }
+    }
+  } else {
+    // Cas INSTABLE : GZ negatif des les petits angles
+    // Le navire chavire immediatement — θ chavirement = 0
+    vanAngle = 0;
+    gzMax = 0; // pas de GZ positif exploitable
+    gzMaxAngle = 0;
+  }
+
+  // Aire sous la courbe GZ positive (stabilité dynamique)
+  const upper = vanAngle > 0 ? vanAngle : 90;
+  let area = 0;
+  for (let a = 0; a < upper && a < 180; a++) {
+    if (gz[a] > 0 && gz[a+1] > 0) area += (gz[a] + gz[a+1]) / 2 * Math.PI / 180;
+  }
+
+  const result = {gzMax, gzMaxAngle, vanAngle, area, stableAtStart};
+  if (!_gzCache) _gzCache = {key:_gzKey(), result, pts:null};
+  else { _gzCache.key = _gzKey(); _gzCache.result = result; }
+  return result;
+}
+
+// ──── DRAW ────
+let hoverPts = [];
+
+function draw(ts){ try{
+  X.clearRect(0,0,W,H);
+
+  aH += (S.heel - aH) * 0.25;
+  const rad = aH * Math.PI / 180;
+  hoverPts = [];
+
+  let cxOff = 0;
+  if (panL && !panR) cxOff = 150;
+  else if (!panL && panR) cxOff = -150;
+  const cx = W/2 + cxOff + camPanX;
+  const camYOff = camPanY;
+
+  // TE effectif (corrigé densité eau)
+  const TEvis = S.TEeff;
+  // Echelle isotrope unique
+  // Échelle basée sur S.TE (slider) pour que le changement de milieu ne modifie PAS la taille du navire
+  const vMeters = Math.max(S.KMt, S.D) * 1.1 + S.TE;
+  const hMeters = S.B / 2 + 2;
+  const sc = Math.min(Math.min(H*0.28, 320) / vMeters, Math.min(W*0.28, 400) / hMeters) * zoom;
+  const halfB = S.B / 2 * sc;
+  const draftPx = TEvis * sc, fbPx = (S.D - TEvis) * sc;
+  // Forme de coque : basee sur le TE du slider (fixe), pas TEeff (variable avec givrage/densité)
+  // Seule la position par rapport a l'eau change, pas la forme du navire
+  const draftShape = S.TE * sc;  // pour la géométrie de la coque
+  const fbShape = (S.D - S.TE) * sc;
+
+  // Caméra : positionner la flottaison pour que le navire reste centré
+  // Utilise S.TE (slider) pour la camera, pas TEvis (variable avec densité/givrage)
+  // Ainsi le changement de milieu ne cause pas de saut de camera
+  const isKeel = !!currentProfile.hasKeel;
+  const fbCam = S.D - S.TE; // franc-bord de reference (slider)
+  const mastAbove = isKeel ? S.B / 2 * 3.2 : 0;
+  const totalAbove = fbCam + mastAbove;
+  const visualCenter = isKeel ? (S.TE - totalAbove) / 2 : (S.TE - S.KG);
+  const targetGy = Math.max(H * 0.45, 120);
+  const waterY = targetGy - visualCenter * sc + camYOff;
+
+  // Sky
+  let sk = X.createLinearGradient(0,0,0,waterY);
+  sk.addColorStop(0, tc('--sky1')); sk.addColorStop(1, tc('--sky2'));
+  X.fillStyle = sk; X.fillRect(0,0,W,waterY);
+  X.fillStyle = tc('--sky2'); X.fillRect(0,waterY,W,H-waterY);
+
+  // ETOILES animees
+  if (!_stars) {
+    // Generer les etoiles une fois (position, taille, vitesse scintillement)
+    _stars = [];
+    for (let i = 0; i < 80; i++) {
+      _stars.push({
+        x: Math.random(),
+        y: Math.random() * 0.85, // pas trop pres de l'horizon
+        r: 0.3 + Math.random() * 1.2,
+        speed: 0.5 + Math.random() * 2,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+  }
+  const t0 = ts * 0.001;
+  for (const star of _stars) {
+    const sx = star.x * W;
+    const sy = star.y * waterY;
+    // Scintillement
+    const flicker = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t0 * star.speed + star.phase));
+    const alpha = flicker * 0.6;
+    // Halo
+    X.beginPath(); X.arc(sx, sy, star.r * 2.5, 0, Math.PI * 2);
+    X.fillStyle = `rgba(200,220,255,${alpha * 0.08})`; X.fill();
+    // Etoile
+    X.beginPath(); X.arc(sx, sy, star.r, 0, Math.PI * 2);
+    X.fillStyle = `rgba(220,235,255,${alpha})`; X.fill();
+  }
+
+  // LOGO CLIENT — affiche dans l'eau sous les bateaux
+
+  // Water
+  X.beginPath(); X.moveTo(0,waterY);
+  for (let x=0; x<=W; x+=3) X.lineTo(x, waterY + Math.sin(x*0.015+ts*0.0015)*3 + Math.sin(x*0.025+ts*0.001)*2.5 + Math.sin(x*0.008+ts*0.0008)*4);
+  X.lineTo(W,H); X.lineTo(0,H); X.closePath();
+  let wg = X.createLinearGradient(0,waterY,0,H);
+  wg.addColorStop(0,'rgba(21,101,192,.28)'); wg.addColorStop(1,'rgba(6,30,80,.08)');
+  X.fillStyle = wg; X.fill();
+  X.beginPath(); X.moveTo(0,waterY);
+  for (let x=0; x<=W; x+=3) X.lineTo(x, waterY + Math.sin(x*0.015+ts*0.0015)*3 + Math.sin(x*0.025+ts*0.001)*2.5 + Math.sin(x*0.008+ts*0.0008)*4);
+  X.strokeStyle = 'rgba(66,165,245,.4)'; X.lineWidth = 2; X.stroke();
+  // Texte flottaison supprime — la surface animee suffit
+
+  // LOGO CLIENT — coin haut-gauche, position fixe ecran (pas monde)
+  if (_logoReady) {
+    const ratio = _logoImg.height / _logoImg.width;
+    const lw = Math.min(LOGO_CONFIG.maxWidth, W * 0.08);
+    const lh = lw * ratio;
+    const lx = 12;
+    const ly = 42; // sous la top bar
+    X.save();
+    X.globalAlpha = LOGO_CONFIG.opacity;
+    X.drawImage(_logoImg, lx, ly, lw, lh);
+    X.restore();
+  }
+
+  // SHIP — rotation autour du G structural (KG du slider, avant corrections)
+  // Le pivot ne doit PAS bouger quand carène liquide/givrage modifient eKG
+  // sinon G semble fixe visuellement alors qu'il a change
+  const gShipYpivot = (TEvis - S.KG) * sc;  // G structural (pivot fixe)
+  X.save();
+  X.translate(cx, waterY + gShipYpivot); // origine sur G structural monde
+  X.rotate(rad);                     // rotation autour de G
+  const sinkPx = (TEvis - S.TE) * sc; // positif = s'enfonce (eau douce), negatif = s'allege (tropicale)
+  X.translate(0, -gShipYpivot + sinkPx); // repère local à la flottaison + offset d'enfoncement
+
+  // COQUE UNIQUE — forme fixe basée sur D, position varie avec TE
+  // En coords locales : deck à y=-fbShape, quille à y=+draftPx, waterline à y=0
+  // La forme est toujours la même, seul le rapport fbPx/draftPx change
+  const depthPx = S.D * sc;        // hauteur totale fixe
+  // Forme basee sur draftShape (TE slider, fixe) — pas draftPx (TEeff, variable)
+  const bilgeY = draftShape * currentProfile.bilgeY;
+  const bilgeW = halfB * currentProfile.bilgeW;
+
+  const hasKeel = !!currentProfile.hasKeel;
+  const hullBottomPx = hasKeel ? draftShape * currentProfile.keelStart : draftShape;
+  const keelW = hasKeel ? halfB * currentProfile.keelW : 0;
+  const keelBulbW = hasKeel ? halfB * currentProfile.keelBulb : 0;
+  const bilgeYreal = hasKeel ? hullBottomPx * 0.5 : bilgeY;
+
+  function hullPath() {
+    X.beginPath();
+    X.moveTo(-halfB, -fbShape);
+    if (hasKeel) {
+      // Coque en V → aileron fin → bulbe ovale (ellipse horizontale)
+      const bW = keelBulbW;          // demi-largeur du bulbe
+      const bH = keelBulbW * 0.55;   // demi-hauteur (plus large que haut)
+      const bCy = draftShape - bH;   // centre du bulbe
+
+      // Babord : coque en V
+      X.quadraticCurveTo(-halfB, bilgeYreal, -keelW, hullBottomPx);
+      // Aileron (mat de quille) babord — fin et droit
+      X.lineTo(-keelW, bCy - bH);
+      // Bulbe ovale — ellipse horizontale via bezier
+      X.bezierCurveTo(-bW, bCy - bH, -bW, bCy + bH, 0, bCy + bH);
+      X.bezierCurveTo(bW, bCy + bH, bW, bCy - bH, keelW, bCy - bH);
+      // Aileron tribord
+      X.lineTo(keelW, hullBottomPx);
+      // Tribord : coque en V
+      X.quadraticCurveTo(halfB, bilgeYreal, halfB, -fbShape);
+    } else {
+      X.lineTo(-halfB, bilgeY);
+      X.quadraticCurveTo(-halfB, draftShape, -bilgeW, draftShape);
+      X.lineTo(bilgeW, draftShape);
+      X.quadraticCurveTo(halfB, draftShape, halfB, bilgeY);
+      X.lineTo(halfB, -fbShape);
+    }
+    X.closePath();
+  }
+
+  // Remplissage : rouge sous la flottaison (+1m au-dessus pour le boot-topping)
+  const bootTop = Math.min(1.0 * sc, fbShape * 0.3);
+  const wlPos = fbShape / depthPx; // position flottaison dans le gradient (forme fixe)
+  const btPos = Math.max(0, wlPos - bootTop / depthPx);
+
+  hullPath();
+  let hg = X.createLinearGradient(0, -fbShape, 0, draftShape);
+  if (hasKeel) {
+    // Voilier : coque entierement blanche
+    hg.addColorStop(0, '#f2efe8');          // blanc chaud au pont
+    hg.addColorStop(wlPos, '#e8e4dc');      // blanc casse a la flottaison
+    hg.addColorStop(1, '#ddd8d0');          // blanc legerement plus sombre a la quille
+  } else {
+    // Navire commercial : gris-noir au-dessus, rouge en-dessous
+    hg.addColorStop(0, '#37474f');
+    hg.addColorStop(Math.max(0, btPos - 0.02), '#1a2530');
+    hg.addColorStop(btPos, '#8b1a1a');
+    hg.addColorStop(wlPos, '#c62828');
+    hg.addColorStop(1, '#7f0000');
+  }
+  X.fillStyle = hg; X.fill();
+
+  // Contour
+  hullPath();
+  X.strokeStyle = hasKeel ? 'rgba(30,40,60,.4)' : '#0d1520'; X.lineWidth = 1.5; X.stroke();
+
+  // Ligne de flottaison peinte sur la coque
+  if (!hasKeel) {
+    X.beginPath(); X.moveTo(-halfB, 0); X.lineTo(halfB, 0);
+    X.strokeStyle = 'rgba(255,255,255,.15)'; X.lineWidth = 1.5; X.stroke();
+  }
+
+  // Virures (plaques d'acier) — navires commerciaux seulement
+  if (!hasKeel) {
+    for (let v = 0; v < 4; v++) {
+      const vy = draftShape * (0.15 + v * 0.22);
+      if (vy > draftShape * 0.85) break;
+      const t = vy / bilgeY;
+      const vw = t <= 1 ? halfB * (1.04 * (1-t) + t) : halfB * 0.8;
+      X.beginPath(); X.moveTo(-vw, vy); X.lineTo(vw, vy);
+      X.strokeStyle = 'rgba(0,0,0,.12)'; X.lineWidth = 0.5; X.stroke();
+    }
+    for (let v = 0; v < 2; v++) {
+      const vy = -fbShape * (0.3 + v * 0.35);
+      X.beginPath(); X.moveTo(-halfB, vy); X.lineTo(halfB, vy);
+      X.strokeStyle = 'rgba(255,255,255,.04)'; X.lineWidth = 0.5; X.stroke();
+    }
+  }
+
+  // Marques de tirant d'eau (chiffres sur la coque) — navires commerciaux seulement
+  if (!hasKeel) {
+    X.font = 'bold 8px "IBM Plex Mono"'; X.fillStyle = 'rgba(255,255,255,.2)';
+    const teMarks = [Math.round(S.TEeff), Math.round(S.TEeff) - 2, Math.round(S.TEeff) + 2];
+    for (const tm of teMarks) {
+      if (tm <= 0 || tm > S.D) continue;
+      const my = (tm - (S.D - S.TEeff)) * sc;
+      if (my > -fbShape && my < draftShape) {
+        X.fillText(tm+'', -halfB - 18, my + 3);
+        X.fillText(tm+'', halfB + 4, my + 3);
+      }
+    }
+  }
+
+  // Hublots (navires commerciaux — le voilier a ses hublots sur le rouf)
+  if (!hasKeel) {
+  const hublotR = 3;
+  const nHublots = currentProfile.hublots;
+  for (let row = 0; row < 1; row++) {
+    const hy = -fbShape * 0.5;
+    for (let i = 0; i < nHublots; i++) {
+      const hx = -halfB * 0.8 + i * (halfB * 1.6 / (nHublots - 1));
+      // Cadre metallique (anneau exterieur)
+      X.beginPath(); X.arc(hx, hy, hublotR, 0, Math.PI * 2);
+      X.strokeStyle = 'rgba(160,180,195,.3)'; X.lineWidth = 1.5; X.stroke();
+      // Vitre — degrade avec reflet
+      const hGrad = X.createRadialGradient(hx - 1, hy - 1, 0, hx, hy, hublotR - 0.5);
+      hGrad.addColorStop(0, 'rgba(140,200,230,.2)');  // reflet clair
+      hGrad.addColorStop(0.5, 'rgba(60,100,140,.15)');
+      hGrad.addColorStop(1, 'rgba(30,60,90,.2)');
+      X.beginPath(); X.arc(hx, hy, hublotR - 0.8, 0, Math.PI * 2);
+      X.fillStyle = hGrad; X.fill();
+      // Point de reflet (lumiere)
+      X.beginPath(); X.arc(hx - 1, hy - 1, 0.8, 0, Math.PI * 2);
+      X.fillStyle = 'rgba(200,230,255,.25)'; X.fill();
+      // Boulons (4 petits points autour)
+      for (let b = 0; b < 4; b++) {
+        const ba = b * Math.PI / 2 + Math.PI / 4;
+        const bx = hx + Math.cos(ba) * (hublotR + 1);
+        const by = hy + Math.sin(ba) * (hublotR + 1);
+        X.beginPath(); X.arc(bx, by, 0.5, 0, Math.PI * 2);
+        X.fillStyle = 'rgba(160,180,195,.2)'; X.fill();
+      }
+    }
+  }
+  } // fin hublots conditionnel
+
+  // CITERNES — selon profil
+  // Surbrillance citernes si concept actif
+  const tankPulse = activeConcept === 'TANK';
+  if (currentProfile.hasTanks) {
+    const fillLevel = 0.80;
+    const freeRatio = S.fs / 100;
+    const cloison = halfB * 0.06; // demi-epaisseur cloison centrale
+    const marge = 2; // pixels de marge interieure coque
+    // Les citernes occupent le fond de la coque (de ~flottaison a la quille)
+    const tankTop = marge; // juste sous la flottaison
+    const tankBot = draftShape - marge; // juste au-dessus de la quille
+    const tankH = tankBot - tankTop;
+
+    // Babord (x negatif) et tribord (x positif)
+    const sides = [-1, 1]; // -1 = babord, +1 = tribord
+
+    // Clipper les citernes a la forme de la coque
+    X.save();
+    hullPath();
+    X.clip();
+
+    for (const side of sides) {
+      const nSeg = 24;
+      const dy = tankH / nSeg;
+      const tkR = 5;
+
+      function tankPath() {
+        // Rectangle arrondi simple, clippe par la coque — ne depasse jamais
+        const L = side > 0 ? cloison : -halfB * 0.95;
+        const R = side > 0 ? halfB * 0.95 : -cloison;
+        X.beginPath();
+        rr(X, L, tankTop, R - L, tankH, tkR);
+      }
+      tankPath();
+      X.strokeStyle = 'rgba(255,255,255,.1)';
+      X.lineWidth = 0.8;
+      X.stroke();
+
+      // SURFACE LIBRE — la surface est TOUJOURS horizontale en monde quand elle existe.
+      // freeRatio controle UNIQUEMENT l'effet sur G (dans phys()), pas l'angle de la surface.
+      // Visuellement : freeRatio > 0 → surface horizontale monde ; freeRatio = 0 → horizontale navire.
+      //
+      // En navire (tourne de θ), l'horizontale monde a :
+      //   direction : (cos θ, -sin θ)
+      //   normale vers le haut-monde : (-sin θ, -cos θ)
+
+      const thetaVis = freeRatio > 0.001 ? aH : 0; // tout ou rien
+      const thetaRad = thetaVis * Math.PI / 180;
+      const cosE = Math.cos(thetaRad), sinE = Math.sin(thetaRad);
+      // Direction de la surface en navire
+      const surfDx = cosE, surfDy = -sinE;
+      // Normale vers le haut (cote air)
+      const nx = -sinE, ny = -cosE;
+
+      // Centre et aire (rectangle simple)
+      const L = side > 0 ? cloison : -halfB * 0.95;
+      const R = side > 0 ? halfB * 0.95 : -cloison;
+      const tkW = R - L;
+      const tkXc = (L + R) / 2;
+      const tkYc = (tankTop + tankBot) / 2;
+      const totalTankArea = tkW * tankH;
+      const targetArea = fillLevel * totalTankArea;
+      const nSub = 8;
+
+      function liqAreaD(d) {
+        let a = 0;
+        for (let i = 0; i < nSeg; i++) {
+          const y = tankTop + (i + 0.5) * dy;
+          const xIn = L;
+          const xOut = R;
+          const segW = xOut - xIn;
+          const dxS = segW / nSub;
+          for (let j = 0; j < nSub; j++) {
+            const xi = xIn + (j + 0.5) * dxS;
+            const proj = (xi - tkXc) * nx + (y - tkYc) * ny;
+            if (proj < d) a += dxS * dy; // cote liquide
+          }
+        }
+        return a;
+      }
+
+      // Bisection pour trouver d (robuste, pas de divergence)
+      // Plus d est grand, plus proj < d est vrai pour de cellules → plus d'aire liquide
+      let dLo = -500, dHi = 500;
+      let dMid2 = 0;
+      for (let it = 0; it < 20; it++) {
+        dMid2 = (dLo + dHi) / 2;
+        const a = liqAreaD(dMid2);
+        if (a < targetArea) dLo = dMid2;  // pas assez de liquide → augmenter d
+        else dHi = dMid2;                  // trop de liquide → diminuer d
+      }
+      const dSurf = dMid2;
+
+      // La surface libre en repere navire : ensemble des points ou
+      // (x - tkXc)*nx + (y - tkYc)*ny = dSurf
+      // Pour tracer : on parcourt x, et y_surf = tkYc + (dSurf - (x-tkXc)*nx) / ny
+      // Si ny ≈ 0 (surface quasi-verticale) : on parcourt y, et x_surf = ...
+
+      // Clip citerne — meme forme que tankPath
+      X.save();
+      tankPath();
+      X.clip();
+
+      // Remplissage : grand polygone du cote liquide de la surface
+      // Direction surface en navire : (surfDx, surfDy)
+      // On trace la ligne surface sur une grande etendue, puis on ferme du cote liquide
+      const bigExt = halfB * 3;
+      X.beginPath();
+      // Points de la surface (parametre t le long de la direction surface)
+      const p1x = tkXc + dSurf * nx - bigExt * surfDx;
+      const p1y = tkYc + dSurf * ny - bigExt * surfDy;
+      const p2x = tkXc + dSurf * nx + bigExt * surfDx;
+      const p2y = tkYc + dSurf * ny + bigExt * surfDy;
+      X.moveTo(p1x, p1y);
+      X.lineTo(p2x, p2y);
+      // Fermer du cote liquide (oppose a la normale)
+      X.lineTo(p2x - nx * 1000, p2y - ny * 1000);
+      X.lineTo(p1x - nx * 1000, p1y - ny * 1000);
+      X.closePath();
+
+      // Couleur : bleu calme → orange danger
+      const r1 = Math.round(30 + freeRatio * 200);
+      const g1 = Math.round(136 - freeRatio * 60);
+      const b1 = Math.round(229 - freeRatio * 160);
+      X.fillStyle = `rgba(${r1},${g1},${b1},.3)`;
+      X.fill();
+
+      // Ondulation PERPENDICULAIRE a la surface — visible a tout angle
+      if (freeRatio > 0.01) {
+        const t0 = ts * 0.001;
+        const heelFactor = Math.min(1, Math.abs(aH) / 30);
+        const amp = freeRatio * (1.5 + heelFactor * 2.5);
+        const nS = 48;
+
+        // Ligne principale
+        X.beginPath();
+        for (let i = 0; i <= nS; i++) {
+          const t = (i / nS - 0.5) * bigExt * 2;
+          // Point sur la surface
+          const bx = tkXc + dSurf * nx + t * surfDx;
+          const by = tkYc + dSurf * ny + t * surfDy;
+          // Ondulation perpendiculaire (le long de la normale)
+          const wave = amp * Math.sin(t * 0.04 + t0 * 2.5)
+                     + amp * 0.5 * Math.sin(t * 0.1 - t0 * 3.8)
+                     + amp * 0.25 * Math.sin(t * 0.17 + t0 * 5.2);
+          const px = bx + wave * nx;
+          const py = by + wave * ny;
+          i === 0 ? X.moveTo(px, py) : X.lineTo(px, py);
+        }
+        const lineR = Math.round(66 + freeRatio * 190);
+        const lineG = Math.round(165 - freeRatio * 60);
+        const lineB = Math.round(245 - freeRatio * 180);
+        X.strokeStyle = `rgba(${lineR},${lineG},${lineB},${0.4 + freeRatio * 0.5})`;
+        X.lineWidth = 1.2 + freeRatio * 0.8;
+        X.stroke();
+
+        // 2e trait decale pour la profondeur
+        X.beginPath();
+        for (let i = 0; i <= nS; i++) {
+          const t = (i / nS - 0.5) * bigExt * 2;
+          const bx = tkXc + dSurf * nx + t * surfDx;
+          const by = tkYc + dSurf * ny + t * surfDy;
+          const wave = amp * 0.6 * Math.sin(t * 0.05 + t0 * 1.8 + 1.5)
+                     + amp * 0.3 * Math.sin(t * 0.12 - t0 * 4.5 + 0.8);
+          const px = bx + (wave - amp * 0.8) * nx;
+          const py = by + (wave - amp * 0.8) * ny;
+          i === 0 ? X.moveTo(px, py) : X.lineTo(px, py);
+        }
+        X.strokeStyle = `rgba(${lineR},${lineG},${lineB},${0.15 + freeRatio * 0.2})`;
+        X.lineWidth = 0.8;
+        X.stroke();
+      }
+
+      X.restore();
+    }
+
+    // Cloison centrale (rectangle arrondi)
+    X.beginPath();
+    rr(X, -cloison, tankTop, cloison * 2, tankH, Math.min(3, cloison));
+    X.fillStyle = 'rgba(255,255,255,.08)';
+    X.fill();
+    X.strokeStyle = 'rgba(255,255,255,.12)';
+    X.lineWidth = 0.8;
+    X.stroke();
+
+  X.restore(); // fin clip coque
+  } // fin citernes conditionnel
+
+  // SUPERSTRUCTURE — selon type de navire
+  const sw = halfB * currentProfile.bridgeW, sh = Math.min(depthPx * currentProfile.bridgeH, 40 * zoom);
+  const ssX = halfB * currentProfile.bridgePos;
+
+  if (hasKeel) {
+    // ══════ VOILIER — VUE DE FACE ══════
+    const roufH = Math.min(sh * 1.5, 20 * zoom);
+    const roufW = halfB * 0.65;
+
+    // ── Pont — bande blanche/creme ──
+    X.beginPath(); X.moveTo(-halfB, -fbShape); X.lineTo(halfB, -fbShape);
+    X.strokeStyle = '#c8c0b0'; X.lineWidth = 3; X.stroke();
+    // Antiderapant pont (texture)
+    X.beginPath(); X.moveTo(-halfB * 0.85, -fbShape - 0.5); X.lineTo(halfB * 0.85, -fbShape - 0.5);
+    X.strokeStyle = 'rgba(200,190,170,.15)'; X.lineWidth = 2; X.stroke();
+
+    // ── Filiere (garde-corps) + chandeliers ──
+    const filH = 5;
+    X.beginPath(); X.moveTo(-halfB * 0.95, -fbShape - filH); X.lineTo(halfB * 0.95, -fbShape - filH);
+    X.strokeStyle = 'rgba(200,210,220,.3)'; X.lineWidth = 0.7; X.stroke();
+    // 2e lisse
+    X.beginPath(); X.moveTo(-halfB * 0.95, -fbShape - filH * 0.5); X.lineTo(halfB * 0.95, -fbShape - filH * 0.5);
+    X.strokeStyle = 'rgba(200,210,220,.15)'; X.lineWidth = 0.5; X.stroke();
+    for (let i = -0.85; i <= 0.85; i += 0.2) {
+      X.beginPath(); X.moveTo(halfB * i, -fbShape); X.lineTo(halfB * i, -fbShape - filH);
+      X.strokeStyle = 'rgba(200,210,220,.2)'; X.lineWidth = 0.6; X.stroke();
+    }
+
+    // ── Rouf (cabine) — blanc casse, forme arrondie ──
+    X.beginPath();
+    X.moveTo(-roufW, -fbShape);
+    X.lineTo(-roufW, -fbShape - roufH * 0.6);
+    X.quadraticCurveTo(-roufW, -fbShape - roufH, -roufW * 0.65, -fbShape - roufH);
+    X.lineTo(roufW * 0.65, -fbShape - roufH);
+    X.quadraticCurveTo(roufW, -fbShape - roufH, roufW, -fbShape - roufH * 0.6);
+    X.lineTo(roufW, -fbShape);
+    X.closePath();
+    let roufGrad = X.createLinearGradient(0, -fbShape - roufH, 0, -fbShape);
+    roufGrad.addColorStop(0, '#e8e2d8'); roufGrad.addColorStop(0.6, '#d5cfc5');
+    roufGrad.addColorStop(1, '#c0b8a8');
+    X.fillStyle = roufGrad; X.fill();
+    X.strokeStyle = 'rgba(80,70,55,.25)'; X.lineWidth = 1; X.stroke();
+
+    // Bande sombre sur le rouf (liston)
+    X.beginPath();
+    X.moveTo(-roufW, -fbShape - roufH * 0.15);
+    X.lineTo(roufW, -fbShape - roufH * 0.15);
+    X.strokeStyle = 'rgba(40,50,60,.15)'; X.lineWidth = 1.5; X.stroke();
+
+    // Hublots du rouf — petits, carres arrondis
+    const nHubR = currentProfile.hublots;
+    for (let i = 0; i < nHubR; i++) {
+      const hx = -roufW * 0.55 + i * (roufW * 1.1 / Math.max(1, nHubR - 1));
+      const hy = -fbShape - roufH * 0.5;
+      X.beginPath(); rr(X, hx - 2.5, hy - 2, 5, 4, 1.5);
+      X.strokeStyle = 'rgba(80,90,100,.25)'; X.lineWidth = 0.8; X.stroke();
+      X.fillStyle = 'rgba(100,160,200,.12)'; X.fill();
+    }
+
+    // ── MAT central — aluminium ──
+    const matH2 = halfB * 3.2;
+    const matX2 = 0;
+    const matBase = -fbShape - roufH;
+    const matTip = matBase - matH2;
+    // Mat (tube alu)
+    X.beginPath(); X.moveTo(matX2, matBase); X.lineTo(matX2, matTip);
+    X.strokeStyle = '#b8c4d0'; X.lineWidth = 3; X.stroke();
+    // Reflet lumineux sur le mat
+    X.beginPath(); X.moveTo(matX2 + 0.8, matBase); X.lineTo(matX2 + 0.8, matTip);
+    X.strokeStyle = 'rgba(220,230,240,.2)'; X.lineWidth = 0.8; X.stroke();
+
+    // ── Barres de fleche (spreaders) — 2 niveaux ──
+    for (let lv = 0; lv < 2; lv++) {
+      const spY = matBase - matH2 * (0.4 + lv * 0.25);
+      const spW = halfB * (0.55 - lv * 0.15);
+      // Barre
+      X.beginPath(); X.moveTo(matX2 - spW, spY); X.lineTo(matX2 + spW, spY);
+      X.strokeStyle = '#9aacbc'; X.lineWidth = 1.8; X.stroke();
+      // Extremites (capelage)
+      for (const side of [-1, 1]) {
+        X.beginPath(); X.arc(matX2 + side * spW, spY, 1.5, 0, Math.PI * 2);
+        X.fillStyle = '#8a9aaa'; X.fill();
+      }
+    }
+
+    // ── VOILE — vue de face : on voit la tranche (fine ligne le long du mat) ──
+    // Grande voile ferlée/de face = légère épaisseur autour du mât
+    const sailTop = matTip + matH2 * 0.08;
+    const sailBot = matBase + 2;
+    const sailThick = halfB * 0.06; // épaisseur vue de face (très fin)
+
+    // Voile enroulée/de face — forme fuseau le long du mât
+    X.beginPath();
+    X.moveTo(matX2, sailTop);
+    X.quadraticCurveTo(matX2 - sailThick * 2, (sailTop + sailBot) * 0.5, matX2 - sailThick, sailBot);
+    X.lineTo(matX2 + sailThick, sailBot);
+    X.quadraticCurveTo(matX2 + sailThick * 2, (sailTop + sailBot) * 0.5, matX2, sailTop);
+    X.closePath();
+    X.fillStyle = 'rgba(245,245,245,.18)'; X.fill();
+    X.strokeStyle = 'rgba(240,240,240,.25)'; X.lineWidth = 0.8; X.stroke();
+
+    // Bôme (barre horizontale en bas de la grande voile)
+    const bomeW = halfB * 0.7;
+    X.beginPath(); X.moveTo(matX2, sailBot); X.lineTo(matX2 + bomeW, sailBot + 1);
+    X.strokeStyle = '#9aacbc'; X.lineWidth = 1.8; X.stroke();
+    // Vit de mulet (articulation bôme/mât)
+    X.beginPath(); X.arc(matX2, sailBot, 1.5, 0, Math.PI * 2);
+    X.fillStyle = '#8a9aaa'; X.fill();
+
+    // Lazy jacks (cordages de fermeture de voile) — lignes fines en V
+    for (let lj = 0; lj < 3; lj++) {
+      const ljY = sailTop + (sailBot - sailTop) * (0.3 + lj * 0.25);
+      X.beginPath(); X.moveTo(matX2, ljY);
+      X.lineTo(matX2 + sailThick * (1.5 + lj * 0.5), sailBot);
+      X.strokeStyle = 'rgba(180,190,200,.06)'; X.lineWidth = 0.4; X.stroke();
+      X.beginPath(); X.moveTo(matX2, ljY);
+      X.lineTo(matX2 - sailThick * (1.5 + lj * 0.5), sailBot);
+      X.strokeStyle = 'rgba(180,190,200,.06)'; X.lineWidth = 0.4; X.stroke();
+    }
+
+    // ── Haubans — cables du mat au pont ──
+    X.setLineDash([2, 3]);
+    const spY1 = matBase - matH2 * 0.65; // barre de fleche haute
+    // Haubans hauts → barres de fleche
+    X.beginPath(); X.moveTo(-halfB * 0.85, -fbShape); X.lineTo(matX2, spY1);
+    X.strokeStyle = 'rgba(180,190,200,.18)'; X.lineWidth = 0.8; X.stroke();
+    X.beginPath(); X.moveTo(halfB * 0.85, -fbShape); X.lineTo(matX2, spY1);
+    X.strokeStyle = 'rgba(180,190,200,.18)'; X.lineWidth = 0.8; X.stroke();
+    // Galhaubans bas → barres de fleche basses
+    const spY2 = matBase - matH2 * 0.4;
+    X.beginPath(); X.moveTo(-halfB * 0.75, -fbShape); X.lineTo(matX2, spY2);
+    X.strokeStyle = 'rgba(180,190,200,.12)'; X.lineWidth = 0.6; X.stroke();
+    X.beginPath(); X.moveTo(halfB * 0.75, -fbShape); X.lineTo(matX2, spY2);
+    X.strokeStyle = 'rgba(180,190,200,.12)'; X.lineWidth = 0.6; X.stroke();
+    X.setLineDash([]);
+
+    // ── Feu de tete de mat (blanc) ──
+    X.shadowColor = 'rgba(255,255,200,.9)'; X.shadowBlur = 15;
+    X.beginPath(); X.arc(matX2, matTip, 3, 0, Math.PI * 2);
+    X.fillStyle = 'rgba(255,255,240,.95)'; X.fill();
+    X.beginPath(); X.arc(matX2, matTip, 1.5, 0, Math.PI * 2);
+    X.fillStyle = '#fffff0'; X.fill();
+    X.shadowBlur = 0;
+
+    // ── Feux de navigation (babord/tribord) — sur les cotes du rouf ──
+    const feuYv = -fbShape - roufH * 0.45;
+    const feuRv = 3;
+    // BABORD (rouge, a gauche)
+    X.beginPath(); X.arc(-roufW - 2, feuYv, 8, 0, Math.PI * 2);
+    X.fillStyle = 'rgba(255,0,0,.05)'; X.fill();
+    X.shadowColor = 'rgba(255,0,0,.7)'; X.shadowBlur = 10;
+    X.beginPath(); X.arc(-roufW - 2, feuYv, feuRv, 0, Math.PI * 2);
+    X.fillStyle = 'rgba(255,50,50,.85)'; X.fill();
+    X.beginPath(); X.arc(-roufW - 2, feuYv, feuRv * 0.4, 0, Math.PI * 2);
+    X.fillStyle = '#ff3030'; X.fill();
+    X.shadowBlur = 0;
+    X.font = 'bold 7px "IBM Plex Mono"'; X.fillStyle = 'rgba(255,80,80,.5)'; X.textAlign = 'center';
+    X.fillText('Bb', -roufW - 2, feuYv - feuRv - 3); X.textAlign = 'left';
+
+    // TRIBORD (vert, a droite)
+    X.beginPath(); X.arc(roufW + 2, feuYv, 8, 0, Math.PI * 2);
+    X.fillStyle = 'rgba(0,255,50,.05)'; X.fill();
+    X.shadowColor = 'rgba(0,255,50,.7)'; X.shadowBlur = 10;
+    X.beginPath(); X.arc(roufW + 2, feuYv, feuRv, 0, Math.PI * 2);
+    X.fillStyle = 'rgba(50,255,80,.85)'; X.fill();
+    X.beginPath(); X.arc(roufW + 2, feuYv, feuRv * 0.4, 0, Math.PI * 2);
+    X.fillStyle = '#30ff50'; X.fill();
+    X.shadowBlur = 0;
+    X.font = 'bold 7px "IBM Plex Mono"'; X.fillStyle = 'rgba(80,255,100,.5)'; X.textAlign = 'center';
+    X.fillText('Td', roufW + 2, feuYv - feuRv - 3); X.textAlign = 'left';
+
+  } else {
+  // ══════ NAVIRE COMMERCIAL ══════
+  const ailW = sw * 0.2, ailH = sh * 0.3;
+  const ssLeft = ssX - sw * 0.6 - ailW, ssRight = ssX + sw * 0.6 + ailW;
+
+  // Pont (deck) — avec details
+  X.beginPath(); X.moveTo(-halfB, -fbShape); X.lineTo(halfB, -fbShape);
+  X.strokeStyle = '#90a4ae'; X.lineWidth = 3; X.stroke();
+  // Rambardes du pont
+  X.beginPath();
+  X.moveTo(-halfB, -fbShape - 3); X.lineTo(-halfB, -fbShape);
+  X.moveTo(halfB, -fbShape - 3); X.lineTo(halfB, -fbShape);
+  X.strokeStyle = 'rgba(144,164,174,.5)'; X.lineWidth = 1; X.stroke();
+  // Petits poteaux de rambarde — pas dans la zone passerelle
+  for (let i = -0.9; i <= 0.9; i += 0.3) {
+    const px = halfB * i;
+    if (px > ssLeft && px < ssRight) continue;
+    X.beginPath(); X.moveTo(px, -fbShape - 3); X.lineTo(px, -fbShape);
+    X.strokeStyle = 'rgba(144,164,174,.2)'; X.lineWidth = 0.5; X.stroke();
+  }
+  // Lisse haute — interrompue par la passerelle
+  X.beginPath(); X.moveTo(-halfB, -fbShape - 3); X.lineTo(ssLeft, -fbShape - 3);
+  X.strokeStyle = 'rgba(144,164,174,.3)'; X.lineWidth = 0.8; X.stroke();
+  X.beginPath(); X.moveTo(ssRight, -fbShape - 3); X.lineTo(halfB, -fbShape - 3);
+  X.strokeStyle = 'rgba(144,164,174,.3)'; X.lineWidth = 0.8; X.stroke();
+
+  // Bloc principal passerelle
+  X.beginPath(); rr(X, ssX - sw * 0.6, -fbShape - sh, sw * 1.2, sh, 3);
+  let ssGrad = X.createLinearGradient(0, -fbShape - sh, 0, -fbShape);
+  ssGrad.addColorStop(0, '#4a6070');
+  ssGrad.addColorStop(1, '#3e5060');
+  X.fillStyle = ssGrad; X.fill();
+  X.strokeStyle = 'rgba(0,0,0,.3)'; X.lineWidth = 1; X.stroke();
+
+  // Etage superieur (timonerie / wheelhouse)
+  const whW = sw * 0.9, whH = sh * 0.4;
+  X.beginPath(); rr(X, ssX - whW * 0.5, -fbShape - sh - whH, whW, whH, 2);
+  X.fillStyle = '#3a5565'; X.fill();
+  X.strokeStyle = 'rgba(0,0,0,.25)'; X.lineWidth = 0.8; X.stroke();
+
+  // Fenetres de la passerelle (bande vitree)
+  const winY = -fbShape - sh - whH + 3;
+  const winH = whH * 0.5;
+  const nWin = 5;
+  const winTotalW = whW * 0.85;
+  const winGap = winTotalW / nWin;
+  for (let i = 0; i < nWin; i++) {
+    const wx = ssX - winTotalW * 0.5 + i * winGap + 1;
+    X.beginPath();
+    X.rect(wx, winY, winGap - 2, winH);
+    // Fenetre avec reflet
+    const winGrad = X.createLinearGradient(wx, winY, wx, winY + winH);
+    winGrad.addColorStop(0, 'rgba(100,180,220,.4)');
+    winGrad.addColorStop(0.5, 'rgba(140,210,240,.25)');
+    winGrad.addColorStop(1, 'rgba(80,150,190,.35)');
+    X.fillStyle = winGrad; X.fill();
+    X.strokeStyle = 'rgba(200,220,240,.2)'; X.lineWidth = 0.5; X.stroke();
+  }
+
+  // Aileron de passerelle (extensions laterales)
+  // Babord
+  X.beginPath(); X.rect(ssX - sw * 0.6 - ailW, -fbShape - sh, ailW, ailH);
+  X.fillStyle = '#3e5060'; X.fill();
+  X.strokeStyle = 'rgba(0,0,0,.2)'; X.lineWidth = 0.5; X.stroke();
+  // Tribord
+  X.beginPath(); X.rect(ssX + sw * 0.6, -fbShape - sh, ailW, ailH);
+  X.fillStyle = '#3e5060'; X.fill();
+  X.strokeStyle = 'rgba(0,0,0,.2)'; X.lineWidth = 0.5; X.stroke();
+
+  // Mat principal (au centre du navire)
+  const matH = sh * 1.8;
+  const matX = 0;
+  X.beginPath(); X.moveTo(matX, -fbShape - 3); X.lineTo(matX, -fbShape - 3 - matH);
+  X.strokeStyle = '#78909c'; X.lineWidth = 2; X.stroke();
+  // Vergue
+  const vergW = halfB * 0.2;
+  X.beginPath(); X.moveTo(matX - vergW, -fbShape - 3 - matH * 0.7); X.lineTo(matX + vergW, -fbShape - 3 - matH * 0.7);
+  X.strokeStyle = '#78909c'; X.lineWidth = 1.2; X.stroke();
+
+  // FEU DE TETE DE MAT (blanc, tout en haut) — gros halo
+  const matTipY = -fbShape - 3 - matH;
+  // Halo large
+  X.beginPath(); X.arc(matX, matTipY, 10, 0, Math.PI * 2);
+  X.fillStyle = 'rgba(255,255,220,.08)'; X.fill();
+  // Halo moyen
+  X.beginPath(); X.arc(matX, matTipY, 6, 0, Math.PI * 2);
+  X.fillStyle = 'rgba(255,255,220,.15)'; X.fill();
+  // Coeur lumineux
+  X.shadowColor = 'rgba(255,255,200,.8)'; X.shadowBlur = 15;
+  X.beginPath(); X.arc(matX, matTipY, 3, 0, Math.PI * 2);
+  X.fillStyle = 'rgba(255,255,240,.95)'; X.fill();
+  X.beginPath(); X.arc(matX, matTipY, 1.5, 0, Math.PI * 2);
+  X.fillStyle = '#fffff0'; X.fill();
+  X.shadowBlur = 0;
+
+  // FEUX DE COTE — sur les extremites des ailerons de passerelle
+  const feuY = -fbShape - sh + ailH * 0.5; // milieu de l'aileron en hauteur
+  const feuR = 3.5;
+
+  // BABORD (rouge) — bout aileron gauche
+  const bfX = ssX - sw * 0.6 - ailW;
+  // Halo large
+  X.beginPath(); X.arc(bfX, feuY, 12, 0, Math.PI * 2);
+  X.fillStyle = 'rgba(255,0,0,.06)'; X.fill();
+  X.beginPath(); X.arc(bfX, feuY, 7, 0, Math.PI * 2);
+  X.fillStyle = 'rgba(255,30,30,.12)'; X.fill();
+  // Coeur
+  X.shadowColor = 'rgba(255,0,0,.7)'; X.shadowBlur = 12;
+  X.beginPath(); X.arc(bfX, feuY, feuR, 0, Math.PI * 2);
+  X.fillStyle = 'rgba(255,50,50,.9)'; X.fill();
+  X.beginPath(); X.arc(bfX, feuY, feuR * 0.5, 0, Math.PI * 2);
+  X.fillStyle = '#ff4040'; X.fill();
+  X.shadowBlur = 0;
+  // Label
+  X.font = 'bold 8px "IBM Plex Mono"'; X.fillStyle = 'rgba(255,80,80,.6)'; X.textAlign = 'center';
+  X.fillText('Bb', bfX, feuY - feuR - 4); X.textAlign = 'left';
+
+  // TRIBORD (vert) — bout aileron droit
+  const tfX = ssX + sw * 0.6 + ailW;
+  // Halo large
+  X.beginPath(); X.arc(tfX, feuY, 12, 0, Math.PI * 2);
+  X.fillStyle = 'rgba(0,255,50,.06)'; X.fill();
+  X.beginPath(); X.arc(tfX, feuY, 7, 0, Math.PI * 2);
+  X.fillStyle = 'rgba(30,255,60,.12)'; X.fill();
+  // Coeur
+  X.shadowColor = 'rgba(0,255,50,.7)'; X.shadowBlur = 12;
+  X.beginPath(); X.arc(tfX, feuY, feuR, 0, Math.PI * 2);
+  X.fillStyle = 'rgba(50,255,80,.9)'; X.fill();
+  X.beginPath(); X.arc(tfX, feuY, feuR * 0.5, 0, Math.PI * 2);
+  X.fillStyle = '#30ff50'; X.fill();
+  X.shadowBlur = 0;
+  // Label
+  X.font = 'bold 8px "IBM Plex Mono"'; X.fillStyle = 'rgba(80,255,100,.6)'; X.textAlign = 'center';
+  X.fillText('Td', tfX, feuY - feuR - 4); X.textAlign = 'left';
+
+  // Cheminee (a cote de la passerelle) — selon profil
+  if (!currentProfile.hasChimney) { /* skip */ } else {
+  const chemX = ssX + sw * 0.35, chemW = sw * 0.18, chemH = sh * 0.85;
+  // Corps cheminee avec degrade
+  X.beginPath(); rr(X, chemX, -fbShape - sh - chemH, chemW, chemH, 2);
+  let chemGrad = X.createLinearGradient(chemX, 0, chemX + chemW, 0);
+  chemGrad.addColorStop(0, '#3a4a58');
+  chemGrad.addColorStop(0.5, '#2d3d4d');
+  chemGrad.addColorStop(1, '#1e2e3e');
+  X.fillStyle = chemGrad; X.fill();
+  X.strokeStyle = 'rgba(0,0,0,.3)'; X.lineWidth = 0.8; X.stroke();
+  // Bande de couleur compagnie
+  X.beginPath(); X.rect(chemX + 1, -fbShape - sh - chemH * 0.55, chemW - 2, chemH * 0.18);
+  X.fillStyle = 'rgba(200,50,50,.6)'; X.fill();
+  // Chapeau de cheminee (elargi en haut)
+  X.beginPath();
+  X.moveTo(chemX - 2, -fbShape - sh - chemH);
+  X.lineTo(chemX + chemW + 2, -fbShape - sh - chemH);
+  X.lineTo(chemX + chemW + 2, -fbShape - sh - chemH - 3);
+  X.lineTo(chemX - 2, -fbShape - sh - chemH - 3);
+  X.closePath();
+  X.fillStyle = '#1e2e3e'; X.fill();
+
+  } // fin cheminee conditionnel
+
+  // TUYAUTERIE sur le pont (manifold petrolier) — selon profil
+  if (currentProfile.hasPipes) {
+  const pipeY = -fbShape - 2;
+  X.beginPath();
+  X.moveTo(-halfB * 0.85, pipeY); X.lineTo(ssX - sw * 0.7, pipeY);
+  X.strokeStyle = 'rgba(120,144,174,.25)'; X.lineWidth = 2; X.stroke();
+  for (let p = -0.7; p <= 0; p += 0.35) {
+    const px = halfB * p;
+    X.beginPath(); X.moveTo(px, pipeY - 1.5); X.lineTo(px, pipeY + 1.5);
+    X.strokeStyle = 'rgba(120,144,174,.2)'; X.lineWidth = 1.5; X.stroke();
+    X.beginPath(); X.arc(px, pipeY, 2, 0, Math.PI * 2);
+    X.strokeStyle = 'rgba(120,144,174,.15)'; X.lineWidth = 0.8; X.stroke();
+  }
+  } // fin pipes
+
+  // Bollards (bites d'amarrage) aux extremites du pont
+  for (const bx of [-halfB * 0.95, halfB * 0.95]) {
+    X.beginPath();
+    X.moveTo(bx - 2, -fbShape); X.lineTo(bx - 2, -fbShape - 4);
+    X.arc(bx, -fbShape - 4, 2, Math.PI, 0);
+    X.lineTo(bx + 2, -fbShape);
+    X.fillStyle = 'rgba(100,120,140,.3)'; X.fill();
+  }
+
+  // Ancre (babord, pres de la proue)
+  const ancX = -halfB * 0.9, ancY = -fbShape * 0.15;
+  // Ecubier (trou dans la coque)
+  X.beginPath(); X.ellipse(ancX, ancY, 3, 2, 0, 0, Math.PI * 2);
+  X.fillStyle = 'rgba(0,0,0,.3)'; X.fill();
+  X.strokeStyle = 'rgba(100,100,100,.3)'; X.lineWidth = 0.5; X.stroke();
+  // Chaine
+  X.beginPath(); X.moveTo(ancX, ancY);
+  X.lineTo(ancX - 1, ancY + 8);
+  X.strokeStyle = 'rgba(120,120,120,.2)'; X.lineWidth = 1; X.setLineDash([1.5,1.5]); X.stroke(); X.setLineDash([]);
+
+  } // fin else navire commercial
+
+  // GIVRAGE — glace sur les parties emergees, proportionnel au slider (0-200t)
+  if (S.ic > 0) {
+    const iceRatio = Math.min(1, S.ic / (+sl.Ic.max || 200)); // 0→1 selon le max du profil
+    const t0 = ts * 0.001;
+    const nIce = 40;
+
+    // Couche de givre sur le pont
+    X.beginPath();
+    X.moveTo(-halfB, -fbShape);
+    X.lineTo(halfB, -fbShape);
+    for (let i = nIce; i >= 0; i--) {
+      const t = i / nIce;
+      const xi = -halfB + t * halfB * 2;
+      const iceH = (1 + iceRatio * 8) * (0.6 + 0.4 * Math.sin(xi * 0.12 + t0 * 0.2) * Math.sin(xi * 0.07 + 0.8));
+      X.lineTo(xi, -fbShape - iceH);
+    }
+    X.closePath();
+    const iceGrad = X.createLinearGradient(0, -fbShape - 12, 0, -fbShape);
+    iceGrad.addColorStop(0, `rgba(210,230,250,${0.1 + iceRatio * 0.5})`);
+    iceGrad.addColorStop(1, `rgba(190,215,240,${0.08 + iceRatio * 0.35})`);
+    X.fillStyle = iceGrad; X.fill();
+
+    // Givre sur le toit de la superstructure (adapte au profil)
+    const ssW = currentProfile.hasKeel ? halfB * 0.65 : sw;
+    const ssH = currentProfile.hasKeel ? Math.min(depthPx * 0.22, 25 * zoom) : sh;
+    X.beginPath();
+    X.moveTo(-ssW, -fbShape - ssH);
+    X.lineTo(ssW, -fbShape - ssH);
+    for (let i = nIce; i >= 0; i--) {
+      const t = i / nIce;
+      const xi = -ssW + t * ssW * 2;
+      const iceH = (1 + iceRatio * 6) * (0.5 + 0.5 * Math.sin(xi * 0.18 + t0 * 0.3 + 2));
+      X.lineTo(xi, -fbShape - ssH - iceH);
+    }
+    X.closePath();
+    X.fillStyle = `rgba(215,235,255,${0.15 + iceRatio * 0.5})`; X.fill();
+
+    // Givre sur la timonerie (seulement tanker)
+    if (!currentProfile.hasKeel) {
+    X.beginPath();
+    const whW2 = sw * 0.9, whH2 = sh * 0.4;
+    X.moveTo(-whW2 * 0.5, -fbShape - sh - whH2);
+    X.lineTo(whW2 * 0.5, -fbShape - sh - whH2);
+    for (let i = nIce; i >= 0; i--) {
+      const t = i / nIce;
+      const xi = -whW2 * 0.5 + t * whW2;
+      const iceH = (0.5 + iceRatio * 4) * (0.5 + 0.5 * Math.sin(xi * 0.25 + 3));
+      X.lineTo(xi, -fbShape - sh - whH2 - iceH);
+    }
+    X.closePath();
+    X.fillStyle = `rgba(215,235,255,${0.12 + iceRatio * 0.45})`; X.fill();
+    }
+
+    // Givre sur les flancs emerges — strictement sur la coque (entre pont et flottaison)
+    const nFlank = Math.round(5 + iceRatio * 40);
+    for (let i = 0; i < nFlank; i++) {
+      const seed1 = Math.sin(i * 7.3 + 13) * 0.5 + 0.5;
+      const seed2 = Math.sin(i * 11.1 + 37) * 0.5 + 0.5;
+      // Position y entre le pont et la flottaison
+      const yi = -fbShape + seed1 * fbPx; // -fbShape (pont) → 0 (flottaison)
+      // Position x : colle au bord de la coque
+      const tFlanc = 1 - yi / (-fbShape); // 0 au pont, 1 a la flottaison
+      const flanW = halfB * (1.02 + tFlanc * 0.02); // largeur coque a cette hauteur
+      const side2 = (i % 2 === 0) ? 1 : -1;
+      const xi = side2 * (flanW - seed2 * halfB * 0.1);
+      const r = 0.5 + seed1 * 2.5 * iceRatio;
+      X.beginPath(); X.arc(xi, yi, r, 0, Math.PI * 2);
+      X.fillStyle = `rgba(200,225,255,${0.08 + iceRatio * 0.2 * seed2})`; X.fill();
+    }
+
+    // Givre sur les rambardes
+    if (iceRatio > 0.15) {
+      X.beginPath();
+      X.moveTo(-halfB, -fbShape - 3);
+      X.lineTo(halfB, -fbShape - 3);
+      for (let i = nIce; i >= 0; i--) {
+        const t = i / nIce;
+        const xi = -halfB + t * halfB * 2;
+        const iceH2 = (0.5 + iceRatio * 2.5) * (0.7 + 0.3 * Math.sin(xi * 0.2 + 5));
+        X.lineTo(xi, -fbShape - 3 - iceH2);
+      }
+      X.closePath();
+      X.fillStyle = `rgba(210,230,250,${iceRatio * 0.2})`; X.fill();
+    }
+
+    // Givre sur la cheminee — seulement si le navire a une cheminee
+    if (currentProfile.hasChimney && iceRatio > 0.1) {
+    const chemX2 = ssX + sw * 0.35, chemW2 = sw * 0.18, chemH2 = sh * 0.85;
+      X.beginPath();
+      X.moveTo(chemX2, -fbShape - sh - chemH2);
+      X.lineTo(chemX2 + chemW2, -fbShape - sh - chemH2);
+      for (let i = nIce / 2; i >= 0; i--) {
+        const t = i / (nIce / 2);
+        const xi = chemX2 + t * chemW2;
+        const iceH2 = (0.5 + iceRatio * 3) * (0.6 + 0.4 * Math.sin(xi * 0.3 + 7));
+        X.lineTo(xi, -fbShape - sh - chemH2 - iceH2);
+      }
+      X.closePath();
+      X.fillStyle = `rgba(215,235,255,${0.1 + iceRatio * 0.35})`; X.fill();
+    }
+  }
+
+  // K
+  X.beginPath(); X.moveTo(-12,draftPx); X.lineTo(12,draftPx);
+  X.strokeStyle = 'rgba(255,255,255,.3)'; X.lineWidth = 1.5; X.stroke();
+  X.font = '600 10px "IBM Plex Mono"'; X.fillStyle = 'rgba(255,255,255,.3)'; X.fillText('K', 16, draftPx+4);
+
+  // Dimensions D et FB — a gauche de la coque
+  if (!hasKeel) {
+    const dimXR = halfB + 20;
+    vdim(X, dimXR, draftPx, -fbShape, '#90a4ae', 'D='+S.D.toFixed(1)+'m', 11);
+    if (fbPx > 15) vdim(X, dimXR + 30, -fbShape, 0, '#78909c', 'FB='+(S.D-TEvis).toFixed(1)+'m', 10);
+  }
+
+  // Physics points in ship frame
+  const Glocal = {x:0, y:(TEvis - S.eKG)*sc};
+  const isPulseF = (id) => activeConcept === id;
+
+  // Couleurs harmonisees — visibles sur coque blanche (voilier) ET sombre (petrolier)
+  const colG = hasKeel ? '#ff4444' : '#ffffff';  // rouge vif (voilier) / blanc (petrolier)
+  const colP = hasKeel ? '#ff4444' : '#ffffff';
+  const colPi = hasKeel ? '#00cc66' : '#b9f6ca'; // vert franc
+  const colB0 = hasKeel ? '#00cc66' : '#69f0ae';
+  const colMt = hasKeel ? '#ffaa00' : '#ffd740'; // or/ambre — visible sur blanc
+  const colGZ = '#00e5ff'; // cyan — universel, bon contraste partout
+  pdot(X, 0, Glocal.y, colG, 'G', isPulseF('G'));
+  // Mt fixe supprimé — Mt effectif est calculé dynamiquement (intersection verticale B' / axe navire)
+
+  // Ship axis
+  const axisExtend = H * 0.6 / Math.max(sc, 1);
+  X.beginPath(); X.moveTo(0, -fbShape-sh-100); X.lineTo(0, draftPx+axisExtend);
+  X.strokeStyle = 'rgba(255,255,255,.35)'; X.lineWidth = 1.5; X.stroke();
+
+  X.restore(); // back to world frame
+
+  // World frame transforms — pivot autour de G structural
+  // Point local (lx, ly) → décaler par rapport au pivot → rotation → translation monde
+  function tw(l){
+    const dx = l.x, dy = l.y + sinkPx - gShipYpivot; // relatif au pivot, avec offset enfoncement
+    return {
+      x: cx + dx*Math.cos(rad) - dy*Math.sin(rad),
+      y: waterY + gShipYpivot + dx*Math.sin(rad) + dy*Math.cos(rad)
+    };
+  }
+  const Gw = tw(Glocal);
+
+  // B' from precomputed curve at current animated angle
+  const b0now = computeB0(aH, S.B, TEvis, S.D);
+  const B0local = {x: b0now.bx * sc, y: b0now.by * sc};
+  const Bw = tw(B0local);
+
+  // B' TRACE — interpolation le long de la VRAIE courbe B'(θ)
+  // On calcule B' pour chaque 0.5° entre l'angle precedent et l'angle actuel
+  // Trace B' seulement quand l'angle change (pas quand la camera bouge)
+  const angleDiff = Math.abs(aH - prevAH);
+  if (angleDiff > 0.3) {
+    const stepSize = 0.5;
+    const nSteps = Math.max(1, Math.ceil(angleDiff / stepSize));
+    for (let s = 1; s <= nSteps; s++) {
+      const t = s / nSteps;
+      const interpAngle = prevAH + (aH - prevAH) * t;
+      const interpRad = interpAngle * Math.PI / 180;
+      const b0i = computeB0(interpAngle, S.B, TEvis, S.D);
+      const b0lx = b0i.bx * sc, b0ly = b0i.by * sc;
+      const dx2 = b0lx, dy2 = b0ly + sinkPx - gShipYpivot;
+      const cosR = Math.cos(interpRad), sinR = Math.sin(interpRad);
+      const bwx = cx + dx2 * cosR - dy2 * sinR;
+      const bwy = waterY + gShipYpivot + dx2 * sinR + dy2 * cosR;
+      bTrace.push({x: bwx, y: bwy, op: 1.0});
+    }
+  }
+  prevAH = aH;
+  for (let i = 0; i < bTrace.length; i++) bTrace[i].op -= 0.004;
+  bTrace = bTrace.filter(p => p.op > 0);
+
+  pdotW(X, Bw.x, Bw.y, colB0, "B'", isPulseF('B'));
+
+  // VERTICALE par B' — ligne d'action de la poussée π (toujours verticale en monde)
+  // Mt = intersection de cette verticale avec l'axe du navire
+  // On dessine cette ligne longue pour montrer le lien B' → Mt
+  X.beginPath(); X.moveTo(Bw.x, Bw.y - 200); X.lineTo(Bw.x, Bw.y + 60);
+  X.strokeStyle = 'rgba(105,240,174,.12)'; X.lineWidth = 1; X.setLineDash([4,4]); X.stroke(); X.setLineDash([]);
+
+  // AXE DU NAVIRE projeté en monde (passe par G et Mt) — pour montrer l'intersection avec la verticale de B'
+  // L'axe du navire en local est x=0, on le trace en monde
+  const axTop = tw({x:0, y: -300});
+  const axBot = tw({x:0, y: 300});
+  X.beginPath(); X.moveTo(axTop.x, axTop.y); X.lineTo(axBot.x, axBot.y);
+  X.strokeStyle = 'rgba(255,255,255,.08)'; X.lineWidth = 1; X.setLineDash([6,4]); X.stroke(); X.setLineDash([]);
+
+  // Mt effectif = intersection verticale par B' avec l'axe du navire
+  // GMt est une propriété FIXE du chargement (= KMt - KG), definie a theta=0.
+  // Mt comme POINT VISUEL se déplace dynamiquement sur l'axe du navire.
+
+  const sinAbs = Math.abs(Math.sin(rad));
+  // Mt theorique pour petits angles, transition vers dynamique apres 5°
+  const blend = Math.max(0, Math.min(1, (Math.abs(aH) - 5) / 10)); // 0 sous 5°, 1 apres 15°
+
+  // Mt theorique (petits angles) en monde
+  const MtTheo = tw({x:0, y:(TEvis - S.KMt)*sc});
+
+  // Mt dynamique (intersection verticale B' / axe navire)
+  let MtDyn = MtTheo;
+  if (sinAbs > 0.001) {
+    const tInt = (Bw.x - Gw.x) / (-Math.sin(rad));
+    MtDyn = {x: Bw.x, y: Gw.y + tInt * Math.cos(rad)};
+  }
+
+  // Position lissee — pas de saut
+  const MtEff = {
+    x: MtTheo.x + blend * (MtDyn.x - MtTheo.x),
+    y: MtTheo.y + blend * (MtDyn.y - MtTheo.y)
+  };
+
+  pdotW(X, MtEff.x, MtEff.y, colMt, 'Mt', isPulseF('Mt'));
+
+  // True vertical axis (reference)
+  X.beginPath(); X.moveTo(cx, 40); X.lineTo(cx, H-70);
+  X.strokeStyle = 'rgba(255,255,255,.25)'; X.lineWidth = 1.5; X.setLineDash([8,5]); X.stroke(); X.setLineDash([]);
+
+  // Forces
+  const aLen = Math.min(55, sc*1.8) * zoom;
+  arw(X, Gw.x, Gw.y, Gw.x, Gw.y+aLen, colP, 'P');
+  arw(X, Bw.x, Bw.y, Bw.x, Bw.y-aLen, colPi, 'π');
+  X.setLineDash([3,3]); X.beginPath(); X.moveTo(Bw.x, Bw.y-aLen-25); X.lineTo(Bw.x, Bw.y+25);
+  X.strokeStyle = 'rgba(105,240,174,.18)'; X.lineWidth = 1; X.stroke(); X.setLineDash([]);
+
+  // GZ line
+  const gzPulse = activeConcept === 'GZ';
+  const gzPx = Bw.x - Gw.x;
+  if (Math.abs(gzPx) > 3) {
+    X.beginPath(); X.moveTo(Gw.x, Gw.y); X.lineTo(Bw.x, Gw.y);
+    const gzLw = gzPulse ? 5 + 2 * Math.sin(ts * 0.005) : 3;
+    X.strokeStyle = '#00e5ff'; X.lineWidth = gzLw; X.shadowColor = 'rgba(0,229,255,.6)'; X.shadowBlur = gzPulse ? 20 : 12; X.stroke(); X.shadowBlur = 0;
+    X.font = 'bold 14px "IBM Plex Mono"'; X.fillStyle = '#00e5ff'; X.textAlign = 'center';
+    X.shadowColor = 'rgba(0,0,0,.6)'; X.shadowBlur = 3;
+    X.fillText('GZ='+Math.abs(S.GZ).toFixed(3)+'m', (Gw.x+Bw.x)/2, Gw.y-10);
+    X.shadowBlur = 0; X.textAlign = 'left';
+    X.beginPath(); X.moveTo(Bw.x, Gw.y); X.lineTo(Bw.x, Bw.y);
+    X.strokeStyle = 'rgba(0,229,255,.3)'; X.lineWidth = 1.5; X.setLineDash([4,3]); X.stroke(); X.setLineDash([]);
+  }
+
+  // θ label
+  X.font = 'bold 22px "IBM Plex Mono"'; X.fillStyle = 'rgba(255,215,0,.9)'; X.textAlign = 'center';
+  X.shadowColor = 'rgba(0,0,0,.5)'; X.shadowBlur = 3;
+  X.fillText('θ = '+aH.toFixed(1)+'°', cx, H-90);
+  X.shadowBlur = 0; X.textAlign = 'left';
+
+  // Hover points
+  hoverPts = [
+    {x:Bw.x, y:Bw.y, tip:`<span class="ttcol" style="background:${colB0}"></span><b>B' — Centre de carène</b><br>Centre géométrique du volume immerge. C'est la ou s'applique la poussée d'Archimède (π).<br>Quand le navire penche, B' se déplace vers le cote qui s'enfonce.<br><b>KB = ${S.KB.toFixed(2)} m</b>`},
+    {x:Gw.x, y:Gw.y, tip:`<span class="ttcol" style="background:${colG}"></span><b>G — Centre de gravité</b><br>Point ou s'applique le poids total du navire (P). Sa position depend de la répartition des masses a bord : cargaison, ballasts, equipement.${S.eKG!==S.KG?'<br><b style=color:#ffa726>KG corrige = '+S.eKG.toFixed(2)+' m</b> (effet carène liquide/givrage)':''}<br><b>KG = ${S.KG.toFixed(2)} m</b>`},
+    {x:MtEff.x, y:MtEff.y, tip:`<span class="ttcol" style="background:${colMt}"></span><b>Mt — Métacentre transversal</b><br>Point clé de la stabilité : tant que Mt est AU-DESSUS de G, le navire se redresse. Si Mt passe EN-DESSOUS de G → chavirement.<br><b>KMt = ${S.KMt.toFixed(2)} m</b><br><b>GMt = ${S.GMt.toFixed(2)} m</b> ${S.GMt>0.5?'(stable)':S.GMt>0?'(limite)':'<b style=color:#ff5252>(INSTABLE)</b>'}`},
+  ];
+  // Feux de navigation — position en monde
+  const fbS = (S.D - S.TE) * sc;
+  const swF = halfB * currentProfile.bridgeW;
+  if (hasKeel) {
+    const roufW = halfB * 0.65;
+    const feuY = -fbShape - Math.min(depthPx * 0.22, 25 * zoom) * 0.5;
+    const fBb = tw({x: -roufW - 2, y: feuY});
+    const fTd = tw({x: roufW + 2, y: feuY});
+    hoverPts.push({x:fBb.x, y:fBb.y, tip:'<span class="ttcol" style="background:#ff3333"></span><b>Feu de navigation — Bâbord (rouge)</b><br>Feu latéral rouge visible de l\'arrière jusqu\'à 22.5° sur l\'avant du travers bâbord.<br>Secteur : 112.5° — de l\'arrière à 2 quarts sur l\'avant du travers.'});
+    hoverPts.push({x:fTd.x, y:fTd.y, tip:'<span class="ttcol" style="background:#33ff33"></span><b>Feu de navigation — Tribord (vert)</b><br>Feu latéral vert visible de l\'arrière jusqu\'à 22.5° sur l\'avant du travers tribord.<br>Secteur : 112.5° — symétrique du feu bâbord.'});
+  } else {
+    const feuY = -fbS - Math.min(depthPx * currentProfile.bridgeH, 40 * zoom) * 0.5;
+    const fBb = tw({x: -swF - 12, y: feuY});
+    const fTd = tw({x: swF + 12, y: feuY});
+    hoverPts.push({x:fBb.x, y:fBb.y, tip:'<span class="ttcol" style="background:#ff3333"></span><b>Feu de navigation — Bâbord (rouge)</b><br>Feu latéral rouge sur l\'aileron bâbord de la passerelle.<br>Visible de l\'arrière jusqu\'à 22.5° sur l\'avant du travers. Secteur : 112.5°.'});
+    hoverPts.push({x:fTd.x, y:fTd.y, tip:'<span class="ttcol" style="background:#33ff33"></span><b>Feu de navigation — Tribord (vert)</b><br>Feu latéral vert sur l\'aileron tribord de la passerelle.<br>Visible de l\'arrière jusqu\'à 22.5° sur l\'avant du travers. Secteur : 112.5°.'});
+    // Citernes
+    if (currentProfile.hasTanks) {
+      const tkY = draftShape * 0.5;
+      const tkBb = tw({x: -halfB * 0.5, y: tkY});
+      const tkTd = tw({x: halfB * 0.5, y: tkY});
+      hoverPts.push({x:tkBb.x, y:tkBb.y, tip:'<b>Citerne bâbord</b><br>Ballast latéral bâbord. Contient du carburant, de l\'eau de ballast ou de la cargaison liquide.<br>Une citerne <b style=color:#ffa726>partiellement remplie</b> crée un effet de carène liquide dangereux (surface libre).<br>Solution : remplir complètement ou vider.'});
+      hoverPts.push({x:tkTd.x, y:tkTd.y, tip:'<b>Citerne tribord</b><br>Ballast latéral tribord. Symétrique de la citerne bâbord.<br>La <b>cloison longitudinale</b> centrale divise les citernes pour réduire l\'effet de carène liquide.'});
+    }
+  }
+
+  // B' TRACE — dessine en dernier pour etre au premier plan
+  if (bTrace.length > 2) {
+    // Glow leger
+    for (let i = 1; i < bTrace.length; i++) {
+      X.beginPath();
+      X.moveTo(bTrace[i-1].x, bTrace[i-1].y);
+      X.lineTo(bTrace[i].x, bTrace[i].y);
+      const op = bTrace[i].op;
+      X.strokeStyle = `rgba(105,240,174,${op * 0.1})`;
+      X.lineWidth = 3;
+      X.lineCap = 'round';
+      X.stroke();
+    }
+    // Trait fin
+    for (let i = 1; i < bTrace.length; i++) {
+      X.beginPath();
+      X.moveTo(bTrace[i-1].x, bTrace[i-1].y);
+      X.lineTo(bTrace[i].x, bTrace[i].y);
+      const op = bTrace[i].op;
+      X.strokeStyle = `rgba(105,240,174,${op * 0.8})`;
+      X.lineWidth = 0.8 + op * 0.7;
+      X.lineCap = 'round';
+      X.stroke();
+    }
+    // Points lumineux recents
+    for (let i = bTrace.length - 1; i >= Math.max(0, bTrace.length - 4); i--) {
+      const op = bTrace[i].op;
+      X.beginPath();
+      X.arc(bTrace[i].x, bTrace[i].y, 1.5, 0, Math.PI * 2);
+      X.fillStyle = `rgba(105,240,174,${op * 0.5})`;
+      X.fill();
+    }
+  }
+
+  drawGZm(); if (gzO) drawGZb();
+  }catch(err){console.error('draw() error:',err.message,err.stack)}
+  requestAnimationFrame(draw);
+}
+
+function pdot(c,x,y,col,lbl,pulse){
+  if (pulse) {
+    c.beginPath(); c.arc(x,y,18,0,Math.PI*2); c.fillStyle='rgba(0,229,255,.15)'; c.fill();
+    c.beginPath(); c.arc(x,y,12,0,Math.PI*2); c.strokeStyle='rgba(0,229,255,.5)'; c.lineWidth=2; c.stroke();
+  }
+  c.beginPath(); c.arc(x,y,8,0,Math.PI*2); c.fillStyle='rgba(0,0,0,.5)'; c.fill();
+  c.beginPath(); c.arc(x,y,5,0,Math.PI*2); c.fillStyle=col; c.fill(); c.strokeStyle='rgba(0,0,0,.5)'; c.lineWidth=2; c.stroke();
+  c.font='bold 12px "Outfit"'; c.shadowColor='rgba(0,0,0,.8)'; c.shadowBlur=4; c.fillStyle=col; c.fillText(lbl,x+10,y+4); c.shadowBlur=0;
+}
+function pdotW(c,x,y,col,lbl,pulse){pdot(c,x,y,col,lbl,pulse)}
+
+function arw(c,x1,y1,x2,y2,col,lbl){
+  const a=Math.atan2(y2-y1,x2-x1),hl=9;
+  c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.strokeStyle=col;c.lineWidth=2.5;c.lineCap='round';c.stroke();
+  c.beginPath();c.moveTo(x2,y2);c.lineTo(x2-hl*Math.cos(a-.3),y2-hl*Math.sin(a-.3));c.lineTo(x2-hl*Math.cos(a+.3),y2-hl*Math.sin(a+.3));c.closePath();c.fillStyle=col;c.fill();
+  c.font='600 10px "Outfit"';c.shadowColor='rgba(0,0,0,.6)';c.shadowBlur=3;c.fillStyle=col;c.fillText(lbl,x2+8,y2+5);c.shadowBlur=0;
+}
+
+function vdim(c,x,y1,y2,col,lbl,fs){
+  c.beginPath();c.moveTo(x,y1);c.lineTo(x,y2);c.strokeStyle=col;c.lineWidth=1.2;c.setLineDash([3,2]);c.stroke();c.setLineDash([]);
+  c.beginPath();c.moveTo(x-4,y1);c.lineTo(x+4,y1);c.moveTo(x-4,y2);c.lineTo(x+4,y2);c.strokeStyle=col;c.lineWidth=1.2;c.stroke();
+  c.font=`600 ${fs||10}px "IBM Plex Mono"`;c.fillStyle=col;c.save();c.translate(x-7,(y1+y2)/2);c.rotate(-Math.PI/2);c.textAlign='center';c.fillText(lbl,0,0);c.restore();
+}
+
+function rr(c,x,y,w,h,r){c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);c.lineTo(x+r,y+h);c.arcTo(x,y+h,x,y+h-r,r);c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r)}
+
+// ──── GZ CURVE ────
+function drawGZc(ctx,w,h,big){
+  ctx.clearRect(0,0,w,h);
+  const pL=big?60:25,pR=big?30:6,pT=big?30:18,pB=big?45:16,pw=w-pL-pR,ph=h-pT-pB,zY=pT+ph/2;
+  ctx.strokeStyle='rgba(255,255,255,.08)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pL,pT);ctx.lineTo(pL,h-pB);ctx.lineTo(w-pR,h-pB);ctx.stroke();
+  ctx.setLineDash([2,3]);ctx.beginPath();ctx.moveTo(pL,zY);ctx.lineTo(w-pR,zY);ctx.strokeStyle='rgba(255,255,255,.06)';ctx.stroke();ctx.setLineDash([]);
+  const maxA=180;
+  if(big){ctx.strokeStyle='rgba(255,255,255,.03)';for(let a=-80;a<=80;a+=10){const x=pL+((a+maxA)/(2*maxA))*pw;ctx.beginPath();ctx.moveTo(x,pT);ctx.lineTo(x,h-pB);ctx.stroke()}}let maxGZ=.5;
+  const pts=gzPoints(); // utilise le cache
+  // Echelle Y adaptée pour afficher la courbe ENTIERE (tous les angles)
+  for(const p of pts) maxGZ=Math.max(maxGZ,Math.abs(p.g));
+  maxGZ*=1.15; // marge 15% pour lisibilité
+
+  const analysis=gzAnalysis();
+
+  // Zones colorees couple redressant/chavirant — TOUJOURS (mini + big)
+  // Plus opaque en mini pour la lisibilite
+  const zoneAlpha = big ? 0.15 : 0.25;
+  for(const p of pts){
+    const x=pL+((p.a+maxA)/(2*maxA))*pw;
+    const y=(zY-(p.g/maxGZ)*(ph/2));
+    const isRed=(p.a*p.g>0);
+    if(Math.abs(p.g)>.005&&Math.abs(p.a)>1){
+      ctx.beginPath();ctx.moveTo(x,zY);ctx.lineTo(x,y);
+      ctx.strokeStyle=isRed?`rgba(105,240,174,${zoneAlpha})`:`rgba(255,82,82,${zoneAlpha})`;
+      ctx.lineWidth=pw/(2*maxA);ctx.stroke();
+    }
+  }
+
+  if(big){
+    const x0=pL+((0+maxA)/(2*maxA))*pw;
+
+    // ──── FOND BABORD (rouge) / TRIBORD (vert) — arriere-plan distinct ────
+    // Babord = θ < 0 = gauche du graphique
+    ctx.fillStyle = 'rgba(255,60,60,.06)';
+    ctx.fillRect(pL, pT, x0 - pL, ph);
+    // Tribord = θ > 0 = droite du graphique
+    ctx.fillStyle = 'rgba(60,255,120,.06)';
+    ctx.fillRect(x0, pT, pL + pw - x0, ph);
+    // Labels babord/tribord — gros, en bas
+    ctx.font = 'bold 18px "Outfit"'; ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(255,80,80,.5)';
+    ctx.fillText('← BABORD', (pL + x0) / 2, h - pB + 34);
+    ctx.fillStyle = 'rgba(80,255,130,.5)';
+    ctx.fillText('TRIBORD →', (x0 + pL + pw) / 2, h - pB + 34);
+    ctx.textAlign = 'left';
+
+    // (zones couple deja dessinees au-dessus pour mini+big)
+    // Trouver les angles de chavirement pour positionner les labels au centre des zones
+    let vanP=0;for(let a=5;a<=maxA;a++){if(gzAt(a)<=0){vanP=a;break}}
+    let vanN=0;for(let a=-5;a>=-maxA;a--){if(gzAt(a)>=0){vanN=a;break}}
+
+    // Zone REDRESSANTE positive (θ>0, GZ>0) : de 0 a vanP (ou 90 si pas de chavirement)
+    const redPEnd = vanP > 0 ? vanP : 90;
+    const redPMid = redPEnd / 2; // angle moyen de la zone
+    const xRedP = pL + ((redPMid + maxA) / (2 * maxA)) * pw;
+    // Trouver le GZ au milieu de la zone pour positionner le texte
+    const gzRedP = gzAt(redPMid);
+    const yRedP = zY - (gzRedP / maxGZ) * (ph / 2);
+    ctx.save(); ctx.globalAlpha = 0.5;
+    ctx.font = 'bold 13px "IBM Plex Mono"'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#69f0ae';
+    ctx.fillText('COUPLE', xRedP, (zY + yRedP) / 2 - 6);
+    ctx.fillText('REDRESSANT', xRedP, (zY + yRedP) / 2 + 10);
+    ctx.restore(); ctx.textAlign = 'left';
+
+    // Zone REDRESSANTE negative (θ<0, GZ<0) : de vanN a 0 (ou -90)
+    const redNEnd = vanN < 0 ? vanN : -90;
+    const redNMid = redNEnd / 2;
+    const xRedN = pL + ((redNMid + maxA) / (2 * maxA)) * pw;
+    const gzRedN = gzAt(redNMid);
+    const yRedN = zY - (gzRedN / maxGZ) * (ph / 2);
+    ctx.save(); ctx.globalAlpha = 0.5;
+    ctx.font = 'bold 13px "IBM Plex Mono"'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#69f0ae';
+    ctx.fillText('COUPLE', xRedN, (zY + yRedN) / 2 - 6);
+    ctx.fillText('REDRESSANT', xRedN, (zY + yRedN) / 2 + 10);
+    ctx.restore(); ctx.textAlign = 'left';
+
+    // Zone CHAVIRANTE positive (θ>vanP, GZ<0)
+    if (vanP > 0) {
+      const chavPMid = (vanP + Math.min(vanP + 40, maxA)) / 2;
+      const xChavP = pL + ((chavPMid + maxA) / (2 * maxA)) * pw;
+      const gzChavP = gzAt(chavPMid);
+      const yChavP = zY - (gzChavP / maxGZ) * (ph / 2);
+      ctx.save(); ctx.globalAlpha = 0.5;
+      ctx.font = 'bold 13px "IBM Plex Mono"'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#ff5252';
+      ctx.fillText('COUPLE', xChavP, (zY + yChavP) / 2 - 6);
+      ctx.fillText('CHAVIRANT', xChavP, (zY + yChavP) / 2 + 10);
+      ctx.restore(); ctx.textAlign = 'left';
+    }
+
+    // Zone CHAVIRANTE negative (θ<vanN, GZ>0)
+    if (vanN < 0) {
+      const chavNMid = (vanN + Math.max(vanN - 40, -maxA)) / 2;
+      const xChavN = pL + ((chavNMid + maxA) / (2 * maxA)) * pw;
+      const gzChavN = gzAt(chavNMid);
+      const yChavN = zY - (gzChavN / maxGZ) * (ph / 2);
+      ctx.save(); ctx.globalAlpha = 0.5;
+      ctx.font = 'bold 13px "IBM Plex Mono"'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#ff5252';
+      ctx.fillText('COUPLE', xChavN, (zY + yChavN) / 2 - 6);
+      ctx.fillText('CHAVIRANT', xChavN, (zY + yChavN) / 2 + 10);
+      ctx.restore(); ctx.textAlign = 'left';
+    }
+  }
+
+  ctx.beginPath();let s=false;
+  for(const p of pts){const x=pL+((p.a+maxA)/(2*maxA))*pw,y=(zY-(p.g/maxGZ)*(ph/2));if(!s){ctx.moveTo(x,zY);ctx.lineTo(x,y);s=true}else ctx.lineTo(x,y)}
+  ctx.lineTo(pL+pw,zY);ctx.closePath();ctx.fillStyle='rgba(0,229,255,.04)';ctx.fill();
+
+  ctx.beginPath();pts.forEach((p,i)=>{const x=pL+((p.a+maxA)/(2*maxA))*pw,y=(zY-(p.g/maxGZ)*(ph/2));i?ctx.lineTo(x,y):ctx.moveTo(x,y)});
+  ctx.strokeStyle='#00e5ff';ctx.lineWidth=big?2.5:1.8;ctx.stroke();
+
+  const cxp=pL+((S.heel+maxA)/(2*maxA))*pw;
+  ctx.beginPath();ctx.moveTo(cxp,pT);ctx.lineTo(cxp,h-pB);ctx.strokeStyle='rgba(255,82,82,.5)';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);
+  const cyp=(zY-(S.GZ/maxGZ)*(ph/2));
+  ctx.beginPath();ctx.arc(cxp,cyp,big?6:3.5,0,Math.PI*2);ctx.fillStyle='#00e5ff';ctx.fill();
+
+  const fs2=big?11:7;ctx.font=`500 ${fs2}px "IBM Plex Mono"`;ctx.fillStyle='rgba(255,255,255,.55)';
+  for(let a=-80;a<=80;a+=(big?10:30)){const x=pL+((a+maxA)/(2*maxA))*pw;ctx.fillText(a+'°',x-(big?10:6),h-pB+(big?16:10))}
+
+  if(big){
+    ctx.font='500 11px "IBM Plex Mono"';ctx.fillStyle='rgba(255,255,255,.45)';
+    ctx.fillText('GZ (m)',pL+4,pT-8);ctx.fillText('θ°',pw/2+pL-10,h-pB+32);
+    // Pas adaptatif — arrondi entier pour eviter doublons flottants
+    const stepOptions = [0.1, 0.2, 0.5, 1.0, 2.0, 5.0];
+    const minPixelGap = 35;
+    let vStep = stepOptions[stepOptions.length - 1];
+    for (const s of stepOptions) {
+      if ((s / maxGZ) * (ph / 2) >= minPixelGap) { vStep = s; break; }
+    }
+    const decimals = vStep < 0.5 ? 1 : (vStep < 1 ? 1 : 0);
+    const nMin = -Math.floor(maxGZ / vStep);
+    const nMax = Math.floor(maxGZ / vStep);
+    for (let n = nMin; n <= nMax; n++) {
+      if (n === 0) continue;
+      const v = Math.round(n * vStep * 100) / 100; // arrondi propre
+      const y = zY - (v / maxGZ) * (ph / 2);
+      ctx.fillText(v.toFixed(decimals), pL - 38, y + 4);
+      // Ligne de grille horizontale legere
+      ctx.beginPath(); ctx.moveTo(pL, y); ctx.lineTo(w - pR, y);
+      ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.lineWidth = 1; ctx.stroke();
+    }
+
+    ctx.font='bold 13px "IBM Plex Mono"';ctx.fillStyle='#00e5ff';
+    ctx.fillText(`GZ=${S.GZ.toFixed(3)}m  θ=${S.heel.toFixed(1)}°`,cxp+12,cyp-10);
+    ctx.font='500 10px "IBM Plex Mono"';ctx.fillStyle='rgba(255,214,64,.75)';
+    ctx.fillText(`GMt=${gmtLive.toFixed(2)}m  BM=${S.BM.toFixed(2)}m`,pL+10,pT+18);
+
+    // ──── AXE 0° : separation BABORD / TRIBORD ────
+    const x0deg = pL + ((0 + maxA) / (2 * maxA)) * pw;
+    ctx.beginPath(); ctx.moveTo(x0deg, pT); ctx.lineTo(x0deg, h - pB);
+    ctx.strokeStyle = 'rgba(255,255,255,.2)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+    // ──── Analyse ASYMETRIQUE : indicateurs calcules pour chaque cote ────
+    // Tribord (θ > 0)
+    let gzMaxP = 0, gzMaxAngleP = 0, vanP2 = 0, prevGP = gzAt(0);
+    for (let a = 1; a <= 180; a++) {
+      const g = gzAt(a);
+      if (g > gzMaxP) { gzMaxP = g; gzMaxAngleP = a; }
+      if (prevGP > 0 && g <= 0 && vanP2 === 0 && gzMaxAngleP > 0) vanP2 = a;
+      prevGP = g;
+    }
+    // Babord (θ < 0) — GZ negatif = redressant, GZ positif = chavirant
+    let gzMinN = 0, gzMinAngleN = 0, vanN2 = 0, prevGN = gzAt(0);
+    for (let a = -1; a >= -180; a--) {
+      const g = gzAt(a);
+      if (g < gzMinN) { gzMinN = g; gzMinAngleN = a; }
+      if (prevGN < 0 && g >= 0 && vanN2 === 0 && gzMinAngleN < 0) vanN2 = a;
+      prevGN = g;
+    }
+
+    // ──── GZ max TRIBORD ────
+    if (gzMaxP > 0.001) {
+      const gxm = pL + ((gzMaxAngleP + maxA) / (2 * maxA)) * pw;
+      const gym = zY - (gzMaxP / maxGZ) * (ph / 2);
+      ctx.beginPath(); ctx.arc(gxm, gym, 7, 0, Math.PI * 2); ctx.strokeStyle = '#69f0ae'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.beginPath(); ctx.setLineDash([3,3]); ctx.moveTo(gxm, gym); ctx.lineTo(gxm, zY); ctx.strokeStyle = 'rgba(105,240,174,.3)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+      ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.fillStyle = '#69f0ae';
+      ctx.fillText(`GZ max = ${gzMaxP.toFixed(3)}m à ${gzMaxAngleP}°`, gxm + 10, gym - 4);
+    }
+    // ──── GZ max BABORD (symetrique, GZ le plus negatif) ────
+    if (gzMinN < -0.001) {
+      const gxm = pL + ((gzMinAngleN + maxA) / (2 * maxA)) * pw;
+      const gym = zY - (gzMinN / maxGZ) * (ph / 2);
+      ctx.beginPath(); ctx.arc(gxm, gym, 7, 0, Math.PI * 2); ctx.strokeStyle = '#69f0ae'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.beginPath(); ctx.setLineDash([3,3]); ctx.moveTo(gxm, gym); ctx.lineTo(gxm, zY); ctx.strokeStyle = 'rgba(105,240,174,.3)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+      ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.fillStyle = '#69f0ae';
+      ctx.fillText(`GZ max = ${Math.abs(gzMinN).toFixed(3)}m à ${gzMinAngleN}°`, gxm + 10, gym + 16);
+    }
+
+    // ──── θ chavirement TRIBORD ────
+    if (vanP2 > 0) {
+      const vx = pL + ((vanP2 + maxA) / (2 * maxA)) * pw;
+      ctx.beginPath(); ctx.arc(vx, zY, 6, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,82,82,.6)'; ctx.fill();
+      ctx.beginPath(); ctx.setLineDash([3,3]); ctx.moveTo(vx, pT); ctx.lineTo(vx, h - pB); ctx.strokeStyle = 'rgba(255,82,82,.3)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+      ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.fillStyle = '#ff5252';
+      // Decaler le label si trop proche du GZ max
+      const gxmP = gzMaxAngleP > 0 ? pL + ((gzMaxAngleP + maxA) / (2 * maxA)) * pw : -999;
+      const chavLabelY = (Math.abs(vx - gxmP) < 80) ? zY + 16 : zY - 8;
+      ctx.fillText(`chavirement ${vanP2}°`, vx + 8, chavLabelY);
+    }
+    // ──── θ chavirement BABORD ────
+    if (vanN2 < 0) {
+      const vx = pL + ((vanN2 + maxA) / (2 * maxA)) * pw;
+      ctx.beginPath(); ctx.arc(vx, zY, 6, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,82,82,.6)'; ctx.fill();
+      ctx.beginPath(); ctx.setLineDash([3,3]); ctx.moveTo(vx, pT); ctx.lineTo(vx, h - pB); ctx.strokeStyle = 'rgba(255,82,82,.3)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+      ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.fillStyle = '#ff5252';
+      const gxmN = gzMinAngleN < 0 ? pL + ((gzMinAngleN + maxA) / (2 * maxA)) * pw : -999;
+      const chavLabelYN = (Math.abs(vx - gxmN) < 80) ? zY + 16 : zY - 8;
+      ctx.fillText(`chavirement ${vanN2}°`, vx - 110, chavLabelYN);
+    }
+
+    // ──── θ envahissement TRIBORD + BABORD ────
+    const envA = envAngle();
+    if (envA > 0 && envA < 90) {
+      // Tribord (+)
+      const exP = pL + ((envA + maxA) / (2 * maxA)) * pw;
+      ctx.beginPath(); ctx.moveTo(exP, pT); ctx.lineTo(exP, h - pB);
+      ctx.strokeStyle = 'rgba(255,165,0,.5)'; ctx.lineWidth = 2; ctx.setLineDash([6,3]); ctx.stroke(); ctx.setLineDash([]);
+      ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.fillStyle = '#ffa726';
+      ctx.fillText(`envahissement ${envA.toFixed(0)}°`, exP + 8, pT + 48);
+      ctx.beginPath(); ctx.moveTo(exP, pT + 55); ctx.lineTo(exP - 5, pT + 63); ctx.lineTo(exP + 5, pT + 63); ctx.closePath();
+      ctx.fillStyle = 'rgba(255,165,0,.5)'; ctx.fill();
+
+      // Babord (-)
+      const exN = pL + ((-envA + maxA) / (2 * maxA)) * pw;
+      ctx.beginPath(); ctx.moveTo(exN, pT); ctx.lineTo(exN, h - pB);
+      ctx.strokeStyle = 'rgba(255,165,0,.5)'; ctx.lineWidth = 2; ctx.setLineDash([6,3]); ctx.stroke(); ctx.setLineDash([]);
+      ctx.font = 'bold 11px "IBM Plex Mono"'; ctx.fillStyle = '#ffa726';
+      ctx.fillText(`envahissement -${envA.toFixed(0)}°`, exN - 120, pT + 48);
+      ctx.beginPath(); ctx.moveTo(exN, pT + 55); ctx.lineTo(exN - 5, pT + 63); ctx.lineTo(exN + 5, pT + 63); ctx.closePath();
+      ctx.fillStyle = 'rgba(255,165,0,.5)'; ctx.fill();
+    }
+
+    ctx.font='500 10px "IBM Plex Mono"';ctx.fillStyle='rgba(0,229,255,.7)';
+    ctx.fillText(`Aire (stabilité dynamique) = ${analysis.area.toFixed(3)} m·rad`,pL+10,pT+32);
+  }
+}
+
+function drawGZm(){const r=gzC.parentElement.getBoundingClientRect();if(r.width<1||r.height<1)return;if(gzC.width<2){gzC.width=r.width*2;gzC.height=r.height*2;gzX.setTransform(2,0,0,2,0,0)}drawGZc(gzX,r.width,r.height,false)}
+function drawGZb(){drawGZc(gzBX,gzB.width/2,gzB.height/2,true)}
+
+let gzO=false;
+function oGZ(){gzO=true;document.getElementById('gzf').classList.add('show');requestAnimationFrame(()=>{rBig();drawGZb()});document.getElementById('sHgz').value=S.heel;document.getElementById('vHgz').textContent=S.heel.toFixed(1)+'°';uGZi()}
+function uGZi(){
+  const a=gzAnalysis();
+  const momA=Math.abs(S.mom);
+  const mkTxt=momA>1000?(momA/1000).toFixed(1)+' MN·m':momA.toFixed(0)+' kN·m';
+  let txt=`Δ=${S.disp.toFixed(0)}t | GMt=${gmtLive.toFixed(2)}m | M=${mkTxt}`;
+  txt+=` | GZ max=${a.gzMax.toFixed(3)}m à ${a.gzMaxAngle}°`;
+  if(a.vanAngle>0)txt+=` | Chavirement → ${a.vanAngle.toFixed(1)}°`;
+  txt+=` | Aire=${a.area.toFixed(3)} m·rad`;
+  document.getElementById('gzi').textContent=txt;
+}
+function cGZ(){gzO=false;document.getElementById('gzf').classList.remove('show')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&gzO)cGZ()});
+document.getElementById('sHgz').addEventListener('input',function(){sl.H.value=this.value;document.getElementById('vHgz').textContent=(+this.value).toFixed(1)+'°';upd();uGZi()});
+
+// ──── Clic/drag souris sur courbe GZ plein ecran ────
+let gzDrag=false;
+function gzMouseToTheta(e){
+  const r=gzB.getBoundingClientRect();
+  const mx=e.clientX-r.left;
+  const pL=60,pR=30,pw=r.width-pL-pR;
+  const ratio=(mx-pL)/pw;
+  return Math.max(-180,Math.min(180,ratio*360-180));
+}
+function gzSetTheta(theta){
+  const v=Math.round(theta*2)/2; // arrondi au 0.5
+  sl.H.value=v;document.getElementById('sHgz').value=v;
+  document.getElementById('vHgz').textContent=v.toFixed(1)+'°';
+  document.getElementById('nH').value=v.toFixed(1);
+  upd();uGZi();
+}
+gzB.addEventListener('mousedown',e=>{if(!gzO)return;gzDrag=true;gzSetTheta(gzMouseToTheta(e))});
+gzB.addEventListener('mousemove',e=>{if(!gzDrag)return;gzSetTheta(gzMouseToTheta(e))});
+gzB.addEventListener('mouseup',()=>{gzDrag=false});
+gzB.addEventListener('mouseleave',()=>{gzDrag=false});
+gzB.style.cursor='crosshair';
+
+// ──── TOOLTIPS ────
+C.addEventListener('mousemove',e=>{
+  const mx=e.clientX,my=e.clientY;let found=false;
+  for(const p of hoverPts){
+    if(Math.hypot(mx-p.x,my-p.y)<18){
+      tt.innerHTML=p.tip;tt.style.left=Math.min(mx+15,W-310)+'px';tt.style.top=Math.min(my-10,H-150)+'px';
+      tt.classList.add('show');found=true;break;
+    }
+  }
+  if(!found)tt.classList.remove('show');
+});
+C.addEventListener('mouseleave',()=>tt.classList.remove('show'));
+
+// ──── TOOLTIPS LÉGENDE (même design que les infobulles navire) ────
+document.querySelectorAll('.leg .li[data-tip]').forEach(el=>{
+  el.addEventListener('mouseenter',e=>{
+    tt.innerHTML=el.getAttribute('data-tip');
+    const r=el.getBoundingClientRect();
+    tt.style.left=Math.max(8,r.left-290)+'px';
+    tt.style.top=r.top+'px';
+    tt.classList.add('show');
+  });
+  el.addEventListener('mouseleave',()=>tt.classList.remove('show'));
+});
+
+// ──── UPDATE ────
+function upd(){
+  S.TE = Math.min(+sl.TE.value, S.D - 0.3); sl.TE.value = S.TE;
+  const kgMax = S.D + 1;
+  S.KG = Math.min(+sl.KG.value, kgMax); sl.KG.value = S.KG; sl.KG.max = kgMax;
+  S.heel = +sl.H.value; S.fs = +sl.FS.value; S.ic = +sl.Ic.value; S.rho = +sl.Rh.value;
+
+  phys(); // DOIT etre appele AVANT l'affichage pour avoir les bonnes valeurs
+  // Ne PAS reset bTrace ici — la trace doit persister quand on bouge la gite
+
+  // Afficher le TE effectif (APRES phys() qui calcule TEeff)
+  if (Math.abs(S.TEeff - S.TE) > 0.01) {
+    document.getElementById('vTE').textContent = S.TEeff.toFixed(2)+' m';
+  } else {
+    document.getElementById('vTE').textContent = S.TE.toFixed(1)+' m';
+  }
+  const vKGel = document.getElementById('vKG');
+  if (Math.abs(S.eKG - S.KG) > 0.01) {
+    vKGel.textContent = S.eKG.toFixed(2)+' m (eff.)';
+    vKGel.style.color = '#ffa726';
+  } else {
+    vKGel.textContent = S.KG.toFixed(1)+' m';
+    vKGel.style.color = '';
+  }
+  document.getElementById('nH').value = S.heel.toFixed(1);
+  document.getElementById('vFS').textContent = S.fs+' %';
+  document.getElementById('vIc').textContent = S.ic+' t';
+
+  document.getElementById('dBM').textContent = S.BM.toFixed(2)+' m';
+  document.getElementById('dKM').textContent = S.KMt.toFixed(2)+' m';
+  document.getElementById('dGZ').textContent = S.GZ.toFixed(3)+' m';
+  // Affichage adaptatif du moment
+  const momAbs = Math.abs(S.mom);
+  document.getElementById('dMo').textContent = momAbs > 1000
+    ? (momAbs/1000).toFixed(1)+' MN·m'
+    : momAbs.toFixed(0)+' kN·m';
+  document.getElementById('dDi').textContent = S.disp.toFixed(0)+' t';
+  const TEdisp = S.TEeff;
+  document.getElementById('dFB').textContent = (S.D-TEdisp).toFixed(1)+' m';
+
+  const a = gzAnalysis();
+  document.getElementById('dGZmax').textContent = a.stableAtStart
+    ? a.gzMax.toFixed(3)+' m à '+a.gzMaxAngle+'°'
+    : 'INSTABLE';
+  document.getElementById('dVan').textContent = a.stableAtStart
+    ? (a.vanAngle > 0 ? a.vanAngle.toFixed(1)+'°' : '—')
+    : 'IMMÉDIAT';
+  document.getElementById('dEnv').textContent = S.envAngle > 0 ? S.envAngle.toFixed(0)+'°' : '—';
+
+  // GMt dans le bandeau — mis a jour par draw() via gmtLive
+  updGMtBanner();
+
+  // Status banner
+  updStatusBanner();
+}
+
+function updGMtBanner(){
+  const g = gmtLive;
+  document.getElementById('dGM').textContent = g.toFixed(2)+' m';
+}
+
+function updStatusBanner(){
+  const g = gmtLive;
+  const sd=document.getElementById('sdot'),st=document.getElementById('stxt'),scp=document.getElementById('scouple');
+  const momAbs = Math.abs(S.mom);
+  const mk = momAbs > 1000 ? (momAbs/1000).toFixed(1)+' MN·m' : momAbs.toFixed(0)+' kN·m';
+  const absHeel = Math.abs(S.heel);
+  const isHeeled = absHeel > 1;
+  const isRetourne = absHeel > 90;
+  const isQuillEnLair = absHeel > 170;
+  const sameSign = (S.GZ * S.heel) > 0;
+  const isRedressant = isHeeled && sameSign;
+  const isChavirant = isHeeled && !sameSign && Math.abs(S.GZ) > .001;
+
+  let ct = '';
+  if (!isHeeled) ct = 'Navire droit — P et π alignés';
+  else if (isRedressant) ct = `Couple REDRESSANT : M = ${mk}`;
+  else if (isChavirant) ct = `Couple CHAVIRANT : M = ${mk}`;
+  else ct = 'Couple nul — GZ ≈ 0';
+
+  // Envahissement : angle de gite >= angle d'envahissement (livet du pont dans l'eau)
+  const isEnvahi = S.envAngle > 0 && Math.abs(S.heel) >= S.envAngle;
+
+  // GZ en phase descendante ? (apres GZ max, stabilité qui diminue)
+  const anaStatus = gzAnalysis();
+  const pastGZmax = anaStatus.stableAtStart && Math.abs(S.heel) > anaStatus.gzMaxAngle;
+
+  // Envahissement — ligne séparée sous le couple
+  const envEl = document.getElementById('senv');
+  const envDot = document.getElementById('sdot2');
+  const envTxt = document.getElementById('senvtxt');
+  if(isEnvahi){
+    envEl.style.display = '';
+    envDot.className = 'sb-dot c';
+    envTxt.textContent = 'ENVAHISSEMENT sur le pont !';
+  } else {
+    envEl.style.display = 'none';
+  }
+
+  // Couple — toujours affiche normalement (meme si envahissement)
+  if(isQuillEnLair){
+    sd.className='sb-dot c';st.textContent='NAVIRE RETOURNE — Quille en l\'air';
+    scp.textContent='Le navire est chavire — équilibre stable inverse, quille en l\'air';
+  }else if(isRetourne && isChavirant){
+    sd.className='sb-dot c';st.textContent='CHAVIREMENT — Navire retourne';
+    scp.textContent='Le navire continue a basculer vers la position quille en l\'air';
+  }else if(isRetourne && isRedressant){
+    sd.className='sb-dot c';st.textContent='NAVIRE RETOURNE — Couple de retour';
+    scp.textContent='Le couple tend a ramener le navire vers sa position droite';
+  }else if(isChavirant){
+    sd.className='sb-dot c';st.textContent='COUPLE CHAVIRANT — Le navire bascule';
+    scp.textContent='La poussée π et le poids P amplifient la gite';
+  }else if(g<0){
+    sd.className='sb-dot c';st.textContent='INSTABLE — G au-dessus de Mt';
+    scp.textContent='Le centre de gravité depasse le métacentre — équilibre impossible';
+  }else if(Math.abs(g)<.1){
+    sd.className='sb-dot w';st.textContent='Équilibre indifférent — G ≈ Mt';
+    scp.textContent='G et Mt sont confondus — aucune force de rappel';
+  }else if(isRedressant&&S.eKG<S.KB&&!pastGZmax){
+    sd.className='sb-dot ok';st.textContent='Stabilité FORTE + Couple redressant';
+    scp.textContent='G sous B\' — stabilité de poids + couple ramene le navire droit';
+  }else if(isRedressant&&pastGZmax){
+    sd.className='sb-dot w';st.textContent='Couple REDRESSANT — Stabilité faible';
+    scp.textContent='GZ diminue — le couple de redressement faiblit';
+  }else if(isRedressant){
+    sd.className='sb-dot ok';st.textContent='Couple REDRESSANT — Stabilité '+(g>.5?'normale':'faible');
+    scp.textContent='La poussée π et le poids P ramenent le navire a la verticale';
+  }else if(S.eKG<S.KB&&!pastGZmax){
+    sd.className='sb-dot ok';st.textContent='Stabilité FORTE — G sous B\'';
+    scp.textContent='Centre de gravité sous le centre de carène — tres stable';
+  }else if(g>.5){
+    sd.className='sb-dot ok';st.textContent='Stabilité normale';
+    scp.textContent='Navire droit — P et π alignés';
+  }else{
+    sd.className='sb-dot w';st.textContent='Stabilité faible';
+    scp.textContent='GMt faible — le navire se redresse lentement';
+  }
+}
+
+// ──── PANELS ────
+let panL=true,panR=true;
+
+function tglL(){
+  panL=!panL;
+  document.getElementById('pan').classList.toggle('h',!panL);
+  document.getElementById('tbtn-l').textContent=panL?'☰':'▶';
+  updLayout();
+}
+function tglR(){
+  panR=!panR;
+  document.getElementById('cours').classList.toggle('h',!panR);
+  document.getElementById('tbtn-r').textContent=panR?'📖':'◀';
+  updLayout();
+}
+function updLayout(){
+  bTrace = []; // vider la trace quand le layout change (coordonnees ecran invalides)
+  const b=document.getElementById('bot');
+  const lg=document.getElementById('legend');
+  const gz=document.getElementById('gzbox');
+  b.classList.toggle('no-l',!panL);
+  b.classList.toggle('no-r',!panR);
+  lg.classList.toggle('no-r',!panR);
+  gz.classList.toggle('no-r',!panR);
+  const sb=document.getElementById('sbanner');
+  sb.className='status-banner';
+  if(panL&&!panR)sb.classList.add('shifted-l');
+  else if(!panL&&panR)sb.classList.add('shifted-r');
+}
+
+// ──── CONCEPT CARDS ────
+function tCard(head){
+  const card=head.parentElement;
+  const wasOpen=card.classList.contains('open');
+  document.querySelectorAll('.card').forEach(c=>{c.classList.remove('open','active')});
+  activeConcept=null;
+  if(!wasOpen){
+    card.classList.add('open','active');
+    const concept=card.dataset.concept;
+    const map={B:'B',G:'G',Mt:'Mt',BM:'Mt',GMt:'Mt',GZ:'GZ',K:'K',courbeGZ:'GZ',archimede:'B',equilibre:'G',carene:'TANK',givrage:'ICE'};
+    activeConcept=map[concept]||null;
+  }
+}
+
+function sR(v,btn){document.getElementById('sRh').value=v;document.querySelectorAll('.milieu-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');upd()}
+
+// ──── CAMERA PAN ────
+let camPanX = 0, camPanY = 0;
+function resetCam() { camPanX = 0; camPanY = 0; bTrace = []; }
+
+// ──── DRAG ────
+// Clic gauche = gite | Clic molette/droit = pan camera | Double-clic = reset vue
+let dr=false,dx0=0,dh0=0;
+let panning=false,panX0=0,panY0=0,camX0=0,camY0=0;
+
+let lastRightClick=0;
+C.addEventListener('mousedown',e=>{
+  if(e.target!==C)return;
+  if(e.button===1||e.button===2){
+    e.preventDefault();
+    // Double-clic droit = recentrer
+    if(e.button===2){
+      const now=Date.now();
+      if(now-lastRightClick<400){resetCam();zoom=currentProfile.defaultZoom||3;document.getElementById('zmv').textContent=Math.round(zoom/3*100)+'%';lastRightClick=0;return}
+      lastRightClick=now;
+    }
+    panning=true;panX0=e.clientX;panY0=e.clientY;camX0=camPanX;camY0=camPanY;
+    C.style.cursor='move';
+  } else if(e.button===0){
+    dr=true;dx0=e.clientX;dh0=S.heel;C.style.cursor='grabbing';
+  }
+});
+C.addEventListener('mousemove',e=>{
+  if(panning){camPanX=camX0+(e.clientX-panX0);camPanY=camY0+(e.clientY-panY0);bTrace=[]}
+  else if(dr){sl.H.value=Math.max(-180,Math.min(180,dh0+(e.clientX-dx0)*.15));upd()}
+});
+C.addEventListener('mouseup',()=>{dr=false;panning=false;C.style.cursor='grab'});
+C.addEventListener('mouseleave',()=>{dr=false;panning=false;C.style.cursor='grab'});
+C.addEventListener('contextmenu',e=>e.preventDefault());
+C.addEventListener('dblclick',()=>{sl.H.value=0;document.getElementById('nH').value='0';upd()});
+C.style.cursor='grab';
+// Touch: 1 doigt = gite, 2 doigts = pan + pinch zoom
+let touchMode=null,pinchDist0=0,pinchZoom0=0,panTouchX0=0,panTouchY0=0,camTX0=0,camTY0=0;
+C.addEventListener('touchstart',e=>{
+  e.preventDefault();
+  if(e.touches.length===1){touchMode='heel';dx0=e.touches[0].clientX;dh0=S.heel}
+  else if(e.touches.length===2){
+    touchMode='pinchpan';
+    const t=e.touches;
+    pinchDist0=Math.hypot(t[1].clientX-t[0].clientX,t[1].clientY-t[0].clientY);
+    pinchZoom0=zoom;
+    panTouchX0=(t[0].clientX+t[1].clientX)/2;panTouchY0=(t[0].clientY+t[1].clientY)/2;
+    camTX0=camPanX;camTY0=camPanY;
+  }
+},{passive:false});
+C.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  if(touchMode==='heel'&&e.touches.length===1){
+    sl.H.value=Math.max(-180,Math.min(180,dh0+(e.touches[0].clientX-dx0)*.15));upd();
+  } else if(touchMode==='pinchpan'&&e.touches.length===2){
+    const t=e.touches;
+    const dist=Math.hypot(t[1].clientX-t[0].clientX,t[1].clientY-t[0].clientY);
+    zoom=Math.max(1,Math.min(8,pinchZoom0*(dist/pinchDist0)));
+    document.getElementById('zmv').textContent=Math.round(zoom/3*100)+'%';
+    const mx=(t[0].clientX+t[1].clientX)/2,my=(t[0].clientY+t[1].clientY)/2;
+    camPanX=camTX0+(mx-panTouchX0);camPanY=camTY0+(my-panTouchY0);
+    bTrace=[];
+  }
+},{passive:false});
+C.addEventListener('touchend',()=>{touchMode=null});
+
+// ──── INIT ────
+upd();requestAnimationFrame(draw);
+</script>
+</body>
+</html>
