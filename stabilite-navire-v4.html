@@ -489,16 +489,19 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 
 <script>
 // ──── LOGO CLIENT — changer selon l'ecole / client ────
+// Pour activer : mettre src sur le fichier logo (ex: 'logo.png') et enabled: true
 const LOGO_CONFIG = {
-  src: 'logo_IME.png',   // chemin vers le logo (meme dossier)
-  opacity: 0.35,          // opacite (bien visible sans gener)
-  maxWidth: 80,           // taille reduite — coin haut-gauche
+  src: '',                // laisser vide = pas de logo
+  enabled: false,         // mettre true + src pour afficher
+  opacity: 0.35,
+  maxWidth: 80,
 };
-// Precharger le logo
 const _logoImg = new Image();
-_logoImg.src = LOGO_CONFIG.src;
 let _logoReady = false;
-_logoImg.onload = () => { _logoReady = true; };
+if (LOGO_CONFIG.enabled && LOGO_CONFIG.src) {
+  _logoImg.src = LOGO_CONFIG.src;
+  _logoImg.onload = () => { _logoReady = true; };
+}
 
 const C=document.getElementById('sc'),X=C.getContext('2d');
 const gzC=document.getElementById('gzC'),gzX=gzC.getContext('2d');
