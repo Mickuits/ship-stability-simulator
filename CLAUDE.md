@@ -119,3 +119,10 @@ Node.js PATH : `export PATH="/c/Program Files/nodejs:$PATH"` avant npm/node/npx.
 - Branche : master
 - Fichier production : `stabilite-navire-v4.html`
 - Roadmap et historique : voir `TODO.md`
+
+## Vérifications spécifiques (routine fin de session)
+Les routines début/fin de session sont définies dans `~/.claude/CLAUDE.md` (global). Voici les vérifications **spécifiques à ce projet** à exécuter en étape 4 (Git) :
+- Vérifier syntaxe JS : `node -e` sur le script extrait du HTML
+- Pas de `console.log` oublié dans le code
+- Pas de TODO/FIXME non résolu
+- Si moteur physique modifié : relancer les tests numériques (computeB0, phys, gzAnalysis)

@@ -1,6 +1,6 @@
 # Ship Stability Simulator — TODO
 
-> Mis à jour à chaque fin de session. Dernière MAJ : 02/04/2026.
+> Mis à jour à chaque fin de session. Dernière MAJ : 02/04/2026 (fin de session 1).
 
 ---
 
