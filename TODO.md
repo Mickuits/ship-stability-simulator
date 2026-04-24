@@ -1,34 +1,34 @@
 # Ship Stability Simulator V2 — TODO
 
 > Roadmap V2 Web 3D (refonte depuis HTML V1). Mise à jour à chaque fin de session.
-> **Dernière MAJ** : 24/04/2026 (session 2 — pivot stack Unity → Web 3D)
+> **Dernière MAJ** : 24/04/2026 (session 3 — Phase 0 bootstrap exécutée, branche `v2-web3d` verte)
 >
 > Voir `CLAUDE.md` pour la stack technique complète, `SPEC-CMP.md` pour le mapping pédagogique, `DECISIONS.md` pour l'historique architectural.
 
 ---
 
 ## En cours
-_(rien — fin session 24/04/2026, roadmap V2 cadrée)_
+**Phase 1 — Core physique TypeScript** : portage du moteur depuis le HTML V1 (`legacy/stabilite-navire-v4.html`) vers `src/core/*.ts`, avec 14 scénarios numériques Vitest de non-régression.
 
 ---
 
 ## Phases V2 (ordre d'exécution — le plus petit chemin vers la 1re vente)
 
-### Phase 0 — Cadrage & bootstrap repo *(session 24/04/2026)*
+### Phase 0 — Cadrage & bootstrap repo ✅ *(sessions 24/04/2026 n°2 + n°3)*
 - [x] Pivot stack validé (Unity → Web 3D)
 - [x] CLAUDE.md V2 refactoré
 - [x] DECISIONS.md mis à jour (D-015 pivot + amendements D-001, D-003, D-004, D-005, D-007, D-009, D-012)
 - [x] BUSINESS-PLAN.md ajusté (coûts + distribution)
 - [x] SPEC-CMP.md ajusté (mentions Unity → R3F équivalent)
 - [x] TODO.md réécrit
-- [ ] Déplacer `stabilite-navire-v4.html` dans `legacy/` sur branche `master`
-- [ ] Créer branche `v2-web3d` vierge (base depuis `master`)
-- [ ] Initialiser projet Vite + React + TS strict + Tailwind + shadcn/ui
-- [ ] Config Biome + tsconfig strict
-- [ ] Config Vitest + Playwright + Storybook
-- [ ] CI GitHub Actions (typecheck + lint + test + visual regression)
-- [ ] `.gitignore` V2 (node_modules, dist, test-results, src-tauri/target, etc.)
-- [ ] README.md d'accueil (pointeurs CLAUDE/SPEC/DECISIONS/BUSINESS)
+- [x] Déplacer `stabilite-navire-v4.html` dans `legacy/` sur branche `master`
+- [x] Créer branche `v2-web3d` vierge (base depuis `master`)
+- [x] Initialiser projet Vite + React + TS strict + Tailwind + shadcn/ui
+- [x] Config Biome + tsconfig strict
+- [x] Config Vitest + Playwright + Storybook
+- [x] CI GitHub Actions (typecheck + lint + test + E2E Playwright)
+- [x] `.gitignore` V2 (node_modules, dist, test-results, src-tauri/target, etc.)
+- [x] README.md d'accueil (pointeurs CLAUDE/SPEC/DECISIONS/BUSINESS)
 
 ### Phase 1 — Core physique TypeScript *(2 semaines cible)*
 - [ ] `src/core/profiles.ts` — `ShipProfile` type + tanker + voilier (port V1)
