@@ -1,0 +1,1774 @@
+                                                                   Renouvellement agrément CMP sept 2024
+
+
+
+
+    Formation de certificat de matelot pont
+
+
+
+                         Module P3-Appui
+
+
+
+
+      Description / Construction / Stabilité
+
+
+Par Julien LUCIANO Capitaine 500 yacht et Frédéric NIAY Capitaine 500 yacht
+
+                               Edition Septembre 2024
+
+
+
+
+                           131, avenue de Verdun 83600 Fréjus
+            sas.imarest83@gmail.com Site : https://institut-maritime-esterel.org/
+                              N° SIRET : 90751796500022
+                       Enregistrement DREETS : N° 93.83.0658883
+                                 Première partie : Description Construction
+
+     I.    DEFINITIONS
+           Le principe du navire
+
+Un navire est un engin de transport sur l’eau, qui doit répondre à des critères particuliers : capacité d’emport, facilité à se
+déplacer dans un milieu liquide, en bonnes conditions de sécurité.
+L’eau, milieu fluide, offre une résistance frontale à l’avancement du navire, il a donc fallu imaginer un volume plus long
+que large, pour réunir capacité d’emport et faible surface frontale.
+L’application de ce principe a dû trouver des solutions pour garantir la sécurité.
+En effet, la grande longueur = problèmes de solidité, alors que la faible largeur = faible stabilité dans un milieu fluide.
+La solution trouvée est l'utilisation de pièces de dimensions adaptées, montées, assemblées et formant une structure,
+capable de résister aux contraintes : poussée de la propulsion mécanique ou vélique, résistance aux effets de la mer,
+résistance à la charge. Stabilité et équilibre trouveront les solutions dans des formes données au navire et à la répartition
+des poids, fixes ou mobiles, de ce navire.
+
+Coques : La partie la plus imposante d'une embarcation est appelée la coque La coque est le constituant premier d'un
+bateau, qui s'étend de l'avant à l'arrière. Elle forme le flotteur, c'est-à-dire l'élément assurant la flottabilité, l'étanchéité et
+la stabilité. Un bateau peut comprendre une seule coque (on l'appelle alors monocoque) ou plusieurs (multicoque) : un
+catamaran comprend deux coques, un trimaran trois, suivent les quadrimarans et les pentamarans.
+Sa rigidité provient notamment de sa forme courbe, propriété mécanique générale des coques.
+
+Œuvres vives : Les œuvres vives d'un navire sont la partie immergée de la coque, elles sont considérées comme vives,
+car elles contribuent à la bonne marche du bateau et à sa pérennité.
+
+Œuvres mortes : Les œuvres mortes d'un navire sont constituées par les parties émergées de la coque au-dessus de la
+ligne de flottaison (au-dessus de l'eau), elles n'ont pas d'utilité en ce qui concerne la navigation proprement dite.
+
+Carène : La carène est l'ensemble des lignes longitudinales et transversales qui forment le dessin de la coque dans sa
+partie immergée. C'est cet ensemble qui constitue les œuvres vives d'un bateau.
+
+Superstructures : Sur un navire, les superstructures sont des constructions permanentes situées au-dessus du niveau du
+pont principal mais ne s'étendant pas sur toute la longueur exemple : timonerie, deck house, etc
+
+Les autres définitions seront traitées dans les parties systèmes de construction et stabilité.
+
+   II.     GENERALITES SUR LES DIFFERENTS MATERIAUX DE CONSTRUCTION
+ Les différents types de construction.
+ Acier, alu, bois, bois moulé, strip-planking, composite
+
+           1. Le bois
+ Matériau utilisé en construction depuis la nuit des temps. Des pirogues creusées à même le tronc (toujours en usage
+ dans certains pays), puis le bois massif, ensuite les bois « composites ».
+ La grande qualité du bois est sa légèreté (densité entre 0,5 et 0,8), son défaut est d'être anisotrope : sa résistance n’est
+ bonne que dans le sens du fil. Le bois est aussi sensible à l'humidité : sec, il se rétracte, humide il gonfle. Trop exposé à
+ l'humidité et à l'oxygène, il présente aussi le risque de pourrir (développement de champignons). A la construction, le
+ taux d’humidité doit être inférieur à 15 %.
+ Le teck : bois gras, imputrescible et naturellement antidérapant, il est utilisé pour les ponts ; de nos jours, c'est une
+ simple couverture collée sur le matériau support à des fins essentiellement esthétiques.
+
+                                                                                                                                  2
+            • Bois massif
+            En usage depuis de nombreux siècles et encore pratiquée de nos jours.
+            Le caractère anisotropique du bois impose des assemblages complexes demandant un savoir-faire
+            spécialisé et une main d’œuvre importante, son prix de revient constitue un des obstacles majeurs.
+            Essences et échantillons de bois sont choisis en fonction des contraintes qu’elles doivent subir pour la
+            construction (fléchissement, usinage, perçage…) ou à la navigation et de leur résistance au milieu marin.
+            Certaines pièces, en forme, demandant une résistance sans faille (brion) peuvent être fabriquées à partir
+            d’un échantillon de bois naturellement formé.
+            A l'époque des grandes constructions en bois, des industries faisaient pousser les essences sous contrainte,
+            afin d’obtenir des bois en forme avec un fil continu.
+            Certains éléments (bordé) peuvent être cintrés, naturellement ou après passage dans une étuve de vapeur.
+
+            • Bois « composite »
+            Le contreplaqué : feuilles de bois croisées et collées en plusieurs plis, la résistance est bidirectionnelle, le
+            retrait plus faible que sur le bois massif mais la fabrication à partir de panneaux à déformation limitée
+            impose une construction à bouchains.
+            Le bois moulé : elle consiste à « fabriquer » le contreplaqué in situ. Les feuilles de bois minces, posées
+            croisés sur un mannequin, sont assemblées par collage : ce système permet d’obtenir une coque en forme.
+            Le strip-planking : lattes de bois minces stratifiées collées entre elles.
+            Il existe sur le marché, trois catégories de contreplaqué, dans des panneaux de dimension et d’épaisseur
+            standardisées :
+                 - Le contreplaqué « marine », essences africaines, collage performant avec la colle Résorcine.
+                 - Le contreplaqué extérieur (ctbx), utilise le même procédé de collage avec des essences moins
+                     nobles.
+                 - Le contreplaqué intérieur.
+            Les qualités différentes, les prix également. Le contreplaqué marine est utilisé pour la construction des
+            coques, le ctbx est utilisable pour les aménagements intérieurs ; ses qualités de résistance au
+            pourrissement sont améliorées si on l'enduit d’un apprêt polyuréthane (G 4) ou autre (époxy).
+
+            Il faut remarquer que les constructions récentes, en contreplaqué ou bois moulé sont doublées par des
+            tissus de verre ou de carbone. (RM, Mistral, etc.)
+
+Entretien du bois :
+Il convient de protéger le bois des agressions extérieures : le soleil, l'eau stagnante, l'oxygène.
+La peinture tiendra un double rôle : protection et esthétique du bateau.
+Nous distinguerons plusieurs zones d’entretien :
+             • Les œuvres vives :
+                 Reboucher les trous avec un mastic approprié
+                 Appliquer une ou plusieurs couches de peinture isolante et une ou plusieurs couches de peinture
+                 d'impression et d’accrochage.
+                 Appliquer une ou deux couches d'antifouling.
+
+           •   Les œuvres mortes :
+               Même principe que pour les œuvres vives, mais la peinture de finition est souvent une laque.
+               Pour les parties non peintes (pont), il est recommandé de mouiller régulièrement, de façon à
+               éviter un retrait par séchage.
+
+           •   Les fonds :
+               Assécher les cales, vérifier le taux d’humidité
+               Appliquer, comme pour les autres parties du navire, les couches isolantes et de finition appropriées.
+               Pour l’intérieur du bateau, il convient aussi de lutter de manière préventive en s'assurant qu'aucune eau
+               ne stagne dans les fonds (anguillers) et que ces fonds sont convenablement ventilés.
+
+                                                                                                                          3
+            •    Les accessoires :
+                 Souvent à l'extérieur, ces accessoires sont les mains courantes, les espars, certaines pièces
+                 d’accastillage, les ponts en teck.
+                 Sur ces accessoires, on peut choisir entre 3 méthodes :
+                      • Le vernis, à appliquer en plusieurs couches (travail soigné).
+                      • Les lasures, qui imprègnent le bois et le protègent des agressions par sa composition toxique.
+                      • Les huiles : rendent le bois hydrofuge.
+Dans tous les cas, il convient de préparer les supports en les ponçant pour enlever les anciennes peintures et les
+aspérités du bois. Il peut aussi être utile de dégraisser les parties souillées.
+
+Réparation du bois :
+Si un élément de charpente ou de bordé est abîmé, il faut le remplacer. Une membrure, une varangue ou un barrot
+devront être changés complètement, de façon à ne pas avoir de rupture dans la continuité de la résistance. Un ou des
+éléments de bordé devront être repris solidement sur les anciens et reposer sur la charpente (lisse ou membrure). Il
+faudra utiliser les mêmes essences qu'à l'origine, de façon à éviter des différences de retrait.
+
+         2. L’acier :
+L’acier est composé de fer et de carbone, il a remplacé le bois sur les navires de grande taille. Matériau très solide, sa
+résistance est multidirectionnelle (isotrope), et suffisamment élastique pour résister aux petites agressions mécaniques,
+facile de mise en œuvre à la construction et à la réparation.
+Les éléments de charpente sont sensiblement identiques à la coque en bois. Les membrures, lisses peuvent être
+formées, le bordé est posé à partir de feuilles d’acier. On peut construire à bouchains ou en forme. L'assemblage de
+tous les éléments est fait par soudure à l'arc, en cordons continus ou alternés, sous atmosphère naturelle.
+Deux inconvénients : l'acier est sensible à la corrosion et à l'électrolyse, mais aussi son poids est élevé. Il est utilisé
+pour les yachts à déplacement. Sa densité est de 7, 8.
+
+Entretien de l’acier :
+La corrosion électrochimique, attaque par l'oxygène en milieu humide, est le principal ennemi de l'acier. Corrosion
+favorisée en milieu marin, par la présence du sel. L'oxydation transforme l'acier en oxyde de fer. Très visible, elle se
+manifeste par des suintements puis par des croûtes d'oxyde, quelquefois en strates (mille feuilles) dont l'épaisseur peut
+atteindre 12 fois l'épaisseur de la tôle initiale. Toute attaque d'oxydation se traduit par une perte de résistance
+mécanique.
+Que faire : éliminer les acteurs de la corrosion et protéger l’acier.
+Après une traversée, il convient de dessaler soigneusement le bateau en le lavant à l'eau douce. Les parties non peintes
+sont régulièrement graissées. Les fonds sont asséchés et ventilés.
+
+La peinture de protection :
+Préparation du support : ponçage, sablage ou dégraissage, puis primer anticorrosif à base d’acide phosphorique
+Application d'une peinture d’accrochage, puis de sous couche époxy avant les impressions : laque sur superstructures
+et antifouling sur la carène
+De nos jours, les navires industriels (cargos, ferries, etc.) appliquent des protections générales classiques, souvent sur
+des très grandes surfaces. A la plaisance, l'utilisation de peintures et d'enduits à base d’époxy s’est généralisée. Les
+fabricants de peinture ont des standards d’application, qu’il convient de respecter
+Il faut surveiller régulièrement l'évolution de l'épaisseur du bordé par sondage ultra-sons, examiner les fonds, réparer
+et /ou traiter les pièces de charpente. L’acier est aussi soumis à l'électrolyse, il faut contrôler la circulation galvanique
+et protéger la coque avec des anodes sacrificielles
+
+Réparation de l'acier :
+Un élément de charpente peut être changé sur la longueur abîmée : la soudure de jonction est réputée aussi solide que
+la pièce d’origine. Un morceau de bordé abîmé peut être remplacé en le découpant et en le remplaçant par un insert de
+même dimension, soudé par double cordon continu, extérieur et intérieur
+L'acier présente un phénomène de retrait modéré à la soudure, il convient de contrôler ce phénomène, particulièrement
+dans les zones à géométrie imposée (tubes d’étambot, chaises)
+                                                                                                                           4
+L’acier inoxydable :
+Rares sont les bateaux construits en inox. Mais ce matériau est omniprésent dans les pièces d’accastillage. Ses bonnes
+qualités mécaniques, la quasi-absence de corrosion justifient son emploi à bord des bateaux.
+L’acier inoxydable est un alliage de fer et d’autres métaux, particulièrement le chrome dans une teneur de 18%. Dans
+l’industrie nautique, on emploie deux catégories d’inox :
+L’inox 18/10(18% chrome10 % nickel) pour la chaudronnerie (tuyautages) : désignation Inox 304
+L’inox 18/12(18% Cr, 12% Ni, 2% molybdène) pour pièces de traction (lignes d’arbres, cadènes) : désignation Inox
+316
+
+         3. L’aluminium :
+Ce terme désigne l'ensemble des alliages entre manganèse, magnésium et silicium.
+Il possède des caractéristiques communes avec l’acier et la construction dans les deux matériaux présente de
+nombreuses similitudes.
+Il faut remarquer les différences : le poids (densité 2,7), l’absence de corrosion gênante, mais une plus grande
+vulnérabilité à l'électrolyse.
+La construction se fait par soudure sous atmosphère neutre (argon), les tôles d’aluminium se prêtent bien pour la
+construction en forme. Son prix est plus élevé que l'acier.
+En construction navale, on utilise un alliage d’aluminium au magnésium pour ses propriétés mécaniques (AG4MC)
+
+Entretien de l’aluminium :
+L'aluminium rouille, comme l'acier, mais l’oxyde d'alumine ne se développe pas autant que l'oxyde de fer et tend à
+créer une couche isolante, mais d’un aspect peu esthétique. Certains bateaux en aluminium ne reçoivent aucune
+peinture.
+Il est néanmoins préférable d'appliquer les protections équivalentes aux coques acier.
+Pour certaines pièces de faible dimension, on peut utiliser la technique de l’anodisation. La pièce est plongée dans un
+bain électrolytique acide qui va développer une couche d’alumine en surface jusqu’a faire une barrière étanche par
+colmatage (mats, bômes, pièces d’accastillage, mains courantes.)
+L’aluminium est en revanche très sensible à la corrosion galvanique, car il est anodique.
+Un voilier en aluminium doit bien veiller à se protéger du phénomène en tous lieux et en tout temps. Au port, les
+risques sont multipliés par les liaisons possibles : corps morts, défaut d’isolement des câbles de terre). Il convient de
+vérifier, lutter contre les contacts et de multiplier les anodes sacrificielles, fixes ou mobiles.
+
+Réparation de l'aluminium :
+Les principes évoqués pour l'acier sont également applicables à l’aluminium.
+Il faut cependant savoir que les travaux de soudure sont plus délicats que pour l'acier : modifications des qualités de
+l'aluminium par la soudure, phénomène de retrait important, obligation de travailler sous atmosphère neutre. Seul un
+chantier qualifié peut conduire les travaux.
+
+Les 2 maladies des métaux : Corrosion et Electrolyse
+
+Ces 2 termes regroupent un même phénomène : le changement d’état des métaux aboutissant à une dégradation qui
+peut être profonde. On parle de corrosion électrochimique pour la transformation des métaux en oxydes (rouille) et de
+corrosion galvanique et/ou électrolytique pour la transformation atomique d’un métal par un autre métal dans une
+solution conductrice (électrolyte).
+
+Explication de la corrosion galvanique et électrolytique, communément appelées électrolyse :
+Les métaux ont leur propre potentiel électrique : lorsque deux métaux différents sont en présence, il se crée une pile,
+les électrons circulant de l'anode (négatif) vers la cathode (positif, l’anode perd ses électrons, son atome devenu ion
+s’échappe vers la cathode jusqu'a désintégration complète)
+Ce phénomène qui se produit naturellement lorsque deux métaux de potentiel différent sont en contact direct ou par
+l'intermédiaire d’un électrolyte (eau, eau de mer), se nomme corrosion galvanique.
+
+
+
+                                                                                                                       5
+Si un courant parasite créé s’ajoute au courant galvanique (défaut d’isolement d’un circuit électrique), c’est la
+corrosion électrolytique. Elle est beaucoup plus rapide que la première, la différence de potentiel étant plus grande.
+
+Les métaux les plus nobles : argent, or, graphite, titane, acier inox sont cathodiques
+Les métaux les moins nobles : zinc, aluminium sont anodiques (ils se font « manger »)
+
+Comment lutter contre l'électrolyse :
+Eviter l'emploi de métaux anodiques en présence de métaux cathodiques (ex : alu et inox)
+Isoler les matériaux de potentiel différent : joint isolant, rondelles téflon.
+Eliminer les volumes d’électrolyte (humidité).
+Protéger les métaux par une barrière la plus étanche possible (peintures, enduits).
+Monter des anodes sacrificielles pour rendre aux organes à protéger un comportement cathodique.
+
+Cas particulier des coques en aluminium : les couples de métaux.
+Alu et cuivre : corrosion galvanique importante : ne pas monter de vannes en bronze.
+Alu et acier : isoler les deux matériaux. Construction mixte acier/alu : joint bi métallique.
+Alu et inox : fort couple électrolytique : isoler
+Alu et fonte : idem. Bien isoler assemblage quille/coque
+Alu et plomb : idem. Risques avec lest en plomb
+Alu et carbone : idem. Bannir graisses graphitées.
+Alu et acier galvanisé : pas de corrosion, on peut utiliser une visserie galva sur de l’alu.
+
+         4. Le polyester et autres composites
+Ce terme désigne les matériaux plastiques utilisés en construction. C’est l’assemblage, sur site de deux composants :
+un matériau résistant (fibre synthétique) avec un liant (résine).
+Différentes fibres et résines sont utilisées : fibre de verre, aramides (kevlar) et carbone ; polyester, vinylester et époxy
+pour les résines. Ces matériaux ont des qualités mécaniques différentes, le choix s'opère en fonction du cahier des
+charges et du budget.
+Si les efforts subis dépassent les limites élastiques des composants, il y a détérioration appelée délaminage.
+
+L’osmose est un phénomène dû à la présence d’eau dans les couches de stratifié. L’eau a la faculté de « dissoudre » la
+résine. La résistance mécanique du stratifié diminue, le risque de délaminage augmente. L’eau peut être présente dès la
+construction (hygrométrie trop importante, mauvais ébullage) ou pénétrer par osmose à travers le gel-coat. Il convient
+de prévenir l’osmose, en veillant bien à ne pas « blesser » la coque du navire et en utilisant les produits d’étanchéité
+efficaces. Quand l'osmose est déclarée, il faut procéder à une réparation assez lourde, longue et coûteuse. Il ne faut, au
+cours d’un passage au sec à faire des mesures d’humidité qui permettront un dépistage de l'osmose.
+
+La construction en composite a connu un grand essor à partir des années 60.
+Propre, bon isolant, résistant, insensible à la corrosion et à l'électrolyse, c'est le matériau des petites et moyennes
+unités. Les marines militaires ont produit des navires de plus de 50 mètres dès les années 80.
+La méthode du moule femelle permet la construction en série, et donne un aspect impeccable à la surface extérieure.
+Des motor-yachts de grande dimension sont construits ainsi (Guy Couach, Azimut.).
+Les points faibles des composites : la faible résistance au feu et pour certains le vieillissement ou la dégradation en
+milieu humide.
+
+Les produits :
+Le polyester monolithique : des tissus sont disposés de manière à obtenir une finition isotrope (multidirectionnelle)
+puis enduits d’une résine polyester. Après polymérisation, une « peau » rigide de quelques millimètres à quelques
+centimètres est obtenue.
+Les sandwichs : une âme en balsa, en feutre ou en mousse (Airex ou Divynicell) est introduite entre deux peaux
+minces. On obtient ainsi une excellente rigidité, une bonne isolation avec un poids plus faible.
+
+
+                                                                                                                          6
+Les matériaux utilisés
+           • Les résines :
+           Polyester ortophtalique ou isophtalique : les 2 polymérisent avec l’adjonction d’un catalyseur
+           (PMEC50), éventuellement d’un accélérateur. Fort retrait à la polymérisation pour les deux. La résine
+           isophtalique offre une meilleure résistance à l’humidité : gel-coat et premières couches de stratification.
+               - Résines orthophtaliques
+                    Les résines orthophtaliques sont basées sur un mélange d’anhydrides phtaliques (saturés) et
+                    d’anhydrides maléiques (insaturés) estérifiés (condensation des anhydrides avec du propylène
+                    glycol). Cette association permet de contrôler le degré de réticulation (formation de liaisons
+                    chimiques permettant le passage de l’état pâteux à l'état solide). La proportion des deux
+                    anhydrides permet de contrôler la rigidité de la résine après durcissement
+               - Résines isophtaliques
+                    Les résines isophtaliques sont des résines plus chères que les résines orthophtaliques du fait de
+                    l'utilisation d'acides isophtaliques. Elles sont par conséquent de qualité supérieure et ont une
+                    meilleure résistance mécanique, chimique et thermique. Enfin, elles offrent une meilleure
+                    résistance en milieu humide et un meilleur vieillissement.
+
+             Vinylester : proche du polyester, résiste mieux au vieillissement par humidité. Compatible avec fibres
+             polyéthylènes.
+
+             Epoxy : Faible retrait, très bonne résistance à l’humidité, bonnes capacités mécaniques.
+
+
+             • Les fibres :
+             Fibre de verre : obtenue à partir de la silice, elle devient un fil par ensimage. Cette opération va lier les
+             fibres et donner au fil un caractère hydrofuge. L’assemblage de 60 fils donne une mèche « roving ».
+             Le mat est un tapis constitué de fils non tissés maintenus à l’aide d’un liant.
+             Le tissu (appelé roving), peut être élaboré de plusieurs manières : taffetas, sergé, croisé, satin.
+             Comme n’importe quel tissu, il a une trame, une chaîne et un poids au m2 appelé grammage.
+             Tissus multiaxiaux : superposition et assemblage par couture de plusieurs nappes pour composer des
+             ensembles à résistance définie : unidirectionnelle, bi axiale, triaxiale, ou quadri axiale.
+
+             Fibre de carbone : fibre performante, grande ténacité et faible allongement, faible poids.
+
+             Fibre aramides (Kevlar) : bonne ténacité, faible allongement
+
+             Fibre polyéthylène : performante, mais peu utilisée en stratification, du fait de sa mauvaise liaison avec
+             les résines polyester et époxy.
+Méthodes de construction :
+Les unités produites en série sont faites sur un moule femelle. Ce moule, parfaitement lisse, reçoit d'abord une cire de
+démoulage, puis le gel coat est pulvérisé au pistolet. Ensuite commence la fabrication de la peau : le mat est projeté sur
+le gel coat avec sa résine, de façon à assurer une bonne résistance au choc ainsi qu'une protection à l'humidité par
+rupture de la continuité de la fibre. Viendront ensuite les rovings, tissus assurant la résistance à la traction en fonction
+des besoins d'effort. Chaque couche imprégnée de résine mesure environ 1mm. Dans le cas du sandwich, la couche en
+contact avec l'âme sera du mat.
+Les pièces de charpente seront en bois, en CP ou en mousse stratifiés. Les cloisons seront souvent contreplaquées,
+également stratifiés. Le pont sera rapporté et stratifié à la coque, aux goussets et cloisons.
+Pour les constructions à l'unité pour laquelle il n’y a pas de moule, la méthode du mannequin sera préférée. La
+superposition des couches se fera en sens inverse, de l'intérieur vers l'extérieur. Un enduit sera indispensable pour
+rattraper les défauts de la peau extérieure, de façon à obtenir un support parfait avant la couche de finition.
+
+
+
+                                                                                                                          7
+Mise en œuvre :
+Les tissus peuvent être péimprégnés de résine ou secs. La pose des peaux doit être faite avec le plus grand soin, la
+résine est mélangée avec un durcisseur, lequel permettra la polymérisation. Une température trop basse et une humidité
+élevée contrarient la polymérisation. L'ensemble doit être ébullé avant polymérisation. Des méthodes de séchage sous
+vide (infusion) permettent d'obtenir une bonne homogénéité et d'éliminer les surplus de résine. La polymérisation peut
+être accélérée par adjonction d’un accélérateur ou mise au four (petites unités).
+L'entretien d'une coque en composite :
+La coque en composite demande peu d’entretien. Elle doit faire l’objet d’un lavage régulier, avec élimination des
+éventuelles coulures de rouille et un lustrage du gel coat pour un bon effet esthétique (polissage).
+La réparation d’une coque en composite.
+Les grosses réparations sont assez délicates. Les matériaux sont souples ou fluides à l'état initial, il convient donc, pour
+réparer une brèche, de délimiter proprement la zone abîmée, ensuite de poser un support et reprendre la stratification
+avec le même soin qu'à la construction.
+Pour les petits travaux du polyester, on utilise des mastics, quelquefois chargés de fibres (choucroute), qu’on applique
+à la spatule et qu'on peut poncer après polymérisation.
+Pour les œuvres vives, on utilisera un mastic époxy.
+
+          Comparaison des différents matériaux utilisés en construction.
+
+                            Poids       Prix                 Entretien         Feu
+          Bois              Moyen       Cher                 Moyen             Vulnérable
+          Acier             Lourd       Bon marché           Important         Résistant
+          Alu               Léger       Assez cher           Moyen             Résistant
+          Composite         Léger       Variable             Faible            Fond+fumées toxiques
+
+
+ III.    CONSTRUCTION DE LA COQUE D'UN NAVIRE EN ACIER
+         1. Système de construction des navires.
+Selon la prédominance du type d’effort, le système de construction sera dit :
+             • Transversal : section transversale rigide. Convient pour les navires de taille moyenne ou pour les
+                formes AV et AR.
+             • Longitudinal : résistance aux efforts tranchant et moments fléchissant. Il convient pour des navires
+                de grande longueur et de vrac sec ou liquide.
+
+Construction à prédominance transversale
+La construction transversale est surtout utilisée sur les navires d’une longueur inférieure à 120 mètres.
+
+Structure générale :
+Les serres et hiloires sont les éléments longitudinaux
+Les membrures et porques (membrures renforcées) sont les éléments transversaux.
+Les fonds :
+La quille : pièce maîtresse longitudinale, raidie par un profilé : la carlingue centrale. Elle se prolonge à l’avant par
+l’étrave à l’arrière l’étambot.
+Les varangues : pièces transversales, espacées de 80 cm, de la carlingue à la muraille. Les varangues sont reliées à la
+muraille par les goussets. La partie arrondie muraille / fond forme le bouchain.
+
+Les varangues, membrures et barrots forment des anneaux. Ces anneaux sont peu distancés les uns des autres. La
+résistance longitudinale est assurée par la quille, la carlingue centrale, les carlingues latérales, les hiloires, tout le bordé
+de fond, de pont et des côtés, ainsi que par le plafond de double fond. Cette construction transversale assure une bonne
+                                                                                                                              8
+indéformabilité de la section transversale aux efforts d’ensemble, aux charges verticales, au roulis et à la mise en cale
+sèche.
+En revanche, sur les navires d’une bonne longueur, les efforts longitudinaux peuvent créer des déformations entre les
+anneaux.
+
+
+
+
+                                          Double fond dans le système transversal
+
+Construction à prédominance longitudinale
+La construction longitudinale est obligatoire pour les navires de grandes dimensions, les pétroliers et les minéraliers.
+
+Structures générales :
+Les porques : sont les éléments transversaux.
+Hiloires et serres : seront de section renforcée, entre hiloires et serres on trouvera les lisses, poutres longitudinales de
+section plus faible (lisses de pont, de plafond ou de fond).
+
+Les fonds :
+Construction sensiblement identique à celle du système transversal mais les varangues sont moins nombreuses, le
+double fond est renforcé par des lisses de fond et des lisses de plafond
+
+Les anneaux sont formés des varangues, des barrots et des porques qui remplacent les membrures. Ces anneaux sont
+plus distancés que dans la construction transversale. Les éléments de renfort longitudinal sont les hiloires, les
+carlingues, la quille ainsi qu’un grand nombre de lisses de pont, de fond et de muraille. Ces lisses ou longitudinaux
+sont de faible section, mais ils sont très nombreux.
+
+
+
+
+                                          Double fond dans le système longitudinal
+Type de construction mixte
+
+La construction mixte combine la construction longitudinale et transversale. On utilisera un type de construction dans
+une partie du navire et l’autre type dans une autre partie. La combinaison la plus utilisée est une construction
+longitudinale pour les fonds et le pont et la construction transversale pour les murailles.
+
+
+
+                                                                                                                           9
+          2. Structure D'un Navire En Acier
+                                                 Construction transversale
+
+
+
+
+                   Bordé/muraille                                Tole quille
+                                      Varangue
+
+
+
+
+                                    Construction longitudinale (renfort sur la longueur)
+
+
+
+
+          3. Différents éléments de la structure d'un navire
+
+ELEMENTS DE LA COQUE
+      A. Pièces de charpente dans le sens longitudinal
+      - La quille : pièce droite, de fort échantillonnage, située au plus bas, sur laquelle repose le navire en
+         construction. De là partent les principales pièces de charpente, dans le sens transversal et longitudinal.
+         C'est l'épine dorsale du navire.
+      - L’étrave : solide pièce de charpente liée à la quille grâce au brion. A l’avant, dans l'axe, elle pousse et
+         écarte la mer.
+      - Le brion : pièce de jonction entre la quille et l'étrave et entre la quille et l'étambot,
+      - L’étambot : pièce de charpente qui tient la partie arrière du navire. Rapportée également à la quille par un
+         brion.
+
+                                                                                                                 10
+          -   La carlingue : pièce épaisse en forme de T, rapportée sur la quille, quelquefois confondue avec, sert à
+              donner une résistance dans le sens vertical. Des carlingues latérales peuvent aussi participer à cette
+              résistance.
+          -   Les lisses : profils longitudinaux, de moindre échantillonnage, de l’avant a l’arrière, sur lesquels
+              s’appuiera la coque.
+          -   Les hiloires : semblables aux lisses, servent d'appui au pont.
+
+         B. Pièces de charpentes dans le sens transversal
+         - Varangues : dans les fonds, elles se joignent à la quille et la carlingue et contribuent à la solidité du fond
+            du navire.
+         - Les membrures : pièces rapportées à la quille, la carlingue et les varangues dans leur partie basse, elles
+            donnent forme et résistance à la coque.
+         - Les barrots : perpendiculaires aux hiloires, soutiennent le pont. Ils sont reliés aux membrures par des
+            goussets.
+         - Anguillet : passage pour l'écoulement de l'eau vers le puisard
+NB : Varangue, membrure et barrot sont sur un même plan et donne un ensemble appelé : porque.
+
+
+
+
+        1 : Membrure            2 : Bordé      3 : Tôle quille         4 : Carlingue centrale        5 : Anguillet
+          6 : Varangue          7 : Carlingue latérale         8 : Carlingue (semelle)        9 : Epontille
+
+          C. Pièces complémentaires :
+          - Charpentes avant et arrière : assemblage de nombreuses pièces, donnent forme et solidité aux extrémités
+             du navire.
+          - Berceaux moteurs : lourds carlingages, portent les moteurs, transmettent à l'ensemble du navire la poussée
+             de la propulsion.
+
+                                                                                                                      11
+-   Renforts de pont : carlingages placés sous des installations fortement sollicitées, destinés à absorber ou
+    transmettre des efforts : guindeau, bittes
+-   Epontilles : pièces verticales (piliers), reportant des efforts de poids (pontée) ou de pression (grue, mat)
+    vers les fonds les plus solides.
+
+
+
+
+                                                                                                1 Quille
+                                                                                                2 Varangues
+                                                                                                3 Carlingue centrale
+                                                                                                4 Carlingue latérale
+                                                                                                7 Membrures
+                                                                                                8 Barrots de pont
+                                                                                                 9 Hiloires d'écoutille
+                                                                                                10 Barrots de pont
+                                                                                                12 Borde de pont
+                                                                                                13 Hiloires
+                                                                                                14 Epontilles
+                                                                                                15 Cloisons
+                                                                                                22 et 23 Borde de coté
+                                                                                                24 Bouchains
+                                                                                                25 Virures de bouchain
+                                                                                                26 Virures de fond
+                                                                                                27 Virures de galbord
+                                                                                                28 Goussets de barrot
+                                                                                                29 Goussets de
+                                                                                                membrure
+                                                                                                30 Plafonds de ballast
+
+
+
+
+D. Appendices et accessoires de coque
+- La ligne d'arbre porte hélice : sort de la coque à travers un tube d'étambot. L'étanchéité est assurée par un
+   presse étoupe. Elle est soutenue à l'extérieur par une ou plusieurs chaises.
+- La barre : elle composée d’un safran manœuvré par une mèche qui traverse la coque par le tube de
+   jaumière l'étanchéité est aussi assurée par un presse étoupe.
+- Stabilisateurs : à mi longueur du navire, des safrans, par paires, manœuvrés par des mèches qui traversent
+   la coque.
+- Quille de roulis : profil mince, rapporté à la coque, dans le sens longitudinal, à babord et à tribord.
+
+
+
+
+                                                                                                             12
+      Quelques termes définissant une coque
+
+
+
+
+Presse étoupe classique (à mèche) :
+
+
+
+
+Presse étoupe à glace :
+
+
+
+
+                                              13
+Vue des appendices : stabilisateurs, quilles de roulis, chaises, ligne d'arbres
+
+
+
+
+                            Safran et mèche de safran
+
+
+
+
+                                                                                  14
+    E. Les passages de coques (Passes-coque)
+    -   Pour l'eau : manchon, bride et contre bride, vanne, crépine pour alimenter en eau de mer différent système
+        (refroidissement moteur, pompe incendie, WC, etc....)
+
+
+
+
+    -   Pour l'air :
+           • Manche à air servant à la ventilation de cale ou cabine,
+           • Hublot : ouverture dans la coque servant de fenêtre pouvant disposer de contre hublot en cas de
+                 bris du verre ou du plexiglas pour éviter les entrées d'eau,
+           • Panneau : ouverture dans le pont
+           • Claire voie : ouverture dans le pont mais laissant passer la lumière.
+           • Porte de coque : ouverture latérale dans la coque au dessus de la ligne de flottaison pour l'accès
+                 au bateau au niveau de l'eau (étanche) surtout sur les navires à passagers.
+
+ELEMENTS AU-DESSUS DU PONT :
+Le pont marque la limite du volume du flotteur (la coque). Il permet de circuler, de charger des marchandises. Sur
+ce pont sont construites les superstructures, appelées roof quand elles sont de petites dimensions. De chaque côté,
+se trouvent les passavants destinés à la circulation, ils sont protégés par les pavois. L'eau, présente sur le pont, de
+toute origine, ne doit pas rentrer dans la coque. On trouvera des surbaux, élévations des seuils de portes ou
+d’écoutilles, capable de protéger ces accès. La tonture (courbure longitudinale) et le bouge (courbures du pont
+latérale), contribueront à faire ruisseler l'eau vers les extérieurs. Les grandes quantités seront évacuées par les
+sabords de décharge et par les dalots pour les petites eaux : tubes d’évacuation latéraux (pluies, embruns).
+
+
+
+
+                                                                                                                    15
+  IV.     LE COMPARTIMENTAGE, LES VOLUMES INTERIEURS
+But du compartimentage : en divisant la coque en plusieurs tranches étanches, il limite les dommages liés aux
+accidents : envahissement d'un compartiment par l’eau ou départ du feu. Calculé de manière à préserver une flottabilité
+et une stabilité suffisante dans le cas d'un envahissement accidentel par l'eau, il se matérialise par la construction de
+cloisons solides et étanches, quelquefois aménagées de portes, elles-mêmes étanches. Une cloison particulière, dite
+d’abordage, montée à l’avant, est destinées à protéger le navire des conséquences d'un choc subi par le navire en marche.
+Les cloisons étanches définissent les tranches. A bord des grands navires, ces tranches sont divisées dans le plan vertical
+par des faux ponts, mais aussi dans les sens longitudinal et transversal, formants ainsi des volumes indépendants appelés
+compartiments.
+Les doubles fonds : Volumes, situés dans les fonds, étanches, servant de capacités (combustible, eau). Ils peuvent être
+visités par une trappe boulonnée et étanche, souvent ovale, appelée trou d’homme. Ils sont aussi équipés de tuyaux,
+rigides ou souples, permettant à l'air de s'évacuer, ces tuyaux, montant en superstructures s'appellent les dégagements
+d’air.
+Un cofferdam ou maille sèche est un espace de séparation entre deux parties de la coque d'un navire ; il est délimité par
+deux cloisons étanches de part et d’autre. Les cofferdams sont utilisés sur les navires cargo pour séparer la salle des
+machines des cales, ou entre deux cales, ils sont particulièrement utiles pour les navires citernes pour limiter les risques
+d'explosion ou de pollution en cas d'accident.
+Ils sont aussi le résultat du mode de construction par anneaux de certains navires. Chaque anneau est construit
+entièrement fermé, ce qui permet de commencer à l'aménager. Quand les anneaux sont assemblés, leurs cloisons sont
+redondantes et un espace existe entre les deux : le cofferdam. Il est utilisé comme espace technique pour faire passer
+gaines et tuyauteries.
+Les ballasts sont des volumes, quelquefois en double coque, dont le remplissage permet, en alourdissant le navire, de
+conserver de bonnes qualités de stabilité et de tenue de mer lorsque la cargaison est déchargée.
+
+
+
+
+                                                                                                                         16
+                                                                       Cofferdam avec crépine d'aspiration
+
+
+Les bureaux de classification :
+     Organismes spécialisés, leur rôle est multiple :
+     Ils fixent les règles de construction
+     Ils approuvent les plans, les matériaux et équipements utilisés en construction
+     Ils définissent les règles de flottabilité pour un navire (franc bord)
+     Ils effectuent des visites d’inspection pendant la construction et la vie du navire, ils délivrent et renouvellent les
+     certificats ;
+
+     Il existe plusieurs bureaux de classification, leurs règles sont proches :
+                                                 Bureau Veritas BV(Belgique)
+                                                Lloyd’s LR(Grande Bretagne)
+                                         Américan Bureau of Shipping ABS (USA)
+                                                          RINA (Italie)
+                                                         DNV (Norvège)
+ L’entretien des navires :
+
+ Une partie de l’entretien a été abordée en même temps que la construction (pages précédentes)
+
+
+                                                                                                                        17
+Entretien courant : Un navire est en permanence exposé aux agressions venues du milieu naturel dans lequel il évolue,
+la mer, chargée en sel, provoque la corrosion des structures et le grippage des installations. Il convient donc de
+procéder, d une manière régulière, aux opérations suivantes :
+         - Dessalage des superstructures au retour à quai,
+         - Traitement et peinture des parties corrodées,
+         - Graissage des parties mobiles,
+         - Balancement périodique des installations.
+
+Cas particuliers des yachts :
+Les yachts sont des objets souvent luxueux qui demandent un grand soin et beaucoup de précautions.
+Les ponts en teck ne doivent subir aucune agression : rayure, graisse, chocs. On ne portera pas à bord de chaussures
+aux semelles agressives ou chargées.
+La coque et les superstructures sont lavées régulièrement avec des produits non agressifs et des balais doux.
+En cas de travaux, on protégera le pont, les coursives, le mobilier avec des dispositifs adaptés.
+Coque et superstructures sont peint à la qualité carrosserie. Sur le métal, on trouvera des primers bi composants, des
+enduits de rattrapage et une peinture de finition.
+Les gros travaux de peinture ne peuvent être conduits que par des entreprises spécialisées, sous atmosphère
+(hygrométrie et température) contrôlée.
+Les vernis sont nombreux et leur entretien est souvent à la charge des équipages.
+
+Entretien périodique :
+Effectué à intervalles variables, il conduit à une indisponibilité du navire (arrêt technique). Dans cette période d'arrêt,
+les opérations suivantes pourront être menées :
+     - Mise au sec (carénage) : nettoyage de la coque, des crépines, peinture antifouling, visite des appendices,
+        changement des anodes.
+     - Visites de classe
+     - Démontages, visites d'échéancier sur des installations (moteurs, circuits d’eau de mer).
+
+  V.     EQUIPEMENTS ET AUXILIAIRE DE PONT
+          1. Vannes et Pompes
+
+         Ils existent différents types de vannes à bord d’un navire. Les plus utilisées sont les vannes à boisseau pour
+         leur rapidité de fermeture (quart de tour) et les vannes à boisseau conique pour les gros passages de liquide.
+         Certaines vannes peuvent recevoir un électro-aimant pour leur fonctionnement (électrovanne).
+
+
+    1) Vanne à opercule ou à passage direct                   2) Vanne à clapet / siège ou robinet à soupape
+
+
+
+
+                                                                                                                          18
+3) Vanne à boule ou à boisseau sphérique                        4) Vanne à boisseau conique
+
+
+
+
+5) Vanne papillon
+
+
+
+
+7) Vanne à piston                                               6) Vanne à guillotine
+
+
+
+
+8) Electrovannes
+Les électrovannes dites tout ou rien ont 2 états possibles : Entièrement ouvertes / Entièrement fermées
+Les électrovannes proportionnelles peuvent être ouvertes avec plus ou moins d'amplitude.
+Elles sont commandées à distance
+
+
+
+
+                                                                                                          19
+8)Vanne 3 voies
+
+
+
+
+Les pompes :
+Il y a sur un navire différent types de pompe :
+Pompe rotative
+Le principe est proche de celui de l'hélice de bateau. Le déplacement du fluide est parallèle à l'axe de rotation. Elle
+trouve son application pour de grands débits sur de faibles dénivelés (faible différence de pression, plusieurs
+milliers de m³/h) dans le domaine de l'eau (captage de l'eau), système de refroidissement.
+
+
+
+
+Rotative centrifuge :
+Le principe est celui de la roue à aubes courbe. La roue tourne dans une enceinte (corps de pompe) possédant
+deux ou plusieurs orifices, le premier dans l'axe de rotation (aspiration), le second perpendiculaire à cet axe
+(refoulement). Le liquide pris entre deux aubes se trouve contraint de tourner avec celle-ci, la force centrifuge
+repousse alors la masse du liquide vers l'extérieur de la roue, donc vers l'orifice de refoulement. L'énergie fluide
+est donc celle provenant de la force centrifuge. Pour une même pompe, le débit varie :
+     • Proportionnellement à la vitesse de rotation ;
+     • Avec la différence de pression entre l'entrée et la sortie : plus celle-ci est élevée, plus le débit est faible ;
+     • En fonction des caractéristiques du fluide : viscosité, température, densité.
+
+                                                                                                                     20
+Cette variation est donnée par la courbe de fonctionnement, indiquée par le fabricant. Elle indique le débit de la
+pompe, qui est fonction de la hauteur totale qu’elle engendre pour une vitesse de rotation donnée. Cette courbe est
+d’allure parabolique.
+
+
+
+
+                                     Exemple de pompe immergée pour cale.
+Pompe à membrane :
+Un système par came entraine une membrane qui aspire et repousse le liquide à chaque rotation. Le liquide rentre
+par un clapet qui s'ouvre quand la membrane monte (cf. schéma pompe)
+
+Pompe à diaphragme :
+Cette pompe fonctionne presque comme une pompe à membrane mais avec un mouvement rotatif direct qui
+entraine des petits clapets à membrane (plus grande régularité de flux).
+
+Pompe à turbine (Impeler) :
+C'est le type de pompe que l'on retrouve sur les moteurs marins pour le circuit de refroidissement eau de mer. Elle
+fonctionne par compression de la membrane ce qui oblige le liquide à passer dans le trou de sortie de la pompe. Il
+faut régulièrement changer la turbine (tous les ans car elle s'use facilement). Il existe des turbines en nitrite pour le
+contact avec les produits pétroliers.
+
+
+
+
+Quelque soit le type de pompe, vous pouvez trouver des pompes autonomes (moteur incorporé) en 12 V, 24 V,
+220 V, 380 V, ainsi que des pompes attelées qui peuvent être accouplées au moteur du bateau ou avec leur propre
+moteur thermique et permettent un fonctionnement même en black out complet.
+
+Pompe à entrainement magnétique :
+Contrairement aux pompes centrifuges, où la roue est directement reliée à l’arbre du moteur, qui la met en
+mouvement, les pompes à entraînement magnétique fonctionnent grâce à l’action de deux porte-aimants (externe
+et interne). L’aimant externe est mis en mouvement par l’arbre du moteur, l’attraction magnétique déplace
+l’aimant interne qui, relié à la roue par un arbre en céramique, va la faire bouger. La roue est ainsi
+hermétiquement isolée. Comme il n’y a pas de contiguïté entre l’arbre moteur et la roue, tout risque de fuite ou de
+déversement de fluide est éliminé.
+L’élimination des joints d’étanchéité permet d’améliorer considérablement les performances et la fiabilité des
+pompes.
+
+
+
+
+                                                                                                                      21
+    2. Appareils de manutention et de hissage
+
+Sur les navires de charge il existe différents types de moyen de manutention adapté au besoin du travail.
+En général et pour des raisons de stabilité elles sont positionnées dans l'axe du navire. Ils répondent à des règles
+de mise en œuvre et de sécurité précise (en France division 214).
+On distingue principalement :
+    - Les grues à flèche relevable
+    - Les grues à flèche relevable télescopique,
+    - Les grues à flèche articulée,
+    - Les portiques roulants,
+    - Les portiques de pont fixe (sur l'arrière du navire) utilisés pour la mise à l'eau d'éléments divers.
+
+
+
+
+        Grue à flèche                            Flèche télescopique                      Flèche articulée
+
+
+
+
+                    Portique fixe                                            Portique roulant
+
+On trouve aussi différents petits moyens de manutention comme des bossoirs pour la mise à l'eau ou le support de
+différents éléments (ex : bateau de secours, nacelle d'entretien). Ils sont généralement situés sur les côtés du
+navire.
+
+
+
+
+                                                                                                                 22
+    3. Installations d'amarrage et de mouillage,
+
+Le guindeau :
+Organe principal du mouillage, il est composé d'un mécanisme de traction (montée et/ou descente) qui peut être
+un moteur électrique ou hydraulique. La chaine passe sur un barbotin calibré à la taille de la maille de chaine.
+Le principe de fonctionnement est le même (libération du barbotin ou mouvement mécanique pour la descente de
+la chaine) seule la taille et les systèmes d'utilisation différeront en fonction de navire.
+
+
+
+
+    Treuil d'amarrage avec poupée                                        Treuil et guideau
+
+
+
+
+        Principe du barbotin                                  Guindeau navire de plaisance
+
+
+
+
+                      Guindeau                                       Bloqueur de chaine
+
+                                                                                                             23
+                                                   Sur un cargo
+
+Ecubier :
+Trou par où passe la chaine de l'ancre, il doit être positionné de manière très précise par rapport auguindeau
+
+
+
+
+Les ancres :
+
+
+
+
+                                                                                                                 24
+Les chaines :
+La longueur d’une chaine se compte en maillons (27,5m soit 15 brasses). La longueur dépends de la taille du
+navire. Les mailles sont calibrées pour le passage dans les barbotins de guindeau. Sur les grosses unités les mailles
+de chaine sont à étai pour une meilleure articulation dans les barbotions, pour éviter qu’elles ne forment des
+coques et qu'elles se déforment sous la tension (resserrement de la maille). Le diamètre de la chaine est fonction
+du numéro d’armement NA pour les grosses unités. Chaque maillon est relié par une maille démontable type
+Kanter. La chaine est capelée au puits par un croc d’étalingure. Il est largable pour des raisons de sécurité.
+
+
+
+
+Cabestan :
+A l’origine, le cabestan est un gros tambour vertical, qui tournait grâce à des espars insérés dans la couronne et
+poussés à force d’hommes. Un cordage enroulé était fortement entrainé et pouvait produire des forces de plusieurs
+tonnes.
+Aujourd'hui la force est électrique pour les plus petits systèmes et hydraulique pour les plus grands.
+
+
+
+
+                  Hier                                                              Aujourd’hui
+
+                                                                                                                  25
+Système d'amarrage à bord : La bitte est le support sur lequel est tourné le cordage.
+
+                       Bitte gros navire                                       Bitte petit navire
+
+
+
+
+Chaumard : Organe de passage dans le pavois pour guider et protéger les amarres.
+
+
+
+
+    4. Aménagement de pont :
+Ecoutille : ouverture rectangulaire dans le pont d'un bateau, destinée au passage, au chargement ou au
+déchargement des marchandises et provisions de bord. Les écoutilles sont généralement entourées d'un cadre
+surélevé appelé surbau destiné à prévenir les entrées d'eau de ruissellement (mais certaines sont à plat-bord) et
+recouvertes d'un panneau. Si le panneau en question est vitré on l'appelle une claire-voie.
+
+Porte étanche : elle permet d'éviter toute entrée d'eau même dans des conditions extrême (paquet d'eau) ou
+d'éviter toute propagation de l'eau en cas d'envahissement d'un compartiment.
+
+
+
+
+                                                                                                              26
+Porte latérale, d'étrave ou de poupe : elles permettent le chargement et le débarquement de matériel, de
+voitures, de passagers dans les ports par simple mise à quai du navire par l'avant, par l'arrière ou sur le coté du
+navire. Elles doivent être étanche et doivent résister au choc des vagues et aussi aux collisions avec un autre
+navire ou un quai.
+
+
+
+
+Rampes : elles permettent le chargement et déchargement dans les ports. Elles peuvent être sur charnières fixes,
+obliques ou pivotantes pour faciliter les opérations portuaires.
+
+
+
+
+Panneaux d'écoutille : ils permettent la protection de la cargaison après le chargement. Ils peuvent coulisser, se
+plier pour permettre le chargement.
+
+
+
+
+Ascenseur :
+On peut trouver sur certain navire des ascenseurs pour le chargement du fret à bord, ils permettent de charger les
+différents ponts. On trouve ces équipements principalement sur les navires rouliers car cela permet un gain de
+place en limitant les rampes d'accés aux ponts supérieurs de chargement.
+
+
+                                                                                                                27
+             Petit ascenseur pour palette                       Ascenseur pour camion sur roulier
+
+    5. Circuits de tuyautages :
+Les navires sont parcourus par différents circuits appelés tuyautage. Ils courent le long du bateau pour desservir
+les différents compartiments et les différents éléments concernés par leur fluide (circuit gasoil, circuit incendie,
+assèchement des cales, etc....)
+Afin d'éviter tout risque sur le navire, chaque circuit reçoit une identification couleur précise de manière à savoir
+quel type de fluide circule.
+Pour des raisons évidentes de sécurité, ces circuits doivent être indépendants de manière à éviter tout risque ou
+pollution dû à une fausse manoeuvre d'un des circuits.
+
+Les ballasts : leur circuit ne doit jamais être en contact avec l’eau du bord ou de la cargaison. L'eau de mer est
+pompée, mise dans les ballasts pour équilibrer le navire et ensuite rejetée dans son milieu. De nos jours pour
+éviter tout risque du aux organismes ou espèces animales pouvant se retrouver dans les ballasts de règles ont été
+mise ne place pour soit rejeter au large (limite ZE soit 200 m) et remplacer par les eaux locales avant de rentrer
+dans les ports soit traiter ces eaux au travers de filtre et traitements pour éviter toute contamination du milieu
+
+Cale de fret de navire et fond de navire
+
+
+
+                                            Afin de facilité le nettoyage des cales il est possible
+                                            d'installer des puisards de fond de cale qui récupèrent
+                                            jusqu'aux derniers litres les eaux utilisées. Cela évite
+                                            d'envoyer du personnel pour réaliser l'assèchement complet
+                                            de la cale. Le niveau du puisard est plus bas que le fond de
+                                            cale. L'eau pompée passe ensuite par les décanteurs pour être
+                                            nettoyée avant d'être rejetée en mer (cf MARPOL).
+                                            Pour l'assèchement des fonds on utilise des puisards avec un
+                                            tuyautage soit avec des crépines soit des pompes immergées
+                                            de forte capacité. Comme pour les cales de fret, le liquide
+                                            passe aussi par des décanteurs.
+
+
+
+
+                                                                                                                  28
+Couleurs de base du tuyautage des navires
+
+               Désignation                Contenu            Désignation                 Contenu
+                 Couleur               de la conduite            Couleur              de la conduite
+
+              Noir            Eau usée                      Orange           Huile, autre que du carburant
+              Bleu            Eau fraîche                   Gris Argent      Vapeur
+              Brun            Carburant                     Rouge            Anti-incendie
+              Vert            Eau de mer – Eau fluviale     Violet           Acides
+              Gris            Gaz non-inflammable           Blanc            Air de ventilation
+              Marron          Masse (sèches et humides)     Jaune            Gaz inflammable
+
+Nature
+                         Eau usée                               Huile
+                         Eau noire                              Huile usée
+                         Eau huileuse                           Huile thermique
+                         Eau de pompe                           Huile sale
+                         Eau d’échappement                      Huile lubrification
+                         Eau d’égout                            Huile hydraulique
+
+
+
+                     Eau fraîche                                  Vapeur
+                     Condens. Chauffage                           Vapeur chauffage
+                     Eau sanitaire                                Vapeur de purge
+                     Refroidissement eau douce                    LP Drain
+                     Eau alimentation                             Alimentation vapeur
+                     Eau distillée                                Evacuation vapeur
+                     Eau potable                                  HP Drain
+                     Eau refroidie
+                     Eau condensée
+
+                             Carburant                    Anti-incendie
+                             Fioul lourd                  Eau Douce
+                             Gaz Liquide                  Eau de mer / fluvial
+                             Essence                      CO²
+                             Diesel                       Springler
+                                                          Poudre
+                                                          Mousse
+
+
+
+
+                                                                                                             29
+                            Eau de mer                    Acide
+                            Ballast                       Acide – Alcalin
+                            Refroidissement
+                            Sanitaire
+
+                        Gaz non inflammable                Air – Ventilation
+                        Oxygène                            Evacuation air
+                        Gaz respiratoire                   Arrivée air
+                        Azote                              Alimentation air
+                        Réfrigérant                        Evacuation air sdm
+                        Air s/pression
+                        Air respiratoire
+
+                             Masse                Gaz inflammable
+                             Masse                Hydrogène
+                                                  Acétylène
+                                                  Mixte Propane / Butane
+
+
+
+    6. Pompes et collecteur incendie :
+Installation d’assèchement
+Il doit être prévu un système de pompage efficace, permettant d’aspirer dans un compartiment étanche à l’eau et
+de l’assécher. Les pompes de ballasts, de sanitaire ou de service général peuvent servir de pompe d’assèchement
+si elles peuvent être reliée au collecteur d’assèchement. L’installation doit être en acier et pensée de manière que
+l’eau ne puisse passer des ballasts ou de la mer vers les compartiments. Les boites d’assèchements doivent être
+facilement accessibles et les dispositifs de manœuvre des sectionnements qui peuvent être commandés au-dessus
+du pont de cloisonnement doivent être clairement repérés et munis d’indicateurs d’ouverture et de fermeture. Les
+espaces situés au-dessus du pont de cloisonnement peuvent être reliés aux collecteurs d’assèchement.
+En plus pour les navires à passagers (au moins trois pompes) l’installation doit pouvoir fonctionner quelque soit
+l’inclinaison, des aspirations latérales peuvent être prévues. Les pompes ne doivent pas être installées dans un
+même compartiment. Chaque pompe doit pouvoir aspirer dans un compartiment quelconque. Le diamètre du
+collecteur est fonction de coefficients donnés, largeur, longueur et creux du navire.
+Sur les navires de charge il doit être prévu au moins deux pompes. Certains compartiments peuvent être dispensés
+d’assèchement.
+
+En cas d’avaries, des plans ou figurent clairement, pour chaque pont et cale, les limites des compartiments
+étanches, les ouvertures avec leurs dispositifs de fermeture et l’emplacement des commandes, les dispositions à
+prendre pour corriger toute gîte causée par l’envahissement, doivent être exposés de manière permanente à la vue
+de l’officier de quart.
+
+Débit total des pompes d’incendie : sur les navires à passagers, les pompes d’incendie prescrites doivent être
+assez puissantes pour fournir, en service incendie, à la pression spécifiée ci-après, une quantité d’eau au moins
+égale aux deux tiers de la quantité que doivent refouler les pompes d’assèchement lorsqu’elles sont utilisées à
+l’assèchement des cales.
+
+
+
+                                                                                                                 30
+    7. Barre et gouvernail :
+Les navires doivent être équipés d'un appareil à gouverner principal et d'un moyen auxiliaire de commande du
+gouvernail jugés satisfaisants par l'autorité compétente. L'appareil à gouverner principal et le moyen auxiliaire de
+commande du gouvernail doivent être conçus de manière qu'une défaillance de l'un d'eux ne rende pas l'autre
+inutilisable, pour autant que ceci soit raisonnable et possible dans la pratique. Sur certain navire le système de
+gouvernail est remplacé par des pods qui pivote sur eux-mêmes sur 360 ° et font ainsi girer le navire.
+
+
+
+
+      Volant de manœuvre de secours                            Appareil de gouverne hydraulique linéaire
+
+Appareil de gouverne rotatif permet un gain de place important par rapport à l’autre système
+
+
+
+
+Les pods permettent la suppression des gouvernails du fait de leur rotation (meilleure manœuvrabilité du navire à
+faible vitesse. Pas de propulseur de poupe nécessaire.
+
+
+
+
+                                                                                                                 31
+VI.   APPAREIL PROPULSIF ET PRODUCTION D'ENERGIE
+       1. La salle des machines :
+  Le compartiment (ou salle) des machines est un local bruyant qui peut être très chaud (plus de 60 °C en zone
+  tropicale), bien que ventilé de manière très importante, il est d'ailleurs en surpression par rapport à l'extérieur. Cet
+  apport d'air est également nécessaire au bon fonctionnement des moteurs ou brûleurs de chaudières. Dépendant de
+  la taille du navire, elle comporte plusieurs étages (ponts), des échelles permettent aux mécaniciens de circuler
+  entre eux, les plus gros moteurs Diesel actuels ayant une hauteur de près de 14 m pour une longueur de 27 m. Des
+  réseaux de tuyauterie (circuits de combustible, d'eau de mer de refroidissement, d'eau douce, d'huile, etc.) courent
+  sur les bords au plafond et sous les parquets, de nombreuses vannes permettent d'isoler des portions de circuit.
+  Échelles, rambardes et plaques de parquets peuvent être démontables pour faciliter la manutention de grandes
+  pièces de rechange ou même de moteurs entiers. Sur des navires de taille conséquente, on trouve un local réservé
+  aux séparateurs (purificateurs) de combustibles. Le compartiment machine est entouré de cloisons étanches dans
+  un souci de protection d'une entrée d'eau ou de propagation d'un incendie. Le port de casque anti-bruit y est
+  obligatoire. Sur les navires modernes, il comporte des "échappées" (ou issues de secours) à divers endroits
+  stratégiques, elle est protégée par un système particulier d’incendie.
+
+  La réglementation impose que les mécaniciens puissent y trouver un/des appareil(s) respiratoire(s) pour
+  l'évacuation d’urgence « EEBD » (Emergency Escape Breathing Device).
+
+                 Poste de contrôle                                          Vue du parquet supérieur
+
+
+
+
+  Le compartiment machine comporte généralement un poste de contrôle (PC machine) isolé d'où l'on peut
+  visualiser les paramètres de fonctionnement et commander à distance les différents éléments. Ce poste de contrôle
+  est climatisé afin d'assurer le bon fonctionnement des divers automates et ordinateurs, mais aussi d'améliorer les
+  conditions de travail des mécaniciens de quart.
+  Les auxiliaires en salle des machines :
+  Le groupe électrogène
+  Un groupe électrogène est un dispositif autonome capable de produire de l'électricité. La plupart des groupes sont
+  constitués d'un moteur thermique qui actionne un alternateur. Leur taille et leur poids peuvent varier de quelques
+  kilogrammes à plusieurs dizaines de tonnes. La puissance d'un groupe électrogène s'exprime en VA (voltampère),
+  kVA (kilovoltampère) ou MVA (mégavolt ampère) selon la puissance. Les unités les plus puissantes sont mues
+  par des turbines à gaz ou de gros moteurs Diesel.
+
+
+
+
+                                                                                                                       32
+Le séparateur
+Le séparateur comme leur nom l'indique sépare par centrifugeage les liquides que l'on veut dissocier :
+    - Eau et gasoil.
+    - Eau souillée pour rejet ensuite en mer en respectant les normes environnementales : eau de
+       rinçage de citerne, cargaison (MARPOL).
+    - Huile et eau (cale moteur par exemple)
+
+
+
+
+Echangeurs
+Ils servent au refroidissement des parties chauffantes que l'on peut trouver comme le moteur (eau et huile), les
+groupes électrogènes et les inverseurs.
+Les systèmes de dessalinisation – Bouilleurs et dessalinisateurs à osmose inversé (osmoseurs)
+Ils transforment l'eau de mer en eau douce pour l'utilisation du bord.
+Bouilleur : l’eau, est transformée en vapeur qui passe à travers un condenseur et redevient liquide, débarassée de
+ses minéraux, dont le sel
+Dessalinisateur (osmoseur)
+
+Étapes de filtration
+   • L’eau à purifier passe au travers d'un premier filtre anti-sédiments à 5 µ qui élimine les boues, le sable, la
+       poussière.
+   • L’eau passe au travers d'un filtre au charbon actif qui retient le chlore et les molécules de grande taille.
+   • L’eau est ensuite mise sous pression et traverse la membrane osmotique dont la porosité est de l'ordre du
+       millionième de millimètre. L'eau est débarrassée de 98 % de ses impuretés.
+   • L’eau osmosée est stockée dans un réservoir, qui se remplit automatiquement chaque fois que l'on fait
+       fonctionner l'osmoseur.
+   • L’eau passe enfin dans une cartouche de finition au charbon actif avant d'être délivrée. L'eau de
+       l'osmoseur ne doit pas être consommée sans cela (risque pour la santé).
+
+Les compresseurs d'airs
+Ils fournissent au bord l'air comprimé pour le fonctionnement de certains appareils. Les circuits courent tout le
+long du bateau pour alimenter les différents compartiments où cela est nécessaire.
+
+Les pompes à incendie
+Elles assurent la mise en pression des circuits incendie du bord et le débit d'eau en répondant à des normes
+précises en cas de nécessité lors d'un sinistre. Elles peuvent être attelées au moteur ou indépendantes.
+
+
+
+
+                                                                                                                33
+    2. L'appareil propulsif :
+L'appareil propulsif d'un navire est composé d'un moteur, d'un inverseur et d'un arbre d'hélice.
+Avec l'évolution des technologies certains navires ont maintenant des groupes électrogènes de forte puissance qui
+alimentent des moteurs électriques avec inverseur et arbre d'hélice ou directement des pods. Sur les gros navires
+les moteurs sont gigantesques (appelé cathédrale) faisant jusqu'à 18 m de haut, il tourne entre 80 et 110 tours par
+minute et ne sont jamais arrêtés et développe pour les plus puissants jusqu'à 100 000 cv.
+                                   Schéma d'équipement moteur sur un cargo
+
+
+
+
+                              Schéma système groupe électrogène inverseur
+
+
+
+
+                                                                                                                34
+    3. Les éléments du moteur et ses différents circuits :
+
+
+
+
+Circuit de lubrification :
+Il assure la lubrification des pièces en mouvement du moteur pour limiter l'usure et l'échauffement dû à la friction.
+L’huile est aspirée par une pompe à travers une crépine, passe dans un filtre et circule dans le moteur.
+Les pièces lubrifiées sont : arbre à came de soupapes, bielles et pistons, vilebrequin, came de pompe injection,
+came de pompe à eau, turbo. La pression de fonctionnement varie entre 4 et 8 bars en fonction de moteur.
+
+
+
+
+                                                                                                                  35
+Circuit gasoil :
+Il existe en plus sur certain bateau une caisse journalière placé à hauteur du moteur, remplie par une pompe de
+transfert. Elle permet une alimentation par gravité du moteur ce qui permet de limiter les risques de désamorçage
+du moteur et un redémarrage plus facile (auto-purge). Le gasoil est aspiré par la pompe basse pression. Il passe
+par un premier filtre décanteur (en général 30 microns) pour supprimer l'eau qui pourrait être présente
+(condensation réservoir, gasoil pollué) passe par la pompe basse pression du moteur (0.3 b), arrive au filtre fin (5
+microns) pour enlever les impuretés qui pourraient détériorer la pompe haute pression et est injecté dans les
+injecteurs (180 b pompe classique à 2000 b sur les nouveaux moteurs common rail).
+
+Injection classique :
+
+
+
+
+Injection Common rail :
+
+
+
+
+                                                                                                                 36
+Circuit d'air :
+L'air arrive par le filtre pour se diriger soit directement dans le moteur par la pipe d'admission, soit passer par le
+turbo, puis un intercooler pour le refroidissement et revenir dans la pipe d'admission compressé. Après la
+combustion soit il passe directement dans l'échappement soit il fait un passage par le turbo pour faire fonctionner
+ce dernier en fonction du régime moteur. Sur les navires de plaisance on injecte l'eau de refroidissement du
+moteur à la sortie de l'échappement après la pipe pour détendre les gaz, les refroidir et les faire ensuite circuler
+dans un tuyau souple spécial pour évacuer gaz et eau par un waterlock ou directement si le moteur est au dessus
+de la ligne de flottaison.
+
+            Circuit avec turbo                                          Entrée d'eau - Sortie échappement
+
+
+
+
+Le circuit d'eau :
+L'eau de mer est utilisée pour le refroidissement des moteurs et autres systèmes thermiques sur un navire.
+Un circuit alimenté par une ou des pompes aspire l'eau de mer et la fait circuler au travers d'échangeurs qui
+assurent le refroidissement par échange thermique avec des circuits fermés (moteur, groupe électrogène,
+inverseur, circuit d'huile). Le circuit eau de mer est dit ouvert car toute l'eau est rejetée à la mer en fin de circuit.
+En rouge circuit fermé, en bleu circuit ouvert (eau de mer) sur un moteur V6 avec 2 pipes d'échappement.
+
+
+
+
+                                                                                                                      37
+Echangeur eau de mer :
+C'est une pièce qui renferme un élément constitué de multiple petit tuyau pour favoriser une plus grande surface
+d'échange entre l'eau de mer qui passe à l'intérieur de ces derniers et le liquide à refroidir qui circule autour.
+L'étanchéité du système est assurée par des joints spi en tête d'échangeurs
+
+
+
+
+Waterlock :
+Il reçoit en fin de circuit l'eau de mer et les gaz d'échappement. C'est un système que l'on trouve plutôt sur les
+unités en plaisance. Il est utilisé quand le moteur se trouve sous la ligne de flottaison et il recueille l'eau qui n'est
+pas évacuée lors de l'arrêt du moteur pour éviter tout retour par la pipe d’échappement (noyage du moteur). Les
+cargos utilisent directement des cheminées d'évacuation des gaz d'échappement.
+
+
+
+
+     4. Production d'energie :
+Un navire se doit d'être autonome en énergie. Il produit toute l'énergie nécessaire à ses besoins. Les besoins sont
+de deux types :
+    •   La propulsion
+    •   Les divers besoins techniques et la vie à bord.
+Dans le cas d'une propulsion électrique, un premier système produit une énergie mécanique qui est transformée en
+énergie électrique par le biais d'un alternateur. Cette énergie électrique est ensuite utilisée pour la propulsion et les
+besoins du bord (éclairage, navigation, cuisine…).
+Les techniques les plus utilisées sont :
+    •   Le moteur diesel de loin majoritaire,
+    •   La turbine à gaz, dont les rejets polluants sont inférieurs, qui est plus compacte et beaucoup plus légère et
+        qui vibre moins,
+    •   La génératrice attelée au moteur de propulsion, qui on trouve sur les gros navires de commerce.
+    •   Le fioul-vapeur+turbine, efficace mais de mise en œuvre délicate.
+
+                                                                                                                      38
+Structure simplifiée de la distribution électrique d'un navire à une seule ligne d'arbre.
+Le système le plus utilisé pour la production d'énergie est le groupe électrogène. Ils peuvent être répartis dans les
+navires pour une meilleure répartition de poids et adaptés aux besoins spécifiques des circuits qu’ils desservent en
+termes de puissance.
+Le principe de fonctionnement est assez simple : un moteur thermique entraine une dynamo qui va produire de
+l'électricité soit en courant alternatif monophasé ou triphasé soit en courant continu après passage dans un
+redresseur (pont de diode).
+Leur puissance est exprimée en Kva : kVA × (cos phi) = kW (valeur cos phi propre à chaque groupe)
+
+Soit pour un groupe de 3,5 kVA ayant un cos phi 0,8 : 3,5 kVA × 0,8 = 2,8 kW = 2 800 W.
+
+
+
+
+                               Moteur thermique                                 Production d'énergie
+
+
+
+                                                                                                                  39
+Le choix du groupe se fera en fonction du calcul précis des besoins du bord en rajoutant une marge de sécurité
+pour éviter l'effondrement de ce dernier par un appel trop fort de courant pouvant provoquer d'importante
+détérioration du système par un échauffement excessif.
+
+
+
+
+On trouve 2 autres types d'énergie à bord :
+   - Circuit d'air comprimé : il est produit par des compresseurs fournissant entre 8 et 10 b de pression et
+       distribué par un tuyautage spécifique à l’appareil qui fonctionne avec (corne de brume, matériel de
+       travail…)
+   - Circuit hydraulique : il est produit par des centrales hydrauliques soit à moteur électrique soit attelé sur
+       des moteurs (propulsion ou groupe électrogène) PTO.
+       Il se compose d'un réservoir d'huile, d'une pompe haute pression et d'un réseau de distribution.
+       Chaque appareil hydraulique nécessite une pression de travail qui sera fourni par la centrale. Sur les
+       navires des pressions de travail de 140 à 180 b sont courantes.
+       La distribution se fait par des électrovannes qui alimentent les différents circuits hydrauliques propre à
+       chaque appareil (guindeau, cabestan, grues, etc.).
+
+Un même appareil peut alimenter plusieurs circuits, il sera calibré en fonction des besoins (quantité d'huile).
+
+
+
+
+                                                                                                                  40
+                Deuxième partie : Notions élémentaires sur la stabilité
+
+I.   RAPPEL SUR LES FORCES
+ Une force et une énergie capable de modifier, déplacer un corps
+ Elle se caractérise par :
+     - Une direction (la verticale…)
+     - Un sens (vers le bas…)
+     - Une intensité (faible, moyenne, forte…)
+     - Un point d application
+
+ Combinaison de forces
+    - Forces de même sens, de même direction, même point d'application : les forces s'additionnent
+    - Forces de même direction, de sens opposé, même point d’application : les forces se soustraient
+    - Forces de même direction, de sens opposé, de même intensité : les forces s'annulent.
+    - Forces de sens et de direction quelconques : La résultante s'obtient par construction du parallélogramme
+       des forces.
+
+
+
+
+ Exemple : deux forces, F1 et F2, de direction et d’intensité différentes avec un même point d’application. La
+ résultante R, s’obtient en construisant le parallélogramme des forces.
+
+ Couple de forces : il s'agit de deux forces, de même direction, de sens opposé, de même intensité, sur deux axes
+ parallèles et exercées sur deux points d'application distincts. Il n’y a pas de résultante ; Le corps, obéissant aux
+ deux forces, se met à tourner. La valeur du couple se mesure par le produit de l'intensité d’une des deux forces,
+ exprimée en kilogramme (ou en tonnes) par la distance perpendiculaire des deux forces, exprimée en mètre. Le
+ résultat s'exprime donc en kilogramme/ mètre ou tonnes mètre.
+
+
+
+
+                                                                                                                  41
+Deux forces, même direction, même intensité, sens opposé, deux points d’application séparés par une distance d.
+Pas de résultante. Le corps A se met à tourner sous l'effet du couple dont le moment (la valeur) est : M = F x d.
+
+Principe d’Archimède : ce principe définit une force particulière
+Tout corps plongé dans un liquide reçoit de la part de ce liquide une poussée
+verticale, de bas en haut, appliquée au centre du volume immergé, égale au poids du
+liquide déplacé.
+Le poids du navire : somme des forces d'attraction verticales, dirigées de haut en bas s'applique en un point qu'on
+appelle centre de gravité (CG). Nous l’appellerons P.
+La poussée (d’Archimède) est une force verticale, de bas en haut, appliquée en un point appelé centre de carène
+(Bo), nous l’appellerons π
+
+Le poids tend à emmener un corps vers le bas. A la rencontre d'un liquide, la poussée d’Archimède développe une
+force de même direction et de sens opposé. Quand la poussée devient égale au poids, il y a annulation des forces,
+un équilibre se crée : le corps flotte.
+Dans le cas où la poussée d’Archimède reste inférieure au poids, le corps continue à descendre : il coule.
+
+Exemple : mise à l'eau d'un bateau, à partir d’un travelift, avec lecture du poids sur le dynamomètre
+
+
+
+
+Observons, quantifions et qualifions le phénomène : Nous savons que les corps solides, liquide ou gazeux, à
+volume égal, ne font pas le même poids : le polystyrène, le bois, l’acier, le plomb pour les solides par exemple. Le
+rapport entre le poids et le volume s'appelle la densité. Pour plus de simplicité, on peut quantifier cette densité par
+le nombre de kilos par litre, exemples : le bois : environ o, 6 kg par litre (densité 0,6), l’acier environ 7 kg par
+                                                                                                                    42
+litre, de même pour les liquides : le gas-oil : 0,83, l'eau douce : 1, le mercure : 13. La règle suivante peut être
+énoncée : le poids P est égal au volume V multiplié par la densité d : P= V x D et donc V = P : D.
+
+En application du principe d’Archimède, on comprend vite qu’un navire, déplacera un volume plus important si
+celui est de faible densité, il s’enfoncera donc davantage pour flotter. Prenons un exemple simple avec une barge,
+parfaitement parallèpipèdique, de 25 m x 4 m, pesant 100 tonnes, flottant dans le gas-oil puis dans l'eau douce.
+Dans les deux cas, pour flotter, elle devra déplacer son propre poids de liquide, soit 100 tonnes. Cherchons
+d’abord le volume de 100 tonnes de gas-oil, puis de 100 tonnes d'eau douce. Ensuite, nous en déduirons la valeur
+de l'enfoncement (hauteur h du volume) ;
+     1) Gas-oil
+         100 T / 0,83 = 120,48 M3 ; donc h = V / (L x l) (surface de base), soit 120,48 / (25x4) = 1 ,204M
+     2) Eau douce
+         100 T / 1 = 100 M3, donc h = V (L x l), soit 100 / (25x4) = 1M
+
+L'enfoncement d'un navire (hauteur du volume immergé) s'appelle le Tirant d’Eau (TE). Le tirant d’eau d'un
+navire variera avec les critères suivants : le poids de ce navire et la densité du liquide porteur. La densité de l'eau
+augmente avec la salinité et diminue avec la température. Une eau douce chaude sera moins dense, donc moins
+porteuse qu’une eau salée et froide. A poids égal, le volume immergé changera de manière sensible.
+
+Qualifions, avec des chiffres et des mots, la situation de flottabilité du navire à partir de son tirant d’eau.
+
+
+
+
+Longueur hors tout : longueur totale du navire (Lht ou Loa)
+Largeur hors tout : largeur totale du navire.
+Creux : hauteur comprise entre la quille et le pont
+La flottaison (ou ligne de flottaison) : ligne de séparation entre l'eau et l'air sur la coque
+Surface de flottaison : surface comprise dans le périmètre de la ligne de flottaison
+Tirant d’eau (TE) : hauteur comprise entre la quille et la ligne flottaison :
+Tirant d eau lège : tirant d eau navire vide
+Tirant d’eau pleine charge : tirant d’eau navire plein
+Exposant de charge : différence entre TE lège et TE pleine charge
+Œuvres vives : partie du navire situé sous l'eau (carènes + appendices)
+Œuvres mortes : partie du navire au dessus de l'eau.
+Echelle des tirants d’eau : marquage sur la coque, à l'arrière et à l'avant par décimètres pairs, de la hauteur d'eau
+comptée à partir de la quille. Les chiffres pairs mesurent 1O cm, l'espacement entre chiffres est donc de 10 cm
+également, la base du chiffre pair définit la mesure exacte indiquée, il est donc ensuite facile de mesurer le tirant d
+eau par lecture directe ou interpolée à vue.
+
+
+                                                                                                                    43
+EX :
+
+
+
+
+Assiette : angle compris entre la ligne de quille et l'horizontale : peut se mesurer en comparant TE avant et TE
+arrière
+Gîte : angle compris entre verticale et axe de verticalité du navire : peut se mesurer en comparant TE tribord et TE
+bâbord, mais plus aisément avec un inclinomètre.
+Perpendiculaires avant et arrières : points extrêmes de la flottaison avant et arrière, navire en charge (à l'étrave et à
+la poupe), figurées par une ligne perpendiculaire à la flottaison.
+Les marques de franc bord : Réf. : LL 66
+Elles sont apposées sur la coque, à tribord et à bâbord, composées de deux éléments :
+Le disque de Plimsol : cercle traversé par une barre horizontale en son centre, barre qui matérialise l’enfoncement
+(tirant d’eau) maximum autorisé pour le navire.
+Le livet de pont : barre horizontale, au-dessus du disque de Plimsol, marque la partie haute du pont continu,
+appelé pont de franc bord. Le volume entre ces deux barres est la réserve de flottabilité. Ce volume doit rester
+étanche, les ouvertures pratiquées (hublots, portes d’embarquement), toujours fermés à la mer, offrent des
+garanties de solidité et d’étanchéité.
+Les bureaux de classification, définissent la réserve de flottabilité, positionnent les marques de franc bord, leur
+initiale est attachée au disque de Plimsol (BV : Bureau Veritas, LR : Lloyd’s Register)
+Sur les navires effectuant des voyages dans des eaux de densité différentes, le disque de Plimsol est complété par
+une échelle de charge qui fixe les enfoncements maxima en fonction des densités de l’eau.
+
+
+
+
+TD : Eau douce tropicale                                   T:      Eté eau salée zone tropicale
+D : Eau douce                                              E:      Eté eau salée
+                                                           H:      Hiver eau salée
+                                                           HAN : Hiver Atlantique Nord
+Les marques de franc-bord, font l'objet d’un certificat international de franc bord, délivré par la société de
+classification. Ce certificat international, valable 5 ans, est délivré aux navires de plus de 24 mètres. Les yachts
+privés et navires de pêche sont soumis aux règles de franc bord de leur pavillon.
+
+Un navire, qu'il soit en charge ou lège, doit afin d'être dans les meilleures conditions de stabilité et de
+flottabilité être dans des limites définies :
+                                    - Respecter les marques de jauge,
+                                    - Gîte nulle
+                                    - Assiette légèrement positive ou nulle
+
+
+
+                                                                                                                      44
+  Jauges et déplacements :
+  La jauge est une évaluation basée sur les volumes du navire.
+  Le déplacement est une évaluation basée sur le poids du navire.
+
+      a. La jauge
+         Le système de jauge issu de la convention de Londres de 1969 remplace peu à peu les anciens systèmes,
+         particulièrement celui issu de la convention d’Oslo. Ce dernier définissait des jauges sur la base du
+         tonneau (2,83 m3 ou 100 pieds 3). La « nouvelle » jauge prend en compte les volumes fermés, associés à
+         un coefficient logarithmique, pour aboutir à un chiffre (153, 2972, 28600.). Cette jauge est baptisée UMS
+         (Universal Measurment System). Elle est importante car jalonnée par des étapes qui fixent les conditions
+         de construction, de sécurité et de conduite par les équipages. (200, 500, 3000, 8000, 15000.)
+
+         Formule UMS(GT) :
+
+         Où le coefficient K est donné par :
+
+
+         Et V est le volume total de tous les espaces fermés du navire en mètres cubes.
+
+         Exemple : Si V = 10 000, alors K = 0,2 + 0,02 × log10(10000) = 0,2 + 0,02 × 4 = 0,28, et GT = 0,28 ×
+         10 000 = 2 800 unités UMS
+         Elle s'applique obligatoirement aux navires neufs de plus de 24 mètres.
+         Un certificat international de jauge est délivré.
+
+         La jauge brute : (Grt, gross tonnage) : prend en compte tous les volumes fermés du navire
+         La jauge nette : prend en compte les volumes destinés au fret (marchandises, passagers.)
+
+         Il n'y a pas de correspondance automatique entre la jauge Oslo et Londres. Les méthodes de calcul étant
+         différentes. Les conversions dépendront du type de navire et seront approximatives.
+
+      b. Le déplacement :
+  Le déplacement lège : poids du navire vide
+  Le déplacement en charge : poids du navire chargé
+  Port en lourd (deadweight) : poids des éléments embarqués : fret, équipage, eau, combustible, vivres.
+  Déplacement lège + port en lourd = déplacement en charge.
+
+II.   STABILITE DU NAVIRE
+
+  Rappels de trigonométrie :
+  La trigonométrie, ensemble de règles géométriques du seul triangle rectangle ; trouve de nombreuses applications
+  dans la vie courante et est essentielle aux sciences et techniques.
+  Rappelons les définitions et conventions :
+  Angle droit : angle 90 °
+  Hypoténuse : grand coté d'un triangle rectangle
+  Coté opposé : coté du triangle en face de l’angle considéré
+  Coté adjacent : coté formant l'angle considéré avec l’hypoténuse
+  Sinus : rapport entre le coté opposé et l'hypoténuse
+  Cosinus : rapport entre coté adjacent et l'hypoténuse.
+  La valeur de la poussée π est définie par le principe d’Archimède : égale au poids du liquide déplacé.
+
+
+
+                                                                                                               45
+     1. Notions de stabilité
+         Le poids du navire P est appliqué au centre de Gravité CG. La poussée d Archimède est appliquée au
+         centre de carène Bo. Les deux forces sont de même direction, de sens opposé, de même intensité.
+         Inclinons le navire sur un bord puis sur l’autre. Remarquons d'abord que le centre de gravité ne varie pas,
+         mais que le centre de carène se déplace en suivant une courbe, proche d'un arc de cercle ;
+
+
+
+
+Nous remarquons aussi que la direction de poussée π coupent l'axe de verticalité à un point qui est sensiblement le
+centre du cercle. Ce point est le métacentre Mt. La distance MB0 représente le rayon métacentrique r. On voit que
+la largeur du navire aura des conséquences sur l'arc de cercle des centres de carène, et donc sur le métacentre. Plus
+la coque sera large, plus le métacentre Mt sera élevé. A la construction, le centre de carène Bo, le métacentre Mt,
+et le centre de gravité pourront être calculés. Ces calculs seront vérifiés à la mise à l’eau du navire, par l'essai de
+stabilité.
+Laissons le navire incliné sur un bord. Nous remarquons que les deux forces forment alors un couple dont le
+moment est égal à Pxd. Ce couple fera donc tourner le navire jusqu'a ce que les deux forces soient à nouveau sur
+la même verticale. Plus le moment du couple ne sera fort, mieux le bateau se redressera.
+
+
+
+
+                                                                                                                    46
+Nous comprenons vite que le moment de redressement que l'on souhaitera fort pour une bonne stabilité
+transversale, sera dépendant de deux conditions : le poids et r-a. C'est pour cette raison que la valeur de r-a devra
+être garantie à la construction et conservée pendant la vie du bateau. Pour un navire d'une trentaine de mètres, la
+distance minimum est de l'ordre de 0,60 mètres.
+La distance r-a est conventionnellement appelée GMt. (Distance métacentrique transversale).
+
+Le module de stabilité transversale initial (MSIT) :
+C'est le produit de P x r-a. Il représente la capacité de redressement du navire.
+
+     2. Embarquement de poids
+Quand on charge du poids à bord, le déplacement P augmente et le centre de gravité se déplace vers le poids
+embarqué et cela d'autant plus que ce dernier est éloigné du centre de gravité initial G.
+Si le poids est positionné au-dessus du centre de gravité, ce dernier remonte et la stabilité diminue, dans le cas
+contraire cette dernière augmente puisque G descend.
+C'est l'inverse qui se produit lors du déchargement d'un navire ce qui nécessite donc des précautions à prendre
+avant toute manœuvre sur la cargaison.
+Tout chargement dans l'axe du navire n'a pas d'influence sur la stabilité latérale (gite). Cependant, dès que l'on
+quitte l'axe de ce dernier un bras de levier lié au poids ajouté se crée et le navire gite jusqu'à ce que le nouveau
+centre de gravité G' soit aligné avec la verticale du centre de carène B' (position d'équilibre).
+
+Observons quelques phénomènes liés à la charge axiale du navire :
+   a. Charge dans les fonds : le navire s’enfonce, le centre de gravité descend, le centre de carène monte, r- a et
+       P augmentent, la stabilité augmente de manière importante.
+   b. Charge au niveau du centre de gravité : le navire s’enfonce, le centre de gravité ne bouge pas, r-a ne varie
+       pas et p augmente, la stabilité augmente sensiblement.
+   c. Charge au-dessus du centre de gravité : le navire s’enfonce, le centre de carène monte, le poids augmente
+       r-a diminue et la stabilité diminue.
+
+Observons quelques phénomènes liés à la charge latérale du navire :
+   a. Charge à bâbord ou à tribord : le bateau gite du coté du chargement, si ce dernier est positionné au dessus
+       de G la stabilité diminue car G' monte, s'il est positionné en dessous de G elle augmente car G' descend.
+   b. Mouvement vertical d'un poids latéral sur un navire : seule la stabilité est affectée par le mouvement du
+       centre de gravité. Le déplacement sur une distance z provoque un déplacement du centre de gravité dans
+       le même sens de valeur
+   c. Mouvement horizontal d'un poids : ce dernier ne modifie pas la hauteur du centre de gravité et donc la
+       stabilité du navire mais modifie la position de G et donc amène de la gite du coté du déplacement du
+       poids.
+
+
+
+
+                                                                                                                  47
+Cas particulier lier au grutage d'un poids à partir du navire (poids suspendu) :
+Dès qu'un poids est suspendu en un point du navire et est libre de son mouvement la force qu'il exerce s'applique
+au point de suspente (point d'accroche) quelle que soit la gite du navire.
+Le centre de gravité est donc plus haut que le poids lui-même si celui-ci était posé là où il se situe. La stabilité
+diminue. Pour éliminer ce phénomène il suffit d'arrimer le poids en le saisissant (élingue, cordage, chaine,)
+
+
+
+
+Attention donc au risque important de gite et de perte de stabilité pour de lourdes charges lors de
+                                l'embarquement de cargaison.
+
+    3. Bilan des situations de stabilité liés à la position des centres
+
+        a. Centre de gravité sous le métacentre et au-dessus du centre de carène : c'est le cas général, le navire à
+           une stabilité normale.
+        b. Centre de gravité au-dessous du centre de carène et sous le métacentre : r-a est maximum, le moment
+           de redressement est très fort, voire violent. C'est un cas de stabilité rencontré sur des navires
+           fortement lestés, comme les voiliers par exemples.
+        c. Centre de gravité confondu avec le métacentre : il n’y a pas de r-a, donc pas de Gz et pas de couple de
+           redressement. Le navire adopte un équilibre incertain, c'est un cas d’instabilité. Par exemple une
+           sphère ou un cylindre.
+        d. Centre de gravité au-dessus du métacentre : En cas d'inclinaison du navire, le couple créé ne contribue
+           plus au redressement, mais au chavirement. Cas à proscrire évidemment.
+
+Conclusion : pour une bonne stabilité transversale, le poids, mais surtout r-a sont à considérer attentivement. Pour
+un obtenir un r-a important, il convient de placer le métacentre le plus haut possible, en construisant une coque
+large (stabilité de forme) avec un centre de gravité très bas (stabilité de poids).
+
+
+
+
+                                                                                                                 48
+    4. Cas de charge particuliers
+Le givrage : dans les hautes latitudes, blizzard et paquets de mer provoquent la formation quelquefois très rapide
+d'amas de glace dans les superstructures. Le bateau s'alourdit, surtout dans les hauts et sa stabilité diminue
+sérieusement. Il convient, dans ce cas, de briser la glace et de la déblayer du pont.
+
+    5. Cas des grands angles de gîte
+Le moment de redressement est le produit du poids par r-a, distance du métacentre au centre de gravité. Le
+métacentre est le point d'intersection entre l'axe de verticalité et la poussée π. On comprend que, dans les grands
+angles, cette intersection se rapproche du centre de gravité.
+Mt devient Mt’ et tend à descendre et r-a devient h-a. h-a est plus faible que r-a, GZ diminue, la stabilité devient
+plus faible, et même nulle lorsque que Mt’ vient se confondre CG (GZ nul), puis le couple devient chavirant si
+Mt’ passe sous le centre de gravité.
+
+
+
+
+    6. L’essai de stabilité
+Opération est faite à la mise à l’eau du navire, à l’aide de poids calibrés, elle conduit à observer les différents
+paramètres du navire (gîte, enfoncement, assiette) dans différents cas de charge. Cet essai valide les calculs de
+l'architecte naval et aboutit à la remise d'un rapport qui contiendra divers documents dont :
+         • Les tables hydrostatiques.
+         • La valeur de Gz à différents angles de gîte.
+         • L’angle de gîte de chavirement.
+
+Voir en fin de chapitre : Exemples de documents.
+
+    7. Cas d’envahissement accidentel
+A la suite d'une voie d’eau, le navire peut être envahi par l’eau sur une ou plusieurs tranches et/ou sur un ou
+plusieurs compartiments.
+Les conséquences directes :
+        • Flottabilité : le navire s’enfonce, ses qualités nautiques sont affectées. Il peut, dans les cas graves,
+            couler.
+        • Stabilité : le navire gîte et/ou prend une assiette importante : diminution de sa stabilité transversale
+        • Création d’une ou plusieurs carènes liquides
+
+
+                                                                                                                 49
+Les conséquences indirectes :
+Perte possible de moyens en énergie (moteurs, barre, assèchement)
+Les effets directs ou indirects sont souvent conjugués, dans le cas d'envahissement importants, ils peuvent aboutir
+à la perte du navire.
+
+    8. Stabilité longitudinale
+Elle applique les mêmes principes généraux. Le métacentre, situé très haut, s’appelle grand métacentre ou
+métacentre longitudinal Ml. Utile pour les calculs de charge et d'assiette.
+
+Les documents remis à la livraison du bateau
+    • Plans du navire :
+          - Plans de forme
+          - Plan d'ensemble
+          - Coupes principales
+          - Echelles de charge
+          - Plan d'échouage
+    • Documents de stabilité
+          - Compte rendu de l'essai de stabilité.
+          - Courbes hydrostatiques
+          - Courbes de bras de levier.
+
+Quelques abréviations conventionnelles :
+B0 :  centre de carène
+G:    centre de gravité du navire
+GMT : rayon métacentrique transversal
+GML : rayon métacentrique longitudinal
+Θ:    angle de gite
+KB : côte entre quille et centre de carène
+KG : côte entre quille et centre de gravité
+KMT : côte entre quille et métacentre transversal
+LCB : distance de la perpendiculaire arrière au centre de carène
+LCG : distance entre perpendiculaire arrière et centre de gravité
+LCF : distance entre perpendiculaire arrière et centre de la surface de flottaison
+
+
+
+
+                          Courbes hydrostatiques pour un navire de 29 mètres (démonstration)
+
+
+                                                                                                                50
+L’argument d’entrée est le tirant d’eau moyen : axe des ordonnées
+La 1ère abscisse nous donne :
+    - En 1 le rayon métacentrique transversal.
+    - En 2 la distance de la ligne d’eau zéro au centre de carène Bo (KB)
+La 2ème abscisse nous donne :
+    - En 3 la distance du centre de la flottaison à la perpendiculaire arrière (LCF)
+La 3ème abscisse nous donne :
+    - En 4 le rayon métacentrique longitudinal
+    - En 5 le déplacement du navire P
+
+
+
+
+                         Courbes hydrostatiques pour un yacht en acier de 30 mètres et de jauge 158
+
+
+
+
+                                         Courbes de bras de levier (Gz)
+
+                                                                                                      51
+     9. Carene liquide
+Effet de carène liquide par les chiffres
+L'effet de carène liquide augmente au cube de la surface libre. Si vous divisez la surface d'un réservoir de moitié
+(en installant par exemple des cloisons internes étanches, chaque côté a un effet de carène liquide huit fois
+moindre, l'effet de carène liquide total (la somme des deux côtés) est donc divisé par quatre.
+
+Effet de carène liquide = largeur x largeur x largeur x longueur / 12
+
+     Un réservoir de 4 m de large et de 3 m de long a un effet de carène liquide égal à 16 (4 x 4 x 4 x 3 / 12).
+
+
+
+
+  Si vous ajoutez une cloison étanche au milieu du réservoir, vous divisez celui-ci en deux réservoirs de 2 m de
+ large chacun. Chaque réservoir a un effet de carène liquide égal à 2 (2 x 2 x 2 x 3 / 12), donc un effet total de 4
+                    pour les deux réservoirs, soit le quart de celui du réservoir sans cloison.
+
+
+
+
+Lorsque sur un navire, une capacité (ex : un ballast) n'est ni vide, ni pleine, on remarque que lorsque le navire
+prend une inclinaison transversale, la surface du liquide dans cette capacité demeure horizontale. Le centre de
+gravité G de cette masse liquide, qui est également son centre de carène, se déplace, pour de faibles inclinaisons,
+sur une portion d'arc de cercle dont le centre est le métacentre de la carène liquide en question.
+
+Le poids suspendu peut être assimilé dans l'étude de la stabilité du navire à un déplacement du poids vers le point
+de suspension, donc un déplacement vertical de poids vers le métacentre de cette carène liquide. Le centre de
+gravité général du navire se déplacerait donc en proportion vers le haut en une position que l'on nomme Gf le
+centre de gravité fluide.
+Le MSIT (module de stabilité initial transversal) s'en trouvera diminué.
+Lorsqu'il existe plusieurs capacités, la perte globale de stabilité sera la somme des pertes.
+
+                                                Cette perte potentielle de stabilité peut être importante, les ballasts sont
+                                                cloisonnés longitudinalement à la construction de manière à limiter les
+                                                déplacements des liquides. Le calcul montre que rajouter n cloisons
+                                                longitudinales revient à diviser la perte de stabilité par (n+1) ².
+
+                                                Les ferries et rouliers en général sont très sensibles à ce problème, car
+                                                sur ces navires, le pont garage est très vaste et peu cloisonné, une
+                                                entrée d'eau dans ce compartiment engendre des pertes de stabilité
+                                                importantes par effet de carène liquide.
+
+Sources documentaires :
+    - Architecture Navale (D Paulet et D Presles)
+    - Statique du navire collection Infomer
+    - Connaissance de la construction des bateaux alu-acier-inox de Gilbert Caroff
+    - Diesels marins 7eme édition collection Infomer
+    - Division 211 : Stabilité à l’état intact et après avarie
+Sources iconographiques :
+    - Photos et dessins personnels des auteursImages en libre-service sur internet
+
+
+
+
+                                                                                                                      52
+
