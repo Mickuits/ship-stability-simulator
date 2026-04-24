@@ -8,7 +8,11 @@
 ---
 
 ## En cours
-**Phase 1 — Core physique TypeScript** : portage du moteur depuis le HTML V1 (`legacy/stabilite-navire-v4.html`) vers `src/core/*.ts`, avec 14 scénarios numériques Vitest de non-régression.
+**Phase 1 — Core physique TypeScript** *(session 3 en cours, ~40 % fait)* :
+- ✅ `types.ts`, `profiles.ts` (tanker + voilier), `hydrostatics.ts`, `stability.ts`, `simulation.ts`
+- ✅ 67 tests Vitest verts, coverage 98.5 % stmt, 100 % funcs
+- ✅ Multi-agent review passée (3 agents en parallèle) — 4 findings fixés avant commit
+- ⏳ Reste à faire Phase 1 : `freeSurface.ts` autonome, `weights.ts`, `imo.ts`, 14 scénarios numériques V1 exhaustifs, barrel `src/core/index.ts`, profil barge Cb=1 pour validation exacte.
 
 ---
 
@@ -31,15 +35,25 @@
 - [x] README.md d'accueil (pointeurs CLAUDE/SPEC/DECISIONS/BUSINESS)
 
 ### Phase 1 — Core physique TypeScript *(2 semaines cible)*
-- [ ] `src/core/profiles.ts` — `ShipProfile` type + tanker + voilier (port V1)
-- [ ] `src/core/hydrostatics.ts` — `computeB0`, `kb`, `bm`, `kmt`, `gmt`
-- [ ] `src/core/stability.ts` — `gzAt`, `gzPoints`, `gzAnalysis` (GZmax, angle chavirement, aire)
-- [ ] `src/core/freeSurface.ts` — formule carène liquide `l³L/12` + cloisonnement `(n+1)²`
-- [ ] `src/core/weights.ts` — embarquement poids (axial fonds/G/haut, latéral, suspendu)
-- [ ] `src/core/imo.ts` — critères IMO (GZ≥0.20m à 30°, aires 0-30°/0-40°, angle GZmax≥25°)
-- [ ] **Tests Vitest** : 14+ scénarios numériques portés depuis V1 (tanker MR2 + voilier 12m)
-- [ ] **Tests non-régression** : BM=0 si TE=0, isFinite computeB0, etc. (Hardened Rules H3)
-- [ ] Coverage core > 90%
+- [x] `src/core/types.ts` — SimInputs, SimState, Hydrostatics, ShipProfile, GzAnalysis
+- [x] `src/core/profiles.ts` — `ShipProfile` type + tanker + voilier (port V1) + `cargoDensity`
+- [x] `src/core/hydrostatics.ts` — `computeB0`, `kb`, `bm`, `kmt`, `gmt`, `envAngle`, `freeSurfaceMoment`, `computeHydrostatics`
+- [x] `src/core/stability.ts` — `gzAt`, `gzPoints`, `gzAnalysis` (GZmax, angle chavirement, aire)
+- [x] `src/core/simulation.ts` — orchestrateur `computeSimState` (pipeline bout-en-bout)
+- [x] Références §PDF CMP sur toutes les fonctions majeures (règle H8)
+- [x] Clamp défensif `fsRatio ∈ [0,1]` (multi-agent review finding)
+- [x] `cargoDensity` paramétré dans ShipProfile (0.85 tanker pétrole, 1.0 défaut)
+- [x] **Tests non-régression** : BM=0 si TE=0, isFinite computeB0, NaN fallback, AREA_MIN fallback, symétrie GZ, conservation Δ=ρ·V, clamp fsRatio, ρ≤0 fallback, ic<0 robuste
+- [x] Coverage core > 98 % (stmt + lines), 100 % functions
+
+**Reste Phase 1 (session 4+)** :
+- [ ] `src/core/freeSurface.ts` — extraire formule de hydrostatics, supporter single/triple tanks
+- [ ] `src/core/weights.ts` — embarquement poids (axial fonds/G/haut, latéral, suspendu — cf. SPEC-CMP S4)
+- [ ] `src/core/imo.ts` — critères IMO (A.749 §3.1.2) : GMt≥0.15m, GZ≥0.20m à 30°, GZmax ≥25°, aires 0-30°/0-40°/30-40°
+- [ ] `src/core/index.ts` — barrel export API publique
+- [ ] Profil **barge parallélépipédique** (Cb=1) — cas de validation numérique **exacte** (KB, BM, KMt analytiques fermés, gold standard non-régression)
+- [ ] 14 scénarios numériques V1 **nommés et documentés** (le V1 revendique 14 cas validés ; les reproduire formellement avec valeurs attendues commentées)
+- [ ] Option `kbMethod: "box" | "morrish"` pour profils non-box (voilier, yacht motor) — Phase 2 si UI demande
 
 ### Phase 2 — POC R3F (scène stabilité tanker) *(3 semaines)*
 - [ ] Setup R3F + drei + postprocessing
@@ -147,7 +161,7 @@ Mapping détaillé dans `SPEC-CMP.md`.
 |-------|-------------|
 | Core physique zéro dépendance UI | `grep -r "react\|three" src/core/` → doit être vide |
 | Pas de `any` TypeScript | `tsc --noEmit --strict` passe |
-| Coverage core > 90% | `pnpm test:cov` |
+| Coverage core > 90% | `pnpm test:cov` (actuellement 98.5 %) |
 | Tests numériques valides | 14 scénarios V1 reproduits à l'identique (tanker + voilier) |
 | Visual regression | Diff < 0.1% sur scènes validées |
 | Bundle size | < 5 Mo JS main (hors assets WASM/HDRI) |
@@ -155,7 +169,31 @@ Mapping détaillé dans `SPEC-CMP.md`.
 | A11y | `axe-core` zéro erreur critique |
 | Secrets | Aucun (clé RSA privée, cert signing) dans le repo |
 
+## Dette technique identifiée (multi-agent review session 3)
+
+| Item | Priorité | Source | Tracker |
+|------|----------|--------|---------|
+| Cache GZ pour perf 60 fps tablette (V1 avait `_gzCache`, port V2 pas encore) | Phase 2 (avant UI R3F) | code-reviewer | À implémenter quand UI consomme `gzPoints` 60 fps |
+| `src/core/index.ts` barrel export | Phase 1 suite | meta-reviewer | Simplifie imports couche présentation |
+| Arbitrage BM box vs textbook (Cb) | Documenté | naval-architect + meta | D-016 dans DECISIONS.md (décision : cohabitation) |
+| 14 scénarios numériques V1 nommés | Phase 1 suite | meta-reviewer | Fidélité référentielle + non-régression stricte |
+| Profil barge Cb=1 (validation exacte) | Phase 1 suite | naval-architect | KB/BM/KMt analytiques fermés → gold test |
+| KB Morrish (alternatif au box KB=TE/2) | Phase 2 | naval-architect | Pour profils non-box (voilier, yacht motor) |
+| Zone hachurée courbe GZ au-delà envAngle | Phase 3 UI | naval-architect | Signal visuel d'invalidation wall-sided |
+
 ---
+
+## Complété — Session 3 (24/04/2026)
+
+- [x] Phase 1 partielle : core physique TS (types, profiles, hydrostatics, stability, simulation)
+- [x] 67 tests Vitest verts (hydrostatics 46 + stability 19 + smoke 2), coverage 98.5 %
+- [x] Multi-agent review (meta-quality, code-reviewer, naval-architect) — 4 findings fixés
+- [x] Fix A : clamp défensif `fsRatio ∈ [0,1]` + contrat documenté dans types.ts
+- [x] Fix B : `cargoDensity` dans ShipProfile (tanker 0.85 pétrole, correction FS corrigée ~18 %)
+- [x] Fix C : références §PDF CMP sur `kb`, `bm`, `envAngle`, `freeSurfaceMoment`, `computeB0`, `computeHydrostatics`, `gzAt`, `gzAnalysis` (règle H8)
+- [x] Fix D : tests symétrie GZ, ρ≤0, ic<0, fsRatio hors bornes, conservation Δ=ρ·V, cargoDensity
+- [x] D-016 ajouté à DECISIONS.md (arbitrage BM box vs textbook)
+- [x] Dettes techniques documentées (cache GZ, barrel index, profil barge, Morrish KB)
 
 ## Complété — Session 2 (24/04/2026)
 

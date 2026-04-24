@@ -501,6 +501,56 @@ Le pivot est **100 % transparent côté client** :
 
 ---
 
+## D-016 — Cohabitation BM textbook (avec Cb) et computeB0 box-hull (sans Cb)
+
+**Date** : 2026-04-24
+**Statut** : ✅ Adopté (décision pédagogique — documentée explicitement dans le code et les tests)
+
+**Contexte** :
+Lors du portage du moteur physique V1 vers TypeScript (Phase 1, session 3), le multi-agent review a révélé une **inconsistance pédagogique héritée du V1** :
+
+- `bm(B, TE, Cb) = B² / (12 · TE · Cb)` — formule **textbook ship-shaped hull** enseignée en CMP / Capitaine 200 (inclut le coefficient de block Cb).
+- `computeB0()` intègre numériquement une **coque parallélépipédique** (x ∈ [−B/2, B/2], bandes rectangulaires verticales), donc sans Cb.
+
+**Conséquence mesurée** : l'approximation métacentrique `GZ ≈ GMt · sin(θ)` ne se vérifie **pas** avec le GZ calculé par `computeB0`. Pour le tanker par défaut :
+- GMt_textbook (avec Cb) = 2.84 m → GZ(5°) attendu ≈ 0.248 m
+- GMt_box (sans Cb) = 1.65 m → GZ(5°) de computeB0 ≈ 0.144 m
+
+**Alternatives évaluées** :
+
+| Option | Conséquence pédagogique | Conséquence technique |
+|--------|-------------------------|----------------------|
+| **A. Garder les deux (statu quo V1)** | BM affiché en UI matche le référentiel CMP ; GZ calculé est box-hull. Inconsistance à documenter comme simplification. | Zéro changement de code. Formules affichées restent celles du référentiel. |
+| B. Supprimer Cb de BM (box cohérent) | BM affiché ne matche plus le manuel CMP ; perte de fidélité référentielle. | GZ = GMt · sin(θ) self-consistent. |
+| C. Ajouter Cb à computeB0 (textbook cohérent) | BM correct mais integration hull devient opaque (quelle forme exactement ?). | Plus complexe à expliquer pédagogiquement. |
+| D. Double moteur : textbook pour UI, box pour scène 3D | Pédagogiquement clair (deux niveaux). | Double complexité + risque d'incohérence. |
+
+**Choix** : **Option A** — garder les deux, documenter l'inconsistance explicitement.
+
+### Justification
+
+1. **Fidélité référentiel CMP** : la formule `B²/(12·TE·Cb)` est celle enseignée, tester sur un manuel = base non négociable.
+2. **Simplicité géométrique** : la coque parallélépipédique dans `computeB0` est le cas le plus simple à expliquer (« imaginez la barge »), cohérent avec l'approche pédagogique matelot.
+3. **Documentation explicite** : le test `stability.test.ts` contient le test `GZ box-hull : approximation métacentrique cohérente avec computeB0 (BM sans Cb)` qui démontre numériquement la divergence, ce qui en fait un **levier pédagogique** (l'élève voit que le manuel est une approximation, que la réalité nuance).
+4. **Extensibilité Phase 2+** : option future `kbMethod: "box" | "morrish" | "real-hull"` pour exposer plusieurs modèles de carène selon le profil (voilier courbé, barge, tanker).
+
+### Actions dans le code
+
+- `bm()` : comment JSDoc mentionne la formule textbook + réf §CMP.
+- `computeB0()` : comment JSDoc précise l'hypothèse parallélépipédique.
+- `stability.test.ts` : test explicite documentant l'inconsistance.
+- Pas de code changé — c'est une décision d'**acceptation consciente** d'une approximation.
+
+### Risques + mitigations
+
+| Risque | Mitigation |
+|--------|-----------|
+| Centre pilote détecte la divergence et juge « peu rigoureux » | Présenter comme simplification pédagogique volontaire (terminologie « hypothèse wall-sided »), cite sources (Derrett, Barrass). |
+| Un élève pose la question en cours | Support formateur doit avoir la réponse écrite. À ajouter au livrable Phase 9 (bêta). |
+| Évolution Phase 2+ vers modèles de carène réelle | `kbMethod` en option de profil quand le besoin émergera. |
+
+---
+
 ## Décisions en attente
 
 ### ❓ Langue interface V1 — français uniquement ou bilingue ?
