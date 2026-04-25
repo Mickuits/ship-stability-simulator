@@ -151,12 +151,21 @@ ship-stability-simulator/
 
 ---
 
-## Key Paths (à créer au fur et à mesure)
+## Key Paths
 
 | Path | Rôle | Statut |
 |------|------|--------|
-| `legacy/stabilite-navire-v4.html` | V1 prototype HTML monolithique | ✅ existe (racine, à migrer dans `legacy/`) |
-| `src/core/` | Moteur physique portable TS | ⏳ à créer (phase 1) |
+| `legacy/stabilite-navire-v4.html` | V1 prototype HTML monolithique | ✅ archivé |
+| `src/core/index.ts` | Barrel API publique du moteur physique | ✅ phase 1 |
+| `src/core/types.ts` | Types fondamentaux (SimInputs, Hydrostatics, ShipProfile…) | ✅ phase 1 |
+| `src/core/profiles.ts` | TANKER, SAILBOAT, BARGE (gold standard Cb=1) | ✅ phase 1 |
+| `src/core/hydrostatics.ts` | KB, BM, KMt, GMt, computeB0 (500 bandes), envAngle | ✅ phase 1 |
+| `src/core/stability.ts` | gzAt, gzPoints, gzAnalysis (GZmax, vanAngle, area) | ✅ phase 1 |
+| `src/core/freeSurface.ts` | Carène liquide L·B³/(12·(n+1)²) + correction KG | ✅ phase 1 |
+| `src/core/weights.ts` | Embarquement S4 + grutage suspendu + gîte d'équilibre | ✅ phase 1 |
+| `src/core/imo.ts` | Critères A.749 §3.1.2 avec flag `applicable` | ✅ phase 1 |
+| `src/core/simulation.ts` | Pipeline `computeSimState` bout-en-bout | ✅ phase 1 |
+| `src/core/__tests__/` | 9 fichiers, 203 tests, coverage 99.55 % stmt | ✅ phase 1 |
 | `src/scenes/S3_StabilityCore.tsx` | Scène centrale stabilité (couple P/π + Mt) | ⏳ phase 2 |
 | `src/scenes/S11_FreeSurface.tsx` | Carène liquide (shader custom) | ⏳ phase 4 |
 | `src/scenes/D5_Cranes.tsx` | Grues + chargement porte-conteneurs | ⏳ phase 5 |
