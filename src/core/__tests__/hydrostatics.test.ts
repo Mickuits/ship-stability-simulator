@@ -1,14 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-  bm,
-  computeB0,
-  computeHydrostatics,
-  envAngle,
-  freeSurfaceMoment,
-  gmt,
-  kb,
-  kmt,
-} from "../hydrostatics";
+import { freeSurfaceMoment } from "../freeSurface";
+import { bm, computeB0, computeHydrostatics, envAngle, gmt, kb, kmt } from "../hydrostatics";
 import { SAILBOAT, TANKER, defaultInputs } from "../profiles";
 
 describe("hydrostatics — primitives (kb / bm / kmt / gmt)", () => {

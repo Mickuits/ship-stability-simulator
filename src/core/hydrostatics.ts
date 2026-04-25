@@ -1,3 +1,4 @@
+import { freeSurfaceCorrection } from "./freeSurface";
 import { RHO_SEAWATER } from "./profiles";
 import type { BuoyancyCenter, Hydrostatics, ShipProfile, SimInputs } from "./types";
 
@@ -66,37 +67,6 @@ export function envAngle(B: number, D: number, TEeff: number): number {
   const fb = D - TEeff;
   if (fb <= 0 || B <= 0) return 0;
   return (Math.atan(fb / (B / 2)) * 180) / Math.PI;
-}
-
-/**
- * Moment d'inertie transversal de la surface libre d'un liquide dans une cuve
- * rectangulaire, avec cloisonnement éventuel : i = L · B³ / (12 · (n+1)²)
- * où n est le nombre de cloisons longitudinales.
- *
- * Équivaut à la formule V1 pour tankLayout="double" (n=1) : 2 · L · (B/2)³ / 12.
- *
- * Ref: CMP référentiel §«Effet de carène liquide par les chiffres» —
- * formule l·L·l²/12, division par (n+1)² par cloisonnement.
- */
-export function freeSurfaceMoment(L: number, B: number, bulkheads: number): number {
-  if (!Number.isFinite(L) || !Number.isFinite(B) || L <= 0 || B <= 0) return 0;
-  const n = Math.max(0, Math.floor(bulkheads));
-  const divisor = 12 * (n + 1) * (n + 1);
-  return (L * B * B * B) / divisor;
-}
-
-/** Nombre de cloisons longitudinales selon le type de tankLayout. */
-function bulkheadsFromLayout(layout: ShipProfile["tankLayout"]): number {
-  switch (layout) {
-    case "none":
-      return -1; // valeur sentinelle : pas de correction
-    case "single":
-      return 0;
-    case "double":
-      return 1;
-    case "triple":
-      return 2;
-  }
 }
 
 /**
@@ -233,12 +203,15 @@ export function computeHydrostatics(inputs: SimInputs, profile: ShipProfile): Hy
 
   // Clamp défensif du contrat SimInputs.fsRatio ∈ [0, 1] (cf. types.ts).
   const fsClamped = Math.max(0, Math.min(1, fsRatio));
-  const bulkheads = bulkheadsFromLayout(tankLayout);
-  if (bulkheads >= 0 && fsClamped > 0 && V > 0 && rho > 0) {
-    const i = freeSurfaceMoment(L, B, bulkheads);
-    const correction = (profile.cargoDensity * i * fsClamped) / (rho * V);
-    eKG += correction;
-  }
+  eKG += freeSurfaceCorrection({
+    L,
+    B,
+    tankLayout,
+    fsRatio: fsClamped,
+    cargoDensity: profile.cargoDensity,
+    rho,
+    V,
+  });
 
   const gmtValue = gmt(kmtValue, eKG);
   const envAngleValue = envAngle(B, D, TEeff);

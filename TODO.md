@@ -1,18 +1,22 @@
 # Ship Stability Simulator V2 — TODO
 
 > Roadmap V2 Web 3D (refonte depuis HTML V1). Mise à jour à chaque fin de session.
-> **Dernière MAJ** : 24/04/2026 (session 3 — Phase 0 bootstrap exécutée, branche `v2-web3d` verte)
+> **Dernière MAJ** : 25/04/2026 (session 4 — Phase 1 core physique TS **terminée**, 203 tests verts)
 >
 > Voir `CLAUDE.md` pour la stack technique complète, `SPEC-CMP.md` pour le mapping pédagogique, `DECISIONS.md` pour l'historique architectural.
 
 ---
 
 ## En cours
-**Phase 1 — Core physique TypeScript** *(session 3 en cours, ~40 % fait)* :
-- ✅ `types.ts`, `profiles.ts` (tanker + voilier), `hydrostatics.ts`, `stability.ts`, `simulation.ts`
-- ✅ 67 tests Vitest verts, coverage 98.5 % stmt, 100 % funcs
-- ✅ Multi-agent review passée (3 agents en parallèle) — 4 findings fixés avant commit
-- ⏳ Reste à faire Phase 1 : `freeSurface.ts` autonome, `weights.ts`, `imo.ts`, 14 scénarios numériques V1 exhaustifs, barrel `src/core/index.ts`, profil barge Cb=1 pour validation exacte.
+**Phase 1 — Core physique TypeScript** *(✅ TERMINÉE session 4, 25/04/2026)* :
+- ✅ Tous les modules livrés : `types.ts`, `profiles.ts`, `hydrostatics.ts`, `stability.ts`, `simulation.ts`, `freeSurface.ts`, `weights.ts`, `imo.ts`, `index.ts` (barrel)
+- ✅ 203 tests Vitest verts, coverage **99.55 % stmt / 100 % funcs / 88.95 % branch**
+- ✅ Multi-agent review (naval-architect + code-reviewer + meta-quality) — 7 findings P0/P1 fixés
+- ✅ 14 scénarios numériques formellement nommés et documentés (référentiel CMP)
+- ✅ Profil barge parallélépipédique Cb=1 (gold standard analytique)
+- ✅ Critères IMO A.749 §3.1.2 avec sémantique « applicable » correcte
+
+**Prochaine phase** : Phase 2 POC R3F (scène stabilité tanker, ~3 semaines).
 
 ---
 
@@ -46,14 +50,19 @@
 - [x] **Tests non-régression** : BM=0 si TE=0, isFinite computeB0, NaN fallback, AREA_MIN fallback, symétrie GZ, conservation Δ=ρ·V, clamp fsRatio, ρ≤0 fallback, ic<0 robuste
 - [x] Coverage core > 98 % (stmt + lines), 100 % functions
 
-**Reste Phase 1 (session 4+)** :
-- [ ] `src/core/freeSurface.ts` — extraire formule de hydrostatics, supporter single/triple tanks
-- [ ] `src/core/weights.ts` — embarquement poids (axial fonds/G/haut, latéral, suspendu — cf. SPEC-CMP S4)
-- [ ] `src/core/imo.ts` — critères IMO (A.749 §3.1.2) : GMt≥0.15m, GZ≥0.20m à 30°, GZmax ≥25°, aires 0-30°/0-40°/30-40°
-- [ ] `src/core/index.ts` — barrel export API publique
-- [ ] Profil **barge parallélépipédique** (Cb=1) — cas de validation numérique **exacte** (KB, BM, KMt analytiques fermés, gold standard non-régression)
-- [ ] 14 scénarios numériques V1 **nommés et documentés** (le V1 revendique 14 cas validés ; les reproduire formellement avec valeurs attendues commentées)
-- [ ] Option `kbMethod: "box" | "morrish"` pour profils non-box (voilier, yacht motor) — Phase 2 si UI demande
+**Phase 1 livrée — session 4 (25/04/2026)** :
+- [x] `src/core/freeSurface.ts` — extrait, supporte single/double/triple tanks, 19 tests
+- [x] `src/core/weights.ts` — embarquement (S4) : 6 scénarios + grutage suspendu + gîte d'équilibre, 32 tests
+- [x] `src/core/imo.ts` — critères A.749 §3.1.2 avec flag `applicable` (sémantique non-FAIL pour critères sans objet), 19 tests
+- [x] `src/core/index.ts` — barrel API publique, 9 tests smoke
+- [x] Profil **BARGE parallélépipédique** Cb=1 (gold standard analytique exact), 30 tests dédiés
+- [x] 14 scénarios numériques formellement nommés et documentés, 26 tests
+- [x] Multi-agent review post-livraison + 7 fixes appliqués (integrateGz branche manquante, IMO applicable flag, guards cargoDensity/state.M, valeurs cibles Sc.10/11)
+
+**Reportés (Phase 2+ si nécessaire)** :
+- [ ] Option `kbMethod: "box" | "morrish"` pour profils non-box (voilier, yacht motor)
+- [ ] `gzAnalysis.vanAngle` ambiguïté 0/180 (sentinelle vs valeur réelle) — code pré-existant, à clarifier quand UI consomme
+- [ ] §PDF page numbers dans annotations CMP (H8) — quand le PDF référentiel sera consulté pour les pages exactes
 
 ### Phase 2 — POC R3F (scène stabilité tanker) *(3 semaines)*
 - [ ] Setup R3F + drei + postprocessing
@@ -182,6 +191,20 @@ Mapping détaillé dans `SPEC-CMP.md`.
 | Zone hachurée courbe GZ au-delà envAngle | Phase 3 UI | naval-architect | Signal visuel d'invalidation wall-sided |
 
 ---
+
+## Complété — Session 4 (25/04/2026)
+
+- [x] Phase 1 core physique **terminée** : 4 nouveaux modules + 1 profil + barrel
+- [x] 203 tests Vitest verts (vs 67 en début de session, +136), coverage 99.55 % stmt / 88.95 % branch
+- [x] Profil BARGE Cb=1 + 30 tests gold standard (formules box exactes au 12e chiffre)
+- [x] `freeSurface.ts` extrait autonome (single/double/triple cuves), 19 tests
+- [x] `weights.ts` complet (6 scénarios narratifs S4 + grutage + gîte d'équilibre), 32 tests
+- [x] `imo.ts` critères A.749 §3.1.2 avec sémantique « applicable » (le tanker default n'est plus faux-FAIL)
+- [x] `scenarios.test.ts` — 14 scénarios pédagogiques nommés (catégories A-F)
+- [x] `src/core/index.ts` — barrel API publique
+- [x] Multi-agent review (naval-architect + code-reviewer + meta-quality)
+- [x] 7 fixes P0/P1 post-review : `integrateGz` branche `g0≤0&&g1>0` ajoutée, IMO `applicable` flag, guards `cargoDensity>0` et `state.M≥0`, valeurs cibles Sc.10/11, cleanup re-export `freeSurfaceMoment`, doc `equilibriumHeel` domaine wall-sided
+- [x] Test petit-angle absolu sur barge (`GZ(1°) ≈ GMt·sin(1°)`) — fige le signe de la formule GZ
 
 ## Complété — Session 3 (24/04/2026)
 

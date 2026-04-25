@@ -24,6 +24,38 @@ export const TANKER: ShipProfile = {
   cargoDensity: 0.85, // pétrole brut léger — impacte correction carène liquide
 };
 
+/**
+ * Barge parallélépipédique (Cb = 1) — profil **gold standard** de validation analytique.
+ *
+ * Pour une box pure (Cb = 1, livet vertical, fond plat), les formules hydrostatiques
+ * box du core deviennent **exactes** et non plus approchées :
+ *   - KB  = TE / 2
+ *   - BM  = B² / (12 · TE)            (puisque Cb = 1)
+ *   - KMt = KB + BM
+ *   - Δ   = ρ · L · B · TE             (carène complète)
+ *   - envAngle = atan( (D − TE) / (B/2) )
+ *
+ * Sert de **non-régression numérique stricte** : toute dérive sur ces valeurs
+ * pour ce profil signale un bug. Référentiel CMP §«Calcul du tirant d'eau —
+ * exemple barge 25 m».
+ */
+export const BARGE: ShipProfile = {
+  id: "barge",
+  name: "Barge parallélépipédique (25 m)",
+  L: 25,
+  Cb: 1.0,
+  B: { min: 4, max: 12, step: 0.1, def: 8 },
+  D: { min: 2, max: 5, step: 0.1, def: 3 },
+  TE: { min: 0.3, max: 2.5, step: 0.05, def: 1.5 },
+  KG: { min: 0.3, max: 2.5, step: 0.05, def: 1.0 },
+  icingHeight: 1,
+  hasTanks: false,
+  tankLayout: "none",
+  hasKeel: false,
+  hasMast: false,
+  cargoDensity: 1.0, // ignoré (hasTanks=false)
+};
+
 /** Voilier de 12 m — profil hérité du prototype V1. */
 export const SAILBOAT: ShipProfile = {
   id: "sailboat",
@@ -46,6 +78,7 @@ export const SAILBOAT: ShipProfile = {
 export const PROFILES: Readonly<Record<string, ShipProfile>> = Object.freeze({
   [TANKER.id]: TANKER,
   [SAILBOAT.id]: SAILBOAT,
+  [BARGE.id]: BARGE,
 });
 
 /** Construit les inputs par défaut d'un profil (sliders à leur position initiale). */
