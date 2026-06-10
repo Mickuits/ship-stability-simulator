@@ -18,18 +18,20 @@ Le core box-hull existant (`profiles.ts`, `stability.ts`, `freeSurface.ts`, `wei
 
 ---
 
-## En cours — Sprint 0 (conformité docs + bootstrap)
+## Sprint 0 — conformité docs + bootstrap *(✅ TERMINÉ session 5, 10/06/2026)*
 
 - [x] Transcrire **D-017** dans `DECISIONS.md` (moteur mesh-based, amende Phase 1 du D-013)
 - [x] Amender `CLAUDE.md` : moteur mesh-based, Hardened Rules H11-H14, validation design humaine (A4), pipeline assets, arborescence (`assets/ships/`, `src/core/geometry/`, `src/core/hydrostatics/`)
 - [x] Purger les mentions « 14 cas numériques validés » (A1) — remplacées par protocole validation DELFTship + géométries analytiques
 - [x] Corriger SPEC-CMP « mot-pour-mot » → « reformulé conforme au référentiel national » (A3) ; idem README, BUSINESS-PLAN
 - [x] Réécrire ce `TODO.md` sur le périmètre V2.0 resserré (A7)
-- [ ] Rechercher le référentiel national CMP (Légifrance/DGAMPA), l'archiver dans `docs/referentiel/` avec note de source (A3)
-- [ ] Créer `docs/CONVENTIONS-AXES.md` (H13) — convention DELFTship documentée une fois pour toutes
-- [ ] Vérifier CI `ci.yml` (typecheck + lint + test) ; `pnpm typecheck && pnpm lint && pnpm test:run` verts
-- [ ] Archiver `HANDOFF-CLAUDE-CODE.md` dans `docs/` (fin de Sprint 0)
-- [ ] Commit + push Sprint 0 sur `v2-web3d`
+- [x] Rechercher le référentiel national CMP (arrêté 18/08/2015, RNCP24154), archivé dans `docs/referentiel/SOURCES.md` avec note de source + note juridique Esterel (A3)
+- [x] Créer `docs/CONVENTIONS-AXES.md` (H13) — convention X-avant/Y-bâbord/Z-haut, mètres, remap glTF↔navire
+- [x] Vérifier CI `ci.yml` (conforme) ; `pnpm typecheck && pnpm lint && pnpm test:run` verts (203 tests)
+- [x] Archiver `HANDOFF-CLAUDE-CODE.md` dans `docs/`
+- [x] Commit + push Sprint 0 sur `v2-web3d`
+
+**Sprint 0 terminé — session 5 (10/06/2026).** Prochaine étape : Sprint 1 (core géométrie + hydrostatiques mesh-based). Démarrable sur les 3 géométries analytiques en attendant le 1er export DELFTship de Micka (tanker MR2 pressenti).
 
 ---
 
