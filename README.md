@@ -7,8 +7,8 @@ Licence perpétuelle B2B, desktop offline (Windows + macOS) + PWA.
 
 ## État
 
-- **V1** (branche `master`) — prototype HTML monolithique sous `legacy/stabilite-navire-v4.html`. Moteur physique validé sur 14 cas numériques. Archivé en référence pédagogique.
-- **V2** (branche `v2-web3d`) — refonte **Vite + React + Three.js + Tauri**. Phase 0 bootstrap en cours (cf. `TODO.md`).
+- **V1** (branche `master`) — prototype HTML monolithique sous `legacy/stabilite-navire-v4.html`. Archivé en référence UX/pédagogique (moteur box-hull, valide barge uniquement — non porté tel quel, cf. D-017).
+- **V2** (branche `v2-web3d`) — refonte **Vite + React + Three.js + Tauri**. Moteur **hydrostatique générique basé maillage** validé contre tables DELFTship (D-017). Sprint 0 (conformité docs + bootstrap) en cours (cf. `TODO.md`).
 
 ---
 

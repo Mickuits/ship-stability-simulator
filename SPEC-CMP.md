@@ -4,7 +4,9 @@
 >
 > Source : `Description Construction Stabilité Sept 2024.pdf` (agrément DREETS 93.83.0658883).
 >
-> Ce document est la **fondation pédagogique** du produit. Toute définition, formule ou nomenclature utilisée dans le logiciel doit être **strictement fidèle** au référentiel, sous peine de disqualification auprès des centres de formation agréés.
+> Ce document est la **fondation pédagogique** du produit. Toute définition, formule ou nomenclature utilisée dans le logiciel doit être **conforme au référentiel national CMP** (arrêté de délivrance du certificat de matelot pont + annexes pédagogiques DGAMPA), **reformulée fidèlement** (paraphrase au sens, jamais verbatim), sous peine de disqualification auprès des centres de formation agréés.
+>
+> **⚠️ Note juridique (10/06/2026, audit A3)** : le PDF Institut Maritime Esterel est une **œuvre protégée** appartenant à un centre de formation (prospect/concurrent potentiel) ; l'agrément DREETS ne le rend pas libre de droits. Il sert uniquement de **check de cohérence pédagogique interne** — jamais cité, jamais reproduit dans le logiciel ni dans les livrables. La **source de conformité primaire** est le référentiel national (Légifrance + DGAMPA), archivé dans `docs/referentiel/`.
 >
 > **Note technique (24/04/2026)** : le contenu pédagogique ci-dessous est **indépendant du moteur**. Les mentions techniques Unity/Obi/Crest des versions initiales ont été révisées vers la stack Web 3D (Three.js + R3F + Tauri) — cf. `DECISIONS.md` D-015. Le cahier des charges pédagogique reste intact.
 
@@ -14,7 +16,7 @@
 
 | Principe | Implication produit |
 |----------|--------------------|
-| **Fidélité référentielle** | Les définitions, abréviations et formules du logiciel sont copiées mot-pour-mot du PDF. Aucune dérive terminologique. |
+| **Fidélité référentielle** | Les définitions, abréviations et formules du logiciel sont **conformes au référentiel national CMP et reformulées fidèlement** (jamais verbatim du polycopié Esterel — cf. note juridique A3). Aucune dérive terminologique de sens. |
 | **Progressivité** | Le logiciel suit l'ordre du référentiel : Description → Construction → Stabilité. Un élève ne peut pas sauter les notions prérequises. |
 | **Visualisation 3D** | Tout concept abstrait (carène, métacentre, GZ, couple) est matérialisé par un objet 3D manipulable. |
 | **Quantification** | Chaque démonstration affiche les valeurs numériques en temps réel (TE, GMt, GZ, MSIT). |
@@ -150,9 +152,9 @@
 
 ### Module S2 — Géométrie du navire (PDF §II stabilité, définitions)
 
-**Glossaire officiel à implémenter** (copié du référentiel) :
+**Glossaire à implémenter** (abréviations standard d'architecture navale, conformes au référentiel national — reformulées, non copiées) :
 
-| Abréviation | Signification officielle PDF |
+| Abréviation | Signification (reformulée) |
 |-------------|------------------------------|
 | B0 | Centre de carène |
 | G | Centre de gravité du navire |
@@ -249,8 +251,8 @@
 | c | Confondu avec Mt | Équilibre incertain (sphère/cylindre) | À proscrire |
 | d | Au-dessus de Mt | Chavirement | À proscrire |
 
-**Conclusion pédagogique (copiée PDF)** :
-> *Pour une bonne stabilité transversale, placer le métacentre le plus haut possible (coque large — stabilité de forme) avec un centre de gravité très bas (stabilité de poids).*
+**Conclusion pédagogique (reformulée, conforme au référentiel national)** :
+> Une bonne stabilité transversale combine un métacentre placé haut (coque large → stabilité de forme) et un centre de gravité bas (lest → stabilité de poids).
 
 ### Module S6 — Cas particuliers (PDF §II.4)
 

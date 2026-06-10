@@ -378,7 +378,7 @@ Les offres Centre (Basic 5 postes / Pro 10 postes) impliquent plusieurs installa
 | Phase | Durée estimée | Livrable | Critère sortie |
 |-------|---------------|----------|----------------|
 | 0. Cadrage | 1 sem | SPEC-CMP, DECISIONS, BUSINESS-PLAN | Docs validés utilisateur |
-| 1. Core physique TypeScript | 2 sem | Lib portée depuis V4 + tests Vitest | 14 tests numériques passent |
+| 1. Core physique TypeScript | 3-4 sem (révisé D-017) | Moteur mesh-based générique + tests Vitest | Validation contre tables DELFTship + 3 géométries analytiques |
 | 2. POC R3F | 3 sem | 1 scène stabilité tanker + mer shader Gerstner + UI shadcn | Feature parity avec v4 sur stabilité |
 | 3. Modules S1-S7 | 4 sem | Tous les modules stabilité cœur | Validation bêta centre pilote |
 | 4. Carène liquide 3D | 2 sem | Module S11 avec visualisation fluide | Scénario ferry pont garage démontrable |
@@ -548,6 +548,68 @@ Lors du portage du moteur physique V1 vers TypeScript (Phase 1, session 3), le m
 | Centre pilote détecte la divergence et juge « peu rigoureux » | Présenter comme simplification pédagogique volontaire (terminologie « hypothèse wall-sided »), cite sources (Derrett, Barrass). |
 | Un élève pose la question en cours | Support formateur doit avoir la réponse écrite. À ajouter au livrable Phase 9 (bêta). |
 | Évolution Phase 2+ vers modèles de carène réelle | `kbMethod` en option de profil quand le besoin émergera. |
+
+---
+
+## D-017 — **DÉCISION STRUCTURANTE** : Moteur hydrostatique générique basé maillage
+
+**Date** : 2026-06-10
+**Statut** : ✅ Adopté (décision structurante — supersède l'approche box-hull comme source primaire ; amende la Phase 1 de D-013 et la portée du D-016)
+
+> ⚠️ **Note de numérotation** : le handoff du 10/06/2026 désignait cette décision « D-016 ». Comme un D-016 existe déjà (cohabitation BM box/textbook, 24/04/2026), elle est transcrite ici en **D-017** pour préserver la traçabilité.
+
+**Contexte** :
+Audit du repo (10/06/2026) — voir `docs/HANDOFF-CLAUDE-CODE.md` (archivé). Le core physique V2 existant (`src/core/`, 203 tests verts) repose sur :
+- `computeB0()` qui intègre une **section rectangulaire** (coque parallélépipédique wall-sided) — alors que le rendu cible dessine bouchains et coques en V.
+- `KB = TE × 0,5` : exact pour une barge uniquement, faux pour le voilier (Cb 0,48).
+- `BM = B²/(12·TE·Cb)` : inertie de flottaison rectangulaire pleine → BM surestimé sur les formes réelles.
+- Carène liquide hardcodée (« 2 citernes de largeur B/2 ») non généralisable.
+
+Ces formules sont **valides pour la barge** (gold standard) mais **quantitativement fausses hors barge**. Pour un produit commercial B2B (3 900–12 900 €) visant des centres de formation maritime, un moteur fidèle à des formes de carène réelles est nécessaire.
+
+**Décision** : le navire devient une **donnée**, le moteur devient **unique et générique, basé maillage** :
+
+```
+assets/ships/<nom-navire>/
+├── hull-calc.glb     # carène ÉTANCHE (watertight manifold), basse rés. (~2-5k tris), géométrie de CALCUL
+├── hull-visual.glb   # maillage haute qualité (rendu) — jamais utilisé pour le calcul
+├── tanks/<tank>.glb  # volumes internes des capacités (carène liquide), étanches
+└── ship.json         # masse lège, KG lège, capacités, bornes sliders, métadonnées, hydrostatiques de référence
+```
+
+**Algorithmes du core (TypeScript pur, zéro dépendance React/Three — H1 maintenue)** :
+1. Coupe du maillage par le plan de flottaison pour tout triplet (tirant d'eau, gîte θ, assiette) → volume immergé ∇, centre de carène B(θ), aire et inerties de flottaison (It, Il).
+2. **GZ(θ) par méthode directe** (bras de levier depuis la position réelle de B), valable grands angles, pont immergé, formes quelconques. L'approximation métacentrique `GZ ≈ GM·sinθ` n'est affichée qu'en **comparaison pédagogique petits angles** — c'est là que l'ancien core box-hull/textbook (D-016) est conservé.
+3. Équilibre : tirant d'eau d'équilibre par itération (Δ = ρ·∇) ; gîte d'équilibre par annulation du moment.
+4. Carène liquide générique : tanks = maillages → même algo de coupe au niveau de remplissage → CG réel du liquide + correction de surface libre exacte. Supprime tout hardcodé.
+5. Critères IMO (A.749 / IS Code) calculés sur la courbe GZ réelle.
+
+Implémentation : clipping triangle/plan + sommation volumique (théorème de la divergence) ; courbe GZ précalculée par pas de 1° avec cache invalidé par clé de paramètres (leçon du bug cache V1). BVH si besoin de perf (probablement inutile à 2-5k triangles).
+
+**Alternatives évaluées** :
+
+| Option | Fidélité physique | Extensibilité navires | Verdict |
+|--------|-------------------|----------------------|---------|
+| Garder formules box V1 (port direct) | ❌ fausse hors barge | ❌ 1 formule par forme | ❌ |
+| Formules paramétriques par type (tanker/voilier/ferry) | 🟡 approximations | 🟡 dev moteur par navire | ❌ |
+| **Moteur générique mesh-based** | ✅ formes réelles | ✅ navire = pack d'assets, zéro dev moteur | ✅ **Choix** |
+
+**Conventions assets (non négociables — Hardened Rules)** :
+- **H12** : maillage de calcul étanche (watertight, manifold, normales sortantes cohérentes). Test automatique d'étanchéité à l'import (somme des volumes signés, edges non-manifold = rejet).
+- **H13** : convention d'axes unique, alignée sur l'export natif **DELFTship** (Micka maîtrise DELFTship et en exporte les tables hydro de référence — H14). Unités mètres. Documentée une fois, jamais changée. Tout asset non conforme est rejeté à l'import. *(Convention DELFTship exacte vérifiée et figée dans `docs/CONVENTIONS-AXES.md`.)*
+- **H14** : chaque navire entre dans le repo **avec ses hydrostatiques de référence** dans `ship.json` + le test Vitest associé. Pas de référence = pas de merge.
+
+**Pipeline d'intégration d'un navire (workflow Micka, l'éditeur)** :
+1. Visuel (Sketchfab CC0, Blender) → `hull-visual.glb`.
+2. Carène de calcul dans DELFTship → export maillage étanche → `hull-calc.glb` (+ nettoyage Blender CLI si besoin).
+3. Tables hydrostatiques DELFTship (∇, KB, BM, KMt, LCB à plusieurs tirants ; KN/GZ si dispo) → `ship.json.reference`.
+4. `pnpm validate:ship <nom>` → le moteur recalcule et compare (tolérance ±2 % sur ∇/KB/KMt, ±3 % sur GZ aux angles clés). Vert = navire intégrable.
+
+**Conséquences** :
+- Phase 1 (core) passe de ~2 à **3-4 semaines**, tests inclus. En échange, navires n°3 à n+ = quelques jours d'assets chacun, zéro dev moteur.
+- Le **moat devient réel** : un moteur hydrostatique mesh-based validé contre DELFTship est difficilement copiable, contrairement à des formules de barge.
+- Le core box-hull/textbook existant (203 tests) est **conservé** comme couche de comparaison petits angles + barge gold-standard (validation analytique exacte). Aucun travail jeté.
+- Résout l'incohérence physique/visuel (overlay translucide carène de calcul sur le visuel possible) et donne une source de vérité physique unique (Rapier reste cosmétique — voir H11).
 
 ---
 

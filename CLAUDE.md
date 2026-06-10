@@ -13,8 +13,8 @@
 **Stack retenue — 100 % pilotable par agents** (Vite + React + Three.js + Tauri). Voir `DECISIONS.md` D-015 pour le pivot depuis Unity.
 
 **Status produit** :
-- **V1** (production) — prototype HTML monolithique `stabilite-navire-v4.html` sur branche `master`. Conservé en archive référence pédagogique (moteur physique validé sur 14 cas numériques).
-- **V2** (en cours) — refonte desktop/PWA sur branche `v2-web3d` (à créer). Objectif : 17 modules CMP, distribution via Tauri signé (Windows + macOS) + PWA web.
+- **V1** (archive) — prototype HTML monolithique `stabilite-navire-v4.html` sur branche `master`. Conservé en référence UX/pédagogique. Son moteur physique (formules box-hull) est valide pour la barge mais quantitativement faux hors barge — **non porté tel quel** (cf. D-017, audit A2).
+- **V2** (en cours) — refonte desktop/PWA sur branche `v2-web3d`. Moteur **hydrostatique générique basé maillage** (D-017). **Périmètre V2.0 vendable resserré** : S3 (stabilité cœur), S11 (carène liquide ferry), D1 (anatomie navire), mode quiz ; 3 navires (tanker MR2, voilier 12 m, ferry/roulier). Reste (D2-D6, grues, porte-conteneurs) en V2.1+. Distribution via Tauri signé (Windows + macOS) + PWA web.
 
 ---
 
@@ -55,8 +55,9 @@ Les docs initiaux (BUSINESS-PLAN / DECISIONS / SPEC-CMP datés 23/04/2026) visai
 - **KTX2 + BasisU** — textures GPU-compressed
 - **Poly Haven HDRI** (CC0) — éclairage studio via drei `<Environment>`
 
-### Validation autonome (remplace l'œil humain)
-- **Vitest** — tests unitaires (core physique, 14 scénarios numériques portés depuis V1)
+### Validation autonome (assiste — ne remplace PAS l'œil humain sur l'esthétique)
+> Audit A4 : pixelmatch/Playwright valident la **non-régression**, pas la **beauté**. Les agents exécutent tout le code ; **Micka valide visuellement à chaque fin de sprint** (screenshots/build). Points de revue design explicites dans la roadmap.
+- **Vitest** — tests unitaires core physique. Validation numérique réelle = comparaison aux **tables DELFTship** de chaque navire (H14) + 3 géométries analytiques (barge, cylindre, prisme — solutions exactes). Le core box-hull legacy fournit en plus des tests d'auto-cohérence (couche comparaison petits angles)
 - **Playwright** — E2E + visual regression (screenshots + pixelmatch/Chromatic)
 - **Storybook + test-runner** — composants UI isolés
 - **TypeScript `tsc --noEmit`** — validation types
@@ -83,12 +84,18 @@ Les docs initiaux (BUSINESS-PLAN / DECISIONS / SPEC-CMP datés 23/04/2026) visai
                                  │ import depuis /core
 ┌────────────────────────────────▼─────────────────────────────────┐
 │  Couche 2 — Core physique (TypeScript pur, zéro dépendance UI)  │
-│  src/core/profiles.ts        — ShipProfile (tanker, voilier...)  │
-│  src/core/hydrostatics.ts    — computeB0, KB, BM, KMt, GMt      │
-│  src/core/stability.ts       — GZ curves, GZmax, chavirement    │
-│  src/core/freeSurface.ts     — carène liquide l³L/12            │
-│  src/core/weights.ts         — embarquement, poids suspendu     │
-│  src/core/__tests__/         — Vitest (14+ cas numériques)      │
+│  MOTEUR PRIMAIRE — mesh-based générique (D-017) :              │
+│  src/core/geometry/        — chargeur glTF, étanchéité, clip   │
+│                              maillage/plan, volume signé        │
+│  src/core/hydrostatics/    — ∇, B(θ), KB/BM/KMt, GZ(θ) direct, │
+│                              équilibre TE, courbe GZ + cache    │
+│  src/core/tanks.ts         — carène liquide mesh (CG réel + FS) │
+│  src/core/imo.ts           — critères A.749 sur courbe GZ réelle│
+│  COUCHE COMPARAISON — box-hull/textbook legacy (conservée) :   │
+│  src/core/profiles.ts, hydrostatics.ts, stability.ts,          │
+│  freeSurface.ts, weights.ts — GZ≈GM·sinθ petits angles + barge │
+│                              gold-standard (validation exacte)  │
+│  src/core/__tests__/       — Vitest (203 tests box + mesh)      │
 │  TESTABLE EN CLI : vitest src/core                              │
 └────────────────────────────────┬─────────────────────────────────┘
                                  │ import depuis /licensing
@@ -101,7 +108,7 @@ Les docs initiaux (BUSINESS-PLAN / DECISIONS / SPEC-CMP datés 23/04/2026) visai
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-**Règle absolue** : le core physique **ne connaît ni React ni Three.js**. Il ne manipule que des nombres et des structures. Chaque scène Unity/React lit le core et rend le résultat.
+**Règle absolue** : le core physique **ne connaît ni React ni Three.js** (H1). Il ne manipule que des nombres et des structures (positions/indices de maillage, scalaires). Le chargeur glTF du core lit la géométrie en données brutes — il n'importe pas Three.js. Chaque scène R3F lit le core et rend le résultat.
 
 ---
 
@@ -111,8 +118,18 @@ Les docs initiaux (BUSINESS-PLAN / DECISIONS / SPEC-CMP datés 23/04/2026) visai
 ship-stability-simulator/
 ├── legacy/
 │   └── stabilite-navire-v4.html     # V1 archive (renommé depuis racine)
+├── assets/
+│   └── ships/<nom-navire>/           # 1 pack = 1 navire (D-017)
+│       ├── hull-calc.glb             # carène étanche de CALCUL (~2-5k tris)
+│       ├── hull-visual.glb           # maillage rendu haute qualité
+│       ├── tanks/<tank>.glb          # volumes capacités (carène liquide)
+│       └── ship.json                 # masse lège, KG, capacités, ref. hydro
 ├── src/
 │   ├── core/                         # physique pure TS
+│   │   ├── geometry/                 # chargeur glTF, étanchéité, clip plan
+│   │   ├── hydrostatics/             # ∇, KB/BM/KMt, GZ direct, équilibre
+│   │   ├── tanks.ts                  # carène liquide mesh-based
+│   │   └── (legacy box-hull conservé : profiles/stability/freeSurface…)
 │   ├── scenes/                       # scènes R3F par module CMP
 │   ├── components/                   # UI shadcn
 │   ├── hooks/
@@ -135,7 +152,10 @@ ship-stability-simulator/
 ├── docs/
 │   ├── SPEC-CMP.md                   # mapping référentiel
 │   ├── BUSINESS-PLAN.md
-│   └── DECISIONS.md
+│   ├── DECISIONS.md
+│   ├── CONVENTIONS-AXES.md           # convention repère (H13, alignée DELFTship)
+│   ├── HANDOFF-CLAUDE-CODE.md        # audit + pivot D-017 (archivé)
+│   └── referentiel/                  # référentiel national CMP (source A3)
 ├── .github/workflows/                # CI
 ├── CLAUDE.md                         # CE FICHIER
 ├── TODO.md                           # roadmap
@@ -225,6 +245,12 @@ pnpm assets:optimize                  # gltf-transform + KTX2
 | H8 | **Chaque feature pédagogique → référence §PDF dans un commentaire** (traçabilité conformité CMP) | Conformité référentielle = argument de vente |
 | H9 | **Licensing RSA : clé privée JAMAIS committée** (secrets chiffrés dans CI) | Compromis = piratage trivial |
 | H10 | **Visual regression tests avant merge** sur PR modifiant une scène | Garde-fou "ça ressemble toujours à ce qui était validé" |
+| H11 | **Rapier est cosmétique uniquement** (balancement de charge, animations secondaires). JAMAIS source d'une valeur affichée (GZ, GM, TE, gîte d'équilibre…) | Une seule source de vérité physique : le core hydrostatique. Cf. D-017 / audit A5 |
+| H12 | **Maillage de calcul étanche** (watertight, manifold, normales sortantes). Test d'étanchéité à l'import : volume signé cohérent, edges non-manifold = rejet | Le moteur mesh-based intègre par coupe de plan ; une fuite = volume faux. Cf. D-017 |
+| H13 | **Convention d'axes unique alignée DELFTship**, unités mètres, documentée dans `docs/CONVENTIONS-AXES.md`, JAMAIS changée. Asset non conforme = rejeté à l'import | Validation contre tables DELFTship (H14) impossible sans repère commun. Cf. D-017 |
+| H14 | **Chaque navire entre avec ses hydrostatiques de référence** (`ship.json.reference`, export DELFTship) + son test Vitest. Pas de référence = pas de merge | Validation réelle et reproductible. Remplace le mythe « 14 cas validés ». Cf. D-017 |
+
+> **A4 — validation design humaine** : les Hardened Rules garantissent la correction (nombres, non-régression), pas l'esthétique. Chaque fin de sprint touchant le rendu → **revue visuelle Micka** = critère de sortie explicite (cf. roadmap Sprint 2 « go/no-go esthétique »).
 
 ---
 
@@ -265,7 +291,13 @@ agent → édite code
 | Pêche côtier | 15-25m | 0.55 | ❌ | 🟡 important |
 | Barge parallélépipédique | 25m | 1.0 | ❌ | 🟢 nice-to-have (exemple calcul TE référentiel) |
 
-Définition centralisée dans `src/core/profiles.ts`. Ajout d'un profil = 1 objet + 1 glTF dans `public/models/`.
+**Pipeline d'intégration d'un navire (D-017, workflow Micka = l'éditeur)** :
+1. Visuel (Sketchfab CC0 / Blender) → `hull-visual.glb`.
+2. Carène de calcul dans **DELFTship** → export maillage étanche → `hull-calc.glb` (+ nettoyage Blender CLI si besoin).
+3. Tables hydrostatiques DELFTship (∇, KB, BM, KMt, LCB à plusieurs tirants ; KN/GZ si dispo) → `assets/ships/<nom>/ship.json` champ `reference`.
+4. `pnpm validate:ship <nom>` → le moteur recalcule et compare (tolérance ±2 % sur ∇/KB/KMt, ±3 % sur GZ aux angles clés). Vert = navire intégrable.
+
+**Ajout d'un navire = un pack d'assets + un JSON. Zéro modification du moteur physique.** C'est Micka (l'éditeur) qui intègre les navires, pas l'utilisateur final (pas de modeleur de coque utilisateur). Les anciens profils paramétriques (`src/core/profiles.ts`) restent pour la couche comparaison box-hull.
 
 ---
 

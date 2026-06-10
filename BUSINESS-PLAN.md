@@ -126,7 +126,7 @@ Ajout B2C (élèves) + maintenance = **~120-220 k€**.
 *« Faites passer vos élèves CMP avec un outil visuel, interactif, 100 % conforme au référentiel, qui fonctionne offline et que vous achetez une bonne fois pour toutes. »*
 
 **Arguments clés** :
-1. **Conformité** : chaque définition alignée mot-pour-mot sur le PDF DDTM
+1. **Conformité** : chaque définition conforme au référentiel national CMP (reformulée fidèlement, jamais recopiée — cf. note A3)
 2. **Licence unique** : pas de piège SaaS, pas de renouvellement forcé
 3. **Offline** : pas de dépendance Wi-Fi, utilisable en salle ou à bord
 4. **Installation simple** : .exe / .dmg, moins de 5 minutes

@@ -1,166 +1,120 @@
 # Ship Stability Simulator V2 — TODO
 
-> Roadmap V2 Web 3D (refonte depuis HTML V1). Mise à jour à chaque fin de session.
-> **Dernière MAJ** : 25/04/2026 (session 4 — Phase 1 core physique TS **terminée**, 203 tests verts)
+> Roadmap V2 Web 3D. Mise à jour à chaque fin de session.
+> **Dernière MAJ** : 10/06/2026 (Sprint 0 — mise en conformité docs + pivot moteur mesh-based D-017)
 >
-> Voir `CLAUDE.md` pour la stack technique complète, `SPEC-CMP.md` pour le mapping pédagogique, `DECISIONS.md` pour l'historique architectural.
+> Voir `CLAUDE.md` pour la stack technique, `SPEC-CMP.md` pour le mapping pédagogique, `DECISIONS.md` pour l'historique architectural (D-017 = moteur hydrostatique générique basé maillage).
 
 ---
 
-## En cours
-**Phase 1 — Core physique TypeScript** *(✅ TERMINÉE session 4, 25/04/2026)* :
-- ✅ Tous les modules livrés : `types.ts`, `profiles.ts`, `hydrostatics.ts`, `stability.ts`, `simulation.ts`, `freeSurface.ts`, `weights.ts`, `imo.ts`, `index.ts` (barrel)
-- ✅ 203 tests Vitest verts, coverage **99.55 % stmt / 100 % funcs / 88.95 % branch**
-- ✅ Multi-agent review (naval-architect + code-reviewer + meta-quality) — 7 findings P0/P1 fixés
-- ✅ 14 scénarios numériques formellement nommés et documentés (référentiel CMP)
-- ✅ Profil barge parallélépipédique Cb=1 (gold standard analytique)
-- ✅ Critères IMO A.749 §3.1.2 avec sémantique « applicable » correcte
+## Cap produit (rappel)
 
-**Prochaine phase** : Phase 2 POC R3F (scène stabilité tanker, ~3 semaines).
+V2.0 = **simulateur de stabilité navale commercialisable** pour centres de formation CMP. Deux piliers :
+
+1. **Moteur hydrostatique générique basé maillage** (D-017) — le navire est une donnée (assets glTF + JSON), le moteur est unique. Validé contre tables DELFTship. C'est le moat.
+2. **Périmètre resserré vendable** (A7, confirmé Micka 10/06/2026) : **S3** (stabilité cœur), **S11** (carène liquide ferry), **D1** (anatomie navire), **quiz QCM basique**, **3 navires** (tanker MR2, voilier 12 m, ferry/roulier). Le reste (D2-D6, autres S, porte-conteneurs/grues) → V2.1+.
+
+Le core box-hull existant (`profiles.ts`, `stability.ts`, `freeSurface.ts`, `weights.ts`, 203 tests) est **conservé comme couche de comparaison pédagogique** (approximation métacentrique petits angles), **pas** comme moteur primaire. Décision Micka 10/06/2026.
 
 ---
 
-## Phases V2 (ordre d'exécution — le plus petit chemin vers la 1re vente)
+## En cours — Sprint 0 (conformité docs + bootstrap)
 
-### Phase 0 — Cadrage & bootstrap repo ✅ *(sessions 24/04/2026 n°2 + n°3)*
-- [x] Pivot stack validé (Unity → Web 3D)
-- [x] CLAUDE.md V2 refactoré
-- [x] DECISIONS.md mis à jour (D-015 pivot + amendements D-001, D-003, D-004, D-005, D-007, D-009, D-012)
-- [x] BUSINESS-PLAN.md ajusté (coûts + distribution)
-- [x] SPEC-CMP.md ajusté (mentions Unity → R3F équivalent)
-- [x] TODO.md réécrit
-- [x] Déplacer `stabilite-navire-v4.html` dans `legacy/` sur branche `master`
-- [x] Créer branche `v2-web3d` vierge (base depuis `master`)
-- [x] Initialiser projet Vite + React + TS strict + Tailwind + shadcn/ui
-- [x] Config Biome + tsconfig strict
-- [x] Config Vitest + Playwright + Storybook
-- [x] CI GitHub Actions (typecheck + lint + test + E2E Playwright)
-- [x] `.gitignore` V2 (node_modules, dist, test-results, src-tauri/target, etc.)
-- [x] README.md d'accueil (pointeurs CLAUDE/SPEC/DECISIONS/BUSINESS)
+- [x] Transcrire **D-017** dans `DECISIONS.md` (moteur mesh-based, amende Phase 1 du D-013)
+- [x] Amender `CLAUDE.md` : moteur mesh-based, Hardened Rules H11-H14, validation design humaine (A4), pipeline assets, arborescence (`assets/ships/`, `src/core/geometry/`, `src/core/hydrostatics/`)
+- [x] Purger les mentions « 14 cas numériques validés » (A1) — remplacées par protocole validation DELFTship + géométries analytiques
+- [x] Corriger SPEC-CMP « mot-pour-mot » → « reformulé conforme au référentiel national » (A3) ; idem README, BUSINESS-PLAN
+- [x] Réécrire ce `TODO.md` sur le périmètre V2.0 resserré (A7)
+- [ ] Rechercher le référentiel national CMP (Légifrance/DGAMPA), l'archiver dans `docs/referentiel/` avec note de source (A3)
+- [ ] Créer `docs/CONVENTIONS-AXES.md` (H13) — convention DELFTship documentée une fois pour toutes
+- [ ] Vérifier CI `ci.yml` (typecheck + lint + test) ; `pnpm typecheck && pnpm lint && pnpm test:run` verts
+- [ ] Archiver `HANDOFF-CLAUDE-CODE.md` dans `docs/` (fin de Sprint 0)
+- [ ] Commit + push Sprint 0 sur `v2-web3d`
 
-### Phase 1 — Core physique TypeScript *(2 semaines cible)*
-- [x] `src/core/types.ts` — SimInputs, SimState, Hydrostatics, ShipProfile, GzAnalysis
-- [x] `src/core/profiles.ts` — `ShipProfile` type + tanker + voilier (port V1) + `cargoDensity`
-- [x] `src/core/hydrostatics.ts` — `computeB0`, `kb`, `bm`, `kmt`, `gmt`, `envAngle`, `freeSurfaceMoment`, `computeHydrostatics`
-- [x] `src/core/stability.ts` — `gzAt`, `gzPoints`, `gzAnalysis` (GZmax, angle chavirement, aire)
-- [x] `src/core/simulation.ts` — orchestrateur `computeSimState` (pipeline bout-en-bout)
-- [x] Références §PDF CMP sur toutes les fonctions majeures (règle H8)
-- [x] Clamp défensif `fsRatio ∈ [0,1]` (multi-agent review finding)
-- [x] `cargoDensity` paramétré dans ShipProfile (0.85 tanker pétrole, 1.0 défaut)
-- [x] **Tests non-régression** : BM=0 si TE=0, isFinite computeB0, NaN fallback, AREA_MIN fallback, symétrie GZ, conservation Δ=ρ·V, clamp fsRatio, ρ≤0 fallback, ic<0 robuste
-- [x] Coverage core > 98 % (stmt + lines), 100 % functions
+---
 
-**Phase 1 livrée — session 4 (25/04/2026)** :
-- [x] `src/core/freeSurface.ts` — extrait, supporte single/double/triple tanks, 19 tests
-- [x] `src/core/weights.ts` — embarquement (S4) : 6 scénarios + grutage suspendu + gîte d'équilibre, 32 tests
-- [x] `src/core/imo.ts` — critères A.749 §3.1.2 avec flag `applicable` (sémantique non-FAIL pour critères sans objet), 19 tests
-- [x] `src/core/index.ts` — barrel API publique, 9 tests smoke
-- [x] Profil **BARGE parallélépipédique** Cb=1 (gold standard analytique exact), 30 tests dédiés
-- [x] 14 scénarios numériques formellement nommés et documentés, 26 tests
-- [x] Multi-agent review post-livraison + 7 fixes appliqués (integrateGz branche manquante, IMO applicable flag, guards cargoDensity/state.M, valeurs cibles Sc.10/11)
+## Sprints V2 (D-017)
 
-**Reportés (Phase 2+ si nécessaire)** :
-- [ ] Option `kbMethod: "box" | "morrish"` pour profils non-box (voilier, yacht motor)
-- [ ] `gzAnalysis.vanAngle` ambiguïté 0/180 (sentinelle vs valeur réelle) — code pré-existant, à clarifier quand UI consomme
-- [ ] §PDF page numbers dans annotations CMP (H8) — quand le PDF référentiel sera consulté pour les pages exactes
+### Sprint 0 — Conformité documentaire + bootstrap *(en cours, voir ci-dessus)*
+Bootstrap déjà acquis (sessions antérieures) : Vite + React 18 + TS strict + Tailwind + shadcn/ui + Biome + Vitest + Playwright + Storybook + CI GitHub Actions + branche `v2-web3d`.
 
-### Phase 2 — POC R3F (scène stabilité tanker) *(3 semaines)*
-- [ ] Setup R3F + drei + postprocessing
-- [ ] Scène 3D : navire tanker low-poly + eau (shader custom simple, pas besoin de Crest)
-- [ ] HDRI Poly Haven + tone mapping ACES
-- [ ] Visualisation P / π / B0 / G / Mt / GZ (flèches + labels)
-- [ ] Slider gîte (0° → 90°) → appel core → rendu en temps réel
-- [ ] Courbe GZ 2D overlay (canvas ou SVG, pas besoin de 3D)
-- [ ] Responsive mobile/tablette (DPR clamp, FOV réactif)
-- [ ] **Feature parity V1** : tout ce que le prototype HTML montre, on le retrouve
-- [ ] Storybook stories pour composants UI isolés
-- [ ] Visual regression tests (screenshots référence 4 angles × 2 profils)
+### Sprint 1 — Core géométrie + hydrostatiques mesh-based *(3-4 semaines — le cœur du produit)*
+- [ ] `src/core/geometry/mesh.ts` — chargeur glTF → structure maillage interne (positions, indices) ; volume signé (théorème de la divergence)
+- [ ] `src/core/geometry/watertight.ts` — tests étanchéité/manifold (edges non-manifold = rejet, normales sortantes cohérentes) — H12
+- [ ] `src/core/geometry/clip.ts` — coupe maillage/plan de flottaison → ∇, centroïde immergé B(θ), aire de flottaison, inerties It/Il
+- [ ] `src/core/hydrostatics/equilibrium.ts` — recherche TE d'équilibre par itération (Δ = ρ·∇), gîte d'équilibre par annulation du moment
+- [ ] `src/core/hydrostatics/curve.ts` — KB/BM/KMt/GMt, **GZ(θ) direct** (position réelle de B, pas l'approximation GM·sinθ), courbe précalculée pas 1° + cache invalidé par clé de params (leçon bug cache V1)
+- [ ] `src/core/tanks.ts` — carène liquide mesh-based : coupe du tank au niveau de remplissage → CG liquide réel + correction surface libre exacte (supprime tout hardcodé)
+- [ ] `src/core/imo.ts` (mesh) — critères A.749/IS Code sur courbe GZ réelle : GZ≥0,20 m à 30°, aires 0-30/0-40/30-40°, angle GZmax, GM₀≥0,15 m
+- [ ] **Validation analytique** (solutions exactes à la main) : barge parallélépipédique, cylindre, prisme triangulaire — tolérance serrée
+- [ ] **Validation DELFTship** : 3 navires V2.0 (tanker MR2, voilier 12 m, ferry/roulier) contre tables exportées — tolérance ±2 % ∇/KB/KMt, ±3 % GZ
+- [ ] `pnpm validate:ship <nom>` — script CLI (recalcule + compare aux références `ship.json.reference`) — H14
+- [ ] Coverage > 90 % sur `src/core/`
+- [ ] Multi-agent review (naval-architect + code-reviewer + meta-quality) avant merge
 
-### Phase 3 — Modules S1-S7 (stabilité cœur pédagogique) *(4 semaines)*
-Mapping détaillé dans `SPEC-CMP.md`.
+**Assets requis pour Sprint 1** (Micka, pipeline §2.4 du handoff / D-017) :
+- [ ] `assets/ships/tanker-mr2/` : hull-calc.glb (étanche, 2-5k tris) + ship.json (masse lège, KG, bornes, hydrostatiques réf DELFTship)
+- [ ] `assets/ships/voilier-12m/` : idem
+- [ ] `assets/ships/ferry-roro/` : idem + tanks/ (pont garage pour S11)
 
-- [ ] **S1** — Rappel forces (Archimède interactif, slider densité, exemple barge 25m PDF)
-- [ ] **S2** — Géométrie navire (glossaire interactif, marques franc-bord LL66, jauge UMS)
-- [ ] **S3** — Stabilité (scène centrale POC déjà fait — à polir)
-- [ ] **S4** — Embarquement poids (6 scénarios narratifs : fonds/G/haut, latéral, suspendu)
-- [ ] **S5** — Bilan positions centres (4 cas a/b/c/d)
-- [ ] **S6** — Cas particulier givrage (animation progressive glace → G monte → GZ ↓)
-- [ ] **S7** — Grands angles + courbe GZ complète (0-180°) + **critères IMO overlay**
+### Sprint 2 — POC visuel « go/no-go esthétique » *(2-3 semaines)*
+- [ ] Une scène (tanker) au **niveau qualité commercial cible** : océan Gerstner + HDRI Poly Haven + tone mapping ACES + Bloom/N8AO
+- [ ] Navire visual (hull-visual.glb) + overlay carène de calcul translucide (hull-calc.glb)
+- [ ] Mouvement de gîte fluide (slider θ → core → rendu 60 FPS)
+- [ ] Courbe GZ live (Recharts ou canvas custom) + comparaison overlay GM·sinθ (couche box-hull)
+- [ ] Panneau paramètres shadcn/ui
+- [ ] **Revue visuelle Micka = critère de sortie** (A4). Itérer jusqu'à validation. Go/no-go avant d'industrialiser les modules.
 
-### Phase 4 — Carène liquide 3D (S11 — feature héro) *(2 semaines)*
-- [ ] Shader custom « surface horizontale en world space » (pas besoin d'Obi Fluid, CFD pas nécessaire pédagogiquement — cf. D-005 amendé)
-- [ ] Réservoir paramétrable (largeur, longueur, niveau)
-- [ ] Slider largeur → effet cubique visible (formule `l³L/12`)
-- [ ] Toggle cloisonnement (0 → 4 cloisons) → MSIT recalculé en direct
-- [ ] Scénario ferry/roulier pont garage (cas emblématique du référentiel)
+### Sprint 3 — Module S3 Stabilité cœur *(périmètre V2.0)*
+- [ ] Scène S3 complète : P/π/B0/G/Mt/GZ (flèches + labels), couple de redressement
+- [ ] Courbe GZ 0-180° + critères IMO overlay (zones aires, GZmax, GM₀)
+- [ ] Embarquement de poids (G monte/descend/latéral/suspendu) → recalcul live
+- [ ] Storybook stories + visual regression (screenshots référence)
 
-### Phase 5 — Grues + porte-conteneurs (D5 + S4 suspendu) *(3 semaines)*
-- [ ] Modèle 3D grue + conteneurs (glTF low-poly, Blender CLI)
-- [ ] Animation chargement/déchargement
-- [ ] Poids suspendu → G virtuel remonte en temps réel
-- [ ] Alarme GMt < 0,15m (critères IMO dérivés)
-- [ ] Référence Division 214 (règles manutention)
+### Sprint 4 — Module S11 Carène liquide *(feature héro, cas ferry pont garage)*
+- [ ] Tank mesh paramétrable (niveau de remplissage) → effet surface libre visible
+- [ ] Toggle cloisonnement → correction surface libre recalculée en direct
+- [ ] Scénario ferry/roulier pont garage (démonstrateur emblématique du référentiel)
+- [ ] Rapier cosmétique uniquement pour le ballottement visuel du liquide (H11 — jamais source de valeur)
 
-### Phase 6 — Modules construction D1-D6 *(4 semaines)*
-- [ ] **D1** — Anatomie navire (œuvres vives/mortes, superstructures) — clic sur pièce → pop-up
-- [ ] **D2** — Matériaux (tableau comparatif, animation électrolyse)
-- [ ] **D3** — Charpente (exploded view, 3 systèmes : transversal/longitudinal/mixte)
-- [ ] **D4** — Compartimentage (scénario envahissement, bureaux classification)
-- [ ] **D5** — Vannes + pompes + manutention (déjà fait phase 5)
-- [ ] **D6** — Propulsion (moteur Diesel écorché animé, distribution électrique)
+### Sprint 5 — Module D1 Anatomie navire + Quiz QCM
+- [ ] D1 : œuvres vives/mortes, superstructures, vocabulaire — clic sur pièce → pop-up pédagogique
+- [ ] Banque QCM basique (par module S3/S11/D1)
+- [ ] UI quiz + score + renvoi au concept
+- [ ] Reformulation conforme référentiel national (A3 — jamais verbatim Esterel)
 
-### Phase 7 — Mode examen + quiz *(2 semaines)*
-- [ ] Banque de questions (QCM par module)
-- [ ] UI quiz + chrono + score
-- [ ] Correction automatique + renvoi au §PDF
-- [ ] Export rapport PDF fin de session (scénarios joués, scores)
-
-### Phase 8 — Licensing + Tauri + installer + signing *(2 semaines)*
-- [ ] `src/licensing/` — RSA 4096 offline (vérif + fingerprint via Tauri API)
-- [ ] `LicenseGenerator` CLI interne (Node script, clé privée jamais committée)
+### Sprint 6 — Licensing + Tauri + installer + signing *(roadmap D-013 phase 8 inchangée)*
+- [ ] `src/licensing/` — RSA 4096 offline (vérif + fingerprint via Tauri API), clé privée jamais committée (H9)
+- [ ] `LicenseGenerator` CLI interne (Node script)
 - [ ] Wrapping Tauri v2 (`src-tauri/tauri.conf.json`)
 - [ ] Build `.msi` Windows + `.dmg` macOS via `tauri-bundler`
-- [ ] Code signing macOS (Apple Developer 99$/an — obligatoire)
-- [ ] Code signing Windows : V1.0 non signé (SmartScreen tolérable) → cert OV V1.1 (cf. D-008)
-- [ ] Test installation propre sur 3 machines (Windows 10/11, macOS Intel/ARM)
+- [ ] Code signing macOS (Apple Developer 99$/an) ; Windows V1.0 non signé → cert OV V1.1 (D-008)
+- [ ] Test installation propre (Windows 10/11, macOS Intel/ARM)
 
-### Phase 9 — Bêta centre pilote *(4 semaines)*
-- [ ] Déploiement sur 2-3 postes centre partenaire
-- [ ] Sessions d'observation pédagogique (1 promo CMP complète)
-- [ ] Collecte métriques : compréhension concepts, taux réussite, NPS
-- [ ] Itérations correctifs P0/P1 rapides
-- [ ] Production étude de cas / témoignage
-
-### Phase 10 — Go-to-market V2.0 *(2 semaines)*
-- [ ] Nom commercial définitif (question ouverte BUSINESS-PLAN §10)
-- [ ] Logo / identité visuelle
-- [ ] Site web vitrine (Next.js séparé, marketing)
-- [ ] Pricing page + tunnel achat (Stripe / LemonSqueezy pour B2C 89€, devis manuel B2B)
-- [ ] EULA rédigée (à valider `strat-ip-protection`)
-- [ ] Prospection 5-10 premiers centres (via `mkt-sales-outreach`)
-- [ ] **Objectif** : 1re vente payante
+### Sprint 7 — Bêta centre pilote + go-to-market *(roadmap D-013 phases 9-10)*
+- [ ] Déploiement 2-3 postes centre partenaire, observation 1 promo CMP
+- [ ] Collecte métriques + itérations P0/P1 + témoignage
+- [ ] Nom commercial définitif, logo/identité, site vitrine, pricing/tunnel
+- [ ] EULA (`strat-ip-protection`) ; prospection 5-10 centres → **1re vente payante**
 
 ---
 
-## Questions stratégiques ouvertes (avant M+3)
+## V2.1+ (reporté hors périmètre vendable)
 
-- [ ] **Nom commercial** — "Ship Stability Simulator" trop technique. Candidats à proposer ?
-- [ ] **Logo / identité visuelle** — brief à poser à `eng-ux-product-design` ou `sm-creative-producer`
-- [ ] **Partenariat auteurs référentiel** (Luciano / Niay — Institut Maritime Esterel) — co-signature décuplerait crédibilité
-- [ ] **Produits d'appel gratuits** (vidéos YouTube, webinaire) pour top of funnel
-- [ ] **Langue V1** : français seul ou FR+EN dès le début ? (marché yacht crew international parle EN)
+- Modules S1/S2/S4-S7 restants, D2-D6
+- Profils porte-conteneurs, vraquier (+ grues D5, poids suspendu animé)
+- Export rapport PDF fin de session
+- Multilingue FR+EN (marché yacht crew international)
 
 ---
 
-## Priorités reportées de V1 (à intégrer dans phases V2)
+## Questions stratégiques ouvertes
 
-- [ ] Fenêtre info feux de navigation (reporté dans Phase 6 — D1 anatomie)
-- [ ] Scénarios guidés animés → couvert par phases 3-5 (narrative par module)
-- [ ] Critères IMO sur courbe GZ → Phase 3 (S7)
-- [ ] Nouveaux profils navire (porte-conteneurs, vraquier, ferry) → Phases 4-5 (indispensables)
-- [ ] Mode quiz → Phase 7
-- [ ] Export PDF → Phase 7
-- [ ] Accessibilité (axe-core dans Playwright dès phase 2, WCAG tout du long)
+- [ ] **Nom commercial** — "Ship Stability Simulator" trop technique. Candidats ?
+- [ ] **Logo / identité visuelle** — brief `eng-ux-product-design` ou `sm-creative-producer`
+- [ ] **Partenariat auteurs référentiel** (Esterel) — sensible juridiquement (A3) : co-signature crédibilise mais le polycopié reste protégé. À cadrer.
+- [ ] **Produits d'appel gratuits** (YouTube, webinaire) top of funnel
+- [ ] **Langue V2.0** : FR seul d'abord, EN en V2.1 ?
 
 ---
 
@@ -168,85 +122,52 @@ Mapping détaillé dans `SPEC-CMP.md`.
 
 | Règle | Vérification |
 |-------|-------------|
-| Core physique zéro dépendance UI | `grep -r "react\|three" src/core/` → doit être vide |
-| Pas de `any` TypeScript | `tsc --noEmit --strict` passe |
-| Coverage core > 90% | `pnpm test:cov` (actuellement 98.5 %) |
-| Tests numériques valides | 14 scénarios V1 reproduits à l'identique (tanker + voilier) |
-| Visual regression | Diff < 0.1% sur scènes validées |
+| Core physique zéro dépendance UI (H1) | `grep -r "react\|three" src/core/` → vide |
+| Pas de `any` TypeScript (H2) | `tsc --noEmit` strict passe |
+| Maillage de calcul étanche (H12) | test étanchéité à l'import (volume signé, edges manifold) |
+| Convention axes unique (H13) | `docs/CONVENTIONS-AXES.md`, rejet à l'import si non conforme |
+| Navire = hydrostatiques de réf (H14) | `pnpm validate:ship` vert avant merge |
+| Rapier cosmétique seulement (H11) | aucune valeur affichée (GZ/GM/TE) ne vient de Rapier |
+| Coverage core > 90 % | `pnpm test:cov` |
+| Validation physique sourcée | DELFTship export / solution analytique / Barrass & Derrett — jamais de valeur inventée |
+| Visual regression | diff < seuil sur scènes validées |
 | Bundle size | < 5 Mo JS main (hors assets WASM/HDRI) |
-| Perf mobile | 60 FPS sur iPad 2020+ (profil `Lighthouse` ≥ 90) |
-| A11y | `axe-core` zéro erreur critique |
-| Secrets | Aucun (clé RSA privée, cert signing) dans le repo |
-
-## Dette technique identifiée (multi-agent review session 3)
-
-| Item | Priorité | Source | Tracker |
-|------|----------|--------|---------|
-| Cache GZ pour perf 60 fps tablette (V1 avait `_gzCache`, port V2 pas encore) | Phase 2 (avant UI R3F) | code-reviewer | À implémenter quand UI consomme `gzPoints` 60 fps |
-| `src/core/index.ts` barrel export | Phase 1 suite | meta-reviewer | Simplifie imports couche présentation |
-| Arbitrage BM box vs textbook (Cb) | Documenté | naval-architect + meta | D-016 dans DECISIONS.md (décision : cohabitation) |
-| 14 scénarios numériques V1 nommés | Phase 1 suite | meta-reviewer | Fidélité référentielle + non-régression stricte |
-| Profil barge Cb=1 (validation exacte) | Phase 1 suite | naval-architect | KB/BM/KMt analytiques fermés → gold test |
-| KB Morrish (alternatif au box KB=TE/2) | Phase 2 | naval-architect | Pour profils non-box (voilier, yacht motor) |
-| Zone hachurée courbe GZ au-delà envAngle | Phase 3 UI | naval-architect | Signal visuel d'invalidation wall-sided |
+| Perf | 60 FPS tablette (iPad 2020+), Lighthouse ≥ 90 |
+| Secrets | aucune clé RSA privée / cert signing dans le repo (H9) |
 
 ---
 
-## Complété — Session 4 (25/04/2026)
+## Couche comparaison box-hull (conservée — ne pas supprimer)
 
-- [x] Phase 1 core physique **terminée** : 4 nouveaux modules + 1 profil + barrel
-- [x] 203 tests Vitest verts (vs 67 en début de session, +136), coverage 99.55 % stmt / 88.95 % branch
-- [x] Profil BARGE Cb=1 + 30 tests gold standard (formules box exactes au 12e chiffre)
-- [x] `freeSurface.ts` extrait autonome (single/double/triple cuves), 19 tests
-- [x] `weights.ts` complet (6 scénarios narratifs S4 + grutage + gîte d'équilibre), 32 tests
-- [x] `imo.ts` critères A.749 §3.1.2 avec sémantique « applicable » (le tanker default n'est plus faux-FAIL)
-- [x] `scenarios.test.ts` — 14 scénarios pédagogiques nommés (catégories A-F)
-- [x] `src/core/index.ts` — barrel API publique
-- [x] Multi-agent review (naval-architect + code-reviewer + meta-quality)
-- [x] 7 fixes P0/P1 post-review : `integrateGz` branche `g0≤0&&g1>0` ajoutée, IMO `applicable` flag, guards `cargoDensity>0` et `state.M≥0`, valeurs cibles Sc.10/11, cleanup re-export `freeSurfaceMoment`, doc `equilibriumHeel` domaine wall-sided
-- [x] Test petit-angle absolu sur barge (`GZ(1°) ≈ GMt·sin(1°)`) — fige le signe de la formule GZ
+Le core box-hull livré sessions 3-4 reste en place comme **approximation métacentrique de référence pédagogique** (GZ = GM·sinθ petits angles), à afficher en overlay du GZ direct mesh-based pour illustrer les limites de l'approximation grands angles.
 
-## Complété — Session 3 (24/04/2026)
+- `src/core/` (legacy box-hull) : `types.ts`, `profiles.ts`, `hydrostatics.ts`, `stability.ts`, `simulation.ts`, `freeSurface.ts`, `weights.ts`, `imo.ts`, `index.ts`
+- 203 tests Vitest verts, coverage 99.55 % stmt / 88.95 % branch
+- Profil barge Cb=1 (formules box exactes) = également réutilisable comme **géométrie analytique de validation** du moteur mesh-based (Sprint 1)
+- Valable barge uniquement quantitativement (A2 : KB=TE/2 et BM box faux hors barge) — d'où le moteur mesh-based primaire
 
-- [x] Phase 1 partielle : core physique TS (types, profiles, hydrostatics, stability, simulation)
-- [x] 67 tests Vitest verts (hydrostatics 46 + stability 19 + smoke 2), coverage 98.5 %
-- [x] Multi-agent review (meta-quality, code-reviewer, naval-architect) — 4 findings fixés
-- [x] Fix A : clamp défensif `fsRatio ∈ [0,1]` + contrat documenté dans types.ts
-- [x] Fix B : `cargoDensity` dans ShipProfile (tanker 0.85 pétrole, correction FS corrigée ~18 %)
-- [x] Fix C : références §PDF CMP sur `kb`, `bm`, `envAngle`, `freeSurfaceMoment`, `computeB0`, `computeHydrostatics`, `gzAt`, `gzAnalysis` (règle H8)
-- [x] Fix D : tests symétrie GZ, ρ≤0, ic<0, fsRatio hors bornes, conservation Δ=ρ·V, cargoDensity
-- [x] D-016 ajouté à DECISIONS.md (arbitrage BM box vs textbook)
-- [x] Dettes techniques documentées (cache GZ, barrel index, profil barge, Morrish KB)
+---
 
-## Complété — Session 2 (24/04/2026)
+## Historique sessions
 
-- [x] Pivot Unity → Web 3D décidé (D-015)
-- [x] CLAUDE.md refondu (V2 stack complète, architecture, validation autonome)
-- [x] TODO.md refondu (roadmap 10 phases)
-- [x] DECISIONS.md amendé (D-015 ajouté, D-001/D-003/D-004/D-005/D-007/D-009/D-012 amendés)
-- [x] BUSINESS-PLAN.md ajusté (coûts -1500€ one-shot, distribution Tauri+PWA)
-- [x] SPEC-CMP.md ajusté (mentions Unity/Obi → R3F équivalent, contenu pédagogique intact)
+### Session 5 (10/06/2026) — Sprint 0, pivot D-017
+- [x] Audit handoff intégré : moteur mesh-based générique (D-017), 7 findings A1-A7 corrigés
+- [x] Périmètre V2.0 resserré confirmé (S3+S11+D1+quiz, 3 navires) ; axes alignés DELFTship (H13)
+- [x] Box-hull core conservé comme couche comparaison (décision Micka)
+- [x] Docs mises en conformité (CLAUDE/DECISIONS/README/SPEC-CMP/BUSINESS-PLAN) : purge « 14 cas validés » (A1), correction « mot-pour-mot » (A3)
+- [x] TODO.md réécrit (ce fichier)
 
-## Complété — Session 1 (02/04/2026) — V1 HTML
+### Session 4 (25/04/2026) — Phase 1 core box-hull terminée
+- [x] 4 modules + barrel + profil barge ; 203 tests verts (99.55 % stmt) ; multi-agent review + 7 fixes
+- [x] `freeSurface.ts`, `weights.ts`, `imo.ts` (flag applicable), `index.ts`, profil BARGE Cb=1
+- [ ] *(Note : ce core devient couche comparaison, pas moteur primaire — voir D-017)*
 
-- [x] Moteur physique scalable (`PROFILES` avec constantes extraites)
-- [x] Profil voilier 12m réaliste
-- [x] Couleurs harmonisées par profil, tooltips design riche
-- [x] Courbe GZ axe adaptatif, plein écran navigable
-- [x] Cache GZ unifié (`_gzKey` en fin de `phys`)
-- [x] ~55 accents français corrigés
-- [x] Logo configurable, désactivé par défaut
-- [x] 5 variables mortes nettoyées
-- [x] Guards NaN, BM=0 si TE=0, cache pts null
-- [x] 4 rounds d'audit (20 agents) — scores finaux 10/10 partout
-- [x] Push GitHub + CLAUDE.md + TODO.md
+### Session 3 (24/04/2026) — Core box-hull partiel
+- [x] types/profiles/hydrostatics/stability/simulation ; 67 tests ; multi-agent review 4 fixes
+- [x] D-016 (arbitrage BM box vs textbook), dettes documentées
 
-## Complété — Sessions précédentes (V1 — prototype)
+### Session 2 (24/04/2026) — Pivot Web 3D
+- [x] Pivot Unity → Web 3D (D-015) ; refonte CLAUDE/TODO/DECISIONS/BUSINESS/SPEC
 
-- [x] Prototype v0 (canvas, sliders, physique de base)
-- [x] Panneau cours (12 cartes, 4 catégories)
-- [x] Citernes animées (bisection, ondulations, surface libre horizontale)
-- [x] Givrage visuel
-- [x] Trace B' avec interpolation
-- [x] Pétrolier détaillé
-- [x] Étoiles animées, pan/zoom caméra, double-clic recentrer
+### Session 1 (02/04/2026) — V1 HTML
+- [x] Prototype HTML monolithique finalisé (archivé `legacy/`, référence UX uniquement — A2/A6)
